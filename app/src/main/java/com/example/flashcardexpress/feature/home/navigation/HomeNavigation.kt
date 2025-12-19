@@ -12,6 +12,7 @@ import com.example.flashcardexpress.feature.home.presentation.creationMenu.Creat
 import com.example.flashcardexpress.feature.home.presentation.homeMenu.HomeEffect
 import com.example.flashcardexpress.feature.home.presentation.homeMenu.HomeScreen
 import com.example.flashcardexpress.feature.home.presentation.homeMenu.HomeViewModel
+import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import com.example.flashcardexpress.navigation.Screen
 
 
@@ -28,7 +29,7 @@ fun NavGraphBuilder.setupHomeNavigation(navController: NavController){
 
     }
     composable(
-        route= Screen.CreationMenu.route
+        route= HomeScreen.CreationMenu.route
     ) {
         val viewModel: CreationMenuViewModel= hiltViewModel()
         handleCreationMenuNavigationEvents(viewModel, navController)
@@ -50,7 +51,9 @@ private fun handleCreationMenuNavigationEvents(
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(Screen.QuestionCreation.route)
+                CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(HomeScreen.QuestionCreation.route)
+                CreationMenuEffect.NavigateToCategoryCreation -> navController.navigate(
+                    QuestionManagementScreen.CreationCategory.route)
             }
 
         }
@@ -66,7 +69,7 @@ private fun handleHomeNavigationEvents(
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                HomeEffect.NavigateToCreationMenu -> navController.navigate(Screen.CreationMenu.route);
+                HomeEffect.NavigateToCreationMenu -> navController.navigate(HomeScreen.CreationMenu.route);
             }
 
         }

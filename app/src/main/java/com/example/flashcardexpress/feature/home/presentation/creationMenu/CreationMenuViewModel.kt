@@ -17,7 +17,10 @@ class CreationMenuViewModel @Inject constructor() : BaseEffectViewModel<Creation
 
             }
 
+            CreationMenuEvent.OnNavigateToCategoryCreation -> {
+                sendEffect(CreationMenuEffect.NavigateToCategoryCreation)
 
+            }
         }
     }
 }

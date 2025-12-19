@@ -7,6 +7,7 @@ plugins {
 
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.ksp)
 
 
 
@@ -77,6 +78,10 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
 
 
 

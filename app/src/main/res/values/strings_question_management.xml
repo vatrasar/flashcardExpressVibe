@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_category_label">Category Name</string>
+    <string name="add_category_btn_text">Save</string>
+    <string name="add_category_page_title">Add new category</string>
+
+</resources>
