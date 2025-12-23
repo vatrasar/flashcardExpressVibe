@@ -2,8 +2,13 @@ package com.example.flashcardexpress.feature.questionManagement.presentation.cre
 
 import androidx.compose.runtime.Immutable
 
+sealed class CreationCategoryNavEffect{
+    data object NavigateBackToCreationMenuNav: CreationCategoryNavEffect()
+
+}
+
 sealed class CreationCategoryEffect{
-    data object NavigateBackToCreationMenu: CreationCategoryEffect()
+    data class ShowSnackbar(val message:String,val resultType:String):CreationCategoryEffect()
 
 }
 

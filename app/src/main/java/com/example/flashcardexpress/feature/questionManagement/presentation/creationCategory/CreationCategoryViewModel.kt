@@ -1,20 +1,20 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory
 
 import androidx.lifecycle.viewModelScope
+import com.example.flashcardexpress.common.flashcardSnackbar.SnackbarType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModel
-import com.example.flashcardexpress.common.BaseEffectViewModel
+import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
+import com.example.flashcardexpress.core.domain.error.FlashcardAppError
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.AddCategoryUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
 @HiltViewModel
-class CreationCategoryViewModel @Inject constructor() : BaseEffectViewModel<CreationCategoryEffect>(){
+class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddCategoryUseCase) : BaseScreenAndNavEffectsViewModel<CreationCategoryEffect,CreationCategoryNavEffect>(){
 
     private val _state = MutableStateFlow(CreationCategoryState(""))
     val state = _state.asStateFlow()
@@ -24,13 +24,43 @@ class CreationCategoryViewModel @Inject constructor() : BaseEffectViewModel<Crea
         when(event)
         {
             is CreationCategoryEvent.OnCategoryNameChanged -> updateStateAfterCategoryChanged(event)
-            CreationCategoryEvent.OnAddCategoryClicked -> {throw  NotImplementedError()}
+            CreationCategoryEvent.OnAddCategoryClicked -> {
+               addNewCategory()
+            }
             CreationCategoryEvent.OnBackToCreationMenuClicked -> {
-                sendEffect(CreationCategoryEffect.NavigateBackToCreationMenu)
+                sendNavEffect(CreationCategoryNavEffect.NavigateBackToCreationMenuNav)
             }
 
         }
 
+    }
+
+    private fun addNewCategory() {
+        val formState=state.value
+        val newCategoryName=formState.categoryName
+        if(!isCategoryNameValid(newCategoryName))
+        {
+            sendEffect(CreationCategoryEffect.ShowSnackbar("Category name need to have between 1 and 30 characters", SnackbarType.ERROR.label))
+            return
+        }
+
+
+        viewModelScope.launch {
+            addCategoryLaunch(newCategoryName)
+
+        }
+
+
+    }
+
+    private fun isCategoryNameValid(name:String): Boolean
+    {
+        val stringNoWhiteSigns:String=name.filterNot { it.isWhitespace() }
+        if(stringNoWhiteSigns.length !in (1..30) || name.length !in (1..30))
+        {
+            return false
+        }
+        return true
     }
 
     private fun updateStateAfterCategoryChanged(event: CreationCategoryEvent.OnCategoryNameChanged)
@@ -38,6 +68,26 @@ class CreationCategoryViewModel @Inject constructor() : BaseEffectViewModel<Crea
         _state.update { it.copy(categoryName = event.currentValue) }
 
     }
+    private suspend fun addCategoryLaunch(
+        newCategoryName: String
+    ) {
+        val result = addCategoryUseCase(newCategoryName)
+        if (result.isSuccess) {
+            sendEffect(CreationCategoryEffect.ShowSnackbar("Category created!", SnackbarType.SUCCESS.label))
+
+
+        } else  {
+            val exception=result.exceptionOrNull()
+            when(exception)
+            {
+                is FlashcardAppError->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, category already exists!", SnackbarType.ERROR.label))
+                else->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, something went wrong!", SnackbarType.ERROR.label))
+            }
+
+
+        }
+    }
 
 
 }
+

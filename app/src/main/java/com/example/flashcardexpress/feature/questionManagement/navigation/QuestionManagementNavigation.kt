@@ -10,10 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.flashcardexpress.feature.home.navigation.HomeScreen
-import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryEffect
+import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryViewModel
-import com.example.flashcardexpress.navigation.Screen
 
 
 fun NavGraphBuilder.setupQuestionManagementNavigation(navController: NavController) {
@@ -25,7 +24,7 @@ fun NavGraphBuilder.setupQuestionManagementNavigation(navController: NavControll
         val viewModel: CreationCategoryViewModel = hiltViewModel()
         val state by viewModel.state.collectAsStateWithLifecycle()
         handleQuestionManagementNavigationEvents(viewModel, navController)
-        CreationCategoryScreen(state,viewModel::onEvent)
+        CreationCategoryScreen(state,viewModel.effect,viewModel::onEvent)
 
     }
 
@@ -37,10 +36,10 @@ private fun handleQuestionManagementNavigationEvents(
     viewModel: CreationCategoryViewModel,
     navController: NavController
 ) {
-    LaunchedEffect(viewModel.effect) {
-        viewModel.effect.collect { effect ->
+    LaunchedEffect(viewModel.navEffect) {
+        viewModel.navEffect.collect { effect ->
             when (effect) {
-                is CreationCategoryEffect.NavigateBackToCreationMenu -> {
+                is CreationCategoryNavEffect.NavigateBackToCreationMenuNav -> {
                     handleNavigateToCreationMenu(navController)
                 }
             }

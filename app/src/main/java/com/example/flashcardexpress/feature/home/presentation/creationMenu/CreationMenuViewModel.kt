@@ -1,6 +1,6 @@
 package com.example.flashcardexpress.feature.home.presentation.creationMenu
 
-import com.example.flashcardexpress.common.BaseEffectViewModel
+import com.example.flashcardexpress.common.viewModel.BaseEffectViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

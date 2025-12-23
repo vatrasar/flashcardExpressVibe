@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
-import com.example.flashcardexpress.common.BaseEffectViewModel
+import com.example.flashcardexpress.common.viewModel.BaseEffectViewModel
 
 
 @HiltViewModel
