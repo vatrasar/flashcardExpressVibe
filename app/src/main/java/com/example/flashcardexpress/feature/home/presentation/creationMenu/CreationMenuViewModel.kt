@@ -21,6 +21,8 @@ class CreationMenuViewModel @Inject constructor() : BaseEffectViewModel<Creation
                 sendEffect(CreationMenuEffect.NavigateToCategoryCreation)
 
             }
+
+            CreationMenuEvent.OnBackToHome -> sendEffect(CreationMenuEffect.NavigateToHomeMenu)
         }
     }
 }

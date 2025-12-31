@@ -55,11 +55,26 @@ private fun handleCreationMenuNavigationEvents(
                 CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(HomeFeatureScreen.QuestionCreation.route)
                 CreationMenuEffect.NavigateToCategoryCreation -> navController.navigate(
                     QuestionManagementScreen.CreationCategory)
+
+                CreationMenuEffect.NavigateToHomeMenu -> {
+                    HandleNavigationToHomeFromCreationMenu(navController)
+                }
             }
 
         }
     }
 
+}
+
+
+private fun HandleNavigationToHomeFromCreationMenu(navController: NavController) {
+    navController.navigate(Screen.Home.route)
+    {
+        popUpTo(HomeFeatureScreen.CreationMenu.route)
+        {
+            inclusive = true
+        }
+    }
 }
 
 @Composable
@@ -72,6 +87,7 @@ private fun HandleHomeNavigationEvents(
             when (effect) {
                 HomeEffect.NavigateToCreationMenu -> navController.navigate(HomeFeatureScreen.CreationMenu.route);
                 HomeEffect.NavigateToManagePanel -> navController.navigate(HomeFeatureScreen.ManagePanel.route)
+
             }
 
         }
