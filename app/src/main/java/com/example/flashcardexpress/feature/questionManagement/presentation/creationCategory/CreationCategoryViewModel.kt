@@ -1,7 +1,7 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory
 
 import androidx.lifecycle.viewModelScope
-import com.example.flashcardexpress.common.flashcardSnackbar.SnackbarType
+import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.SnackbarType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch

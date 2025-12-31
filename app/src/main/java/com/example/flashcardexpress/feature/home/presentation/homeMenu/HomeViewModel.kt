@@ -20,6 +20,11 @@ class HomeViewModel @Inject constructor() : BaseEffectViewModel<HomeEffect>(){
                 sendEffect(HomeEffect.NavigateToCreationMenu)
 
             }
+
+            HomeEvent.NavigateToManagePanel ->
+            {
+                sendEffect(HomeEffect.NavigateToManagePanel)
+            }
         }
     }
 

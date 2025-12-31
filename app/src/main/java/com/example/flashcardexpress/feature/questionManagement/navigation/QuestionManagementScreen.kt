@@ -1,9 +1,17 @@
 package com.example.flashcardexpress.feature.questionManagement.navigation
 
+import kotlinx.serialization.Serializable
 
 
-open class QuestionManagementScreen(val route: String) {
-    data object CreationCategory: QuestionManagementScreen("creation_category")
+@Serializable
+sealed interface QuestionManagementScreen {
+    @Serializable
+    data object CreationCategory: QuestionManagementScreen
+
+
+    @Serializable
+    data class CategoryDetails(val categoryId:Int, val categoryName:String): QuestionManagementScreen
+
 
 
 }

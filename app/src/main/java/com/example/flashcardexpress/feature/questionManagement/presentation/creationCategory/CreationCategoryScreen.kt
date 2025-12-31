@@ -29,12 +29,11 @@ import androidx.compose.ui.unit.dp
 
 
 import com.example.flashcardexpress.R.*
-import com.example.flashcardexpress.common.flashcardSnackbar.FlashcardSnackbar
+import com.example.flashcardexpress.common.theme.AppDimensions
+import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.FlashcardSnackbar
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -81,7 +80,7 @@ private fun handleEffectsFromViewModel(
 @Composable
 private fun CategoryCreationForm(state: CreationCategoryState,onEventFromViewModel:(CreationCategoryEvent)->Unit) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp),
+        modifier = Modifier.fillMaxSize().padding(horizontal = AppDimensions.marginHorizontal),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
 
@@ -131,7 +130,7 @@ private fun Buttons(onEventFromViewModel: (CreationCategoryEvent) -> Unit) {
     ) {
         Text(stringResource(string.btn_back))
     }
-    Spacer(modifier = Modifier.height(10.dp))
+    Spacer(modifier = Modifier.height(AppDimensions.marginBottom))
 }
 
 @Composable

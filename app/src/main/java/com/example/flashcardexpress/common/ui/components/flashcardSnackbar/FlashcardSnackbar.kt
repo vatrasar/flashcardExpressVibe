@@ -1,4 +1,4 @@
-package com.example.flashcardexpress.common.flashcardSnackbar
+package com.example.flashcardexpress.common.ui.components.flashcardSnackbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

@@ -3,5 +3,13 @@
     <string name="add_category_label">Category Name</string>
     <string name="add_category_btn_text">Save</string>
     <string name="add_category_page_title">Add new category</string>
-
+    <string name="list_of_categories_empty">Your category list is empty</string>
+    <string name="list_of_questions_empty">Questions list is empty</string>
+    <string name="btn_go_to_category_creation">Create category</string>
+    <string name="btn_go_to_create_first_category">Create first category</string>
+    <string name="details_label"> details</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="list_of_categories">List of categories</string>
+    <string name="list_of_questions">List of questions</string>>
 </resources>

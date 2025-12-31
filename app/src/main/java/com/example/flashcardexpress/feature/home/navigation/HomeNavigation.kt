@@ -24,12 +24,12 @@ fun NavGraphBuilder.setupHomeNavigation(navController: NavController){
         route= Screen.Home.route
     ){
         val viewModel: HomeViewModel= hiltViewModel()
-        handleHomeNavigationEvents(viewModel, navController)
+        HandleHomeNavigationEvents(viewModel, navController)
         HomeScreen(viewModel::onEvent)
 
     }
     composable(
-        route= HomeScreen.CreationMenu.route
+        route= HomeFeatureScreen.CreationMenu.route
     ) {
         val viewModel: CreationMenuViewModel= hiltViewModel()
         handleCreationMenuNavigationEvents(viewModel, navController)
@@ -38,6 +38,7 @@ fun NavGraphBuilder.setupHomeNavigation(navController: NavController){
 
         CreationMenuScreen(viewModel::onEvent)
     }
+
 
 
 }
@@ -51,9 +52,9 @@ private fun handleCreationMenuNavigationEvents(
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(HomeScreen.QuestionCreation.route)
+                CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(HomeFeatureScreen.QuestionCreation.route)
                 CreationMenuEffect.NavigateToCategoryCreation -> navController.navigate(
-                    QuestionManagementScreen.CreationCategory.route)
+                    QuestionManagementScreen.CreationCategory)
             }
 
         }
@@ -62,16 +63,20 @@ private fun handleCreationMenuNavigationEvents(
 }
 
 @Composable
-private fun handleHomeNavigationEvents(
+private fun HandleHomeNavigationEvents(
     viewModel: HomeViewModel,
     navController: NavController
 ) {
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                HomeEffect.NavigateToCreationMenu -> navController.navigate(HomeScreen.CreationMenu.route);
+                HomeEffect.NavigateToCreationMenu -> navController.navigate(HomeFeatureScreen.CreationMenu.route);
+                HomeEffect.NavigateToManagePanel -> navController.navigate(HomeFeatureScreen.ManagePanel.route)
             }
 
         }
     }
 }
+
+
+

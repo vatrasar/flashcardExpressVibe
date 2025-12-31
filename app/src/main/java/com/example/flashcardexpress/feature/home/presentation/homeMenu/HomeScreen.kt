@@ -10,14 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavController
 import com.example.flashcardexpress.R
-import com.example.flashcardexpress.navigation.Screen
 
 @Composable
 fun HomeScreen(onEventFromViewModel:(HomeEvent)->Unit)
@@ -59,6 +54,11 @@ private fun MenuContent(operation:(event: HomeEvent)->Unit)
         onClick ={operation(HomeEvent.NavigateToCreationMenu)}
     ) {
         Text(stringResource(R.string.btn_repeat_menu))
+    }
+    Button(
+        onClick ={operation(HomeEvent.NavigateToManagePanel)}
+    ) {
+        Text(stringResource(R.string.btn_manage_panel))
     }
 
 
