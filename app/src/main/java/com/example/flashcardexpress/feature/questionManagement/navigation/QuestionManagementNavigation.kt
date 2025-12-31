@@ -9,12 +9,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.example.flashcardexpress.common.navigateAndPopUp
 import com.example.flashcardexpress.feature.home.navigation.HomeFeatureScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsViewModel
+import com.example.flashcardexpress.feature.questionManagement.presentation.categoryEdit.CategoryEditNavEffect
+import com.example.flashcardexpress.feature.questionManagement.presentation.categoryEdit.CategoryEditScreen
+import com.example.flashcardexpress.feature.questionManagement.presentation.categoryEdit.CategoryEditViewModel
 
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryScreen
@@ -52,6 +53,13 @@ fun NavGraphBuilder.setupQuestionManagementNavigation(navController: NavControll
 
 
     }
+    composable<QuestionManagementScreen.CategoryEdit> {
+        val viewModel: CategoryEditViewModel = hiltViewModel()
+        val state by viewModel.state.collectAsStateWithLifecycle()
+        HandleCategoryEditNavigationEvents(viewModel,navController)
+        CategoryEditScreen(state, viewModel::onEvent, viewModel.effect)
+
+    }
 
 
 }
@@ -74,6 +82,28 @@ private fun handleCategoryCreationNavigationEvents(
 }
 
 @Composable
+private fun HandleCategoryEditNavigationEvents(
+    viewModel: CategoryEditViewModel,
+    navController: NavController
+) {
+    LaunchedEffect(viewModel.navEffect) {
+        viewModel.navEffect.collect { effect ->
+            when (effect) {
+                CategoryEditNavEffect.BackToCategoryDetails -> {
+                    navController.popBackStack()
+                }
+
+                is CategoryEditNavEffect.BackToCategoryDetailsAfterUpdate -> {
+
+                    navController.navigate(QuestionManagementScreen.CategoryDetails(effect.categoryId,effect.categoryName))
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
 private fun HandleCategoryDetailsNaviaitonEvents(
     viewModel: CategoryDetailsViewModel,
     navController: NavController
@@ -84,6 +114,10 @@ private fun HandleCategoryDetailsNaviaitonEvents(
             when (effect) {
                 CategoryDetailsNavEffect.BackToManagePanel -> {
                     handleBackNavToManagePanel(navController)
+                }
+
+                is CategoryDetailsNavEffect.NavigateToCategoryEdit -> {
+                    navController.navigate(QuestionManagementScreen.CategoryEdit(effect.categoryId,effect.categoryName))
                 }
             }
         }

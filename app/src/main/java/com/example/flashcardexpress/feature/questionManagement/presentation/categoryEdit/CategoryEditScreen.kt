@@ -1,23 +1,14 @@
-package com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory
+package com.example.flashcardexpress.feature.questionManagement.presentation.categoryEdit
 
-
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,61 +17,62 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.flashcardexpress.R
-
-
-import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.FlashcardSnackbar
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.CategoryCreationForm.CategoryCreationForm
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.CategoryCreationForm.CategoryFormActions
-import kotlinx.coroutines.channels.Channel
+import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryEffect
+import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryEvent
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
-
 
 @Composable
-fun CreationCategoryScreen(state: CreationCategoryState, effectFromViewModel: Flow<CreationCategoryEffect>, onEventFromViewModel:(CreationCategoryEvent)->Unit)
-{
+fun CategoryEditScreen(
+    state: CategoryEditState,
+    onEventFromViewModel: (CategoryEditEvent) -> Unit,
+    effectFromViewModel: Flow<CategoryEditEffect>
+) {
     val snackbarHostState = remember { SnackbarHostState() }
 
-    handleEffectsFromViewModel(effectFromViewModel, snackbarHostState)
+    HandleEffectsFromViewModel(effectFromViewModel, snackbarHostState)
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState)
-        {data->
-            FlashcardSnackbar(snackbarData = data)
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+            { data ->
+                FlashcardSnackbar(snackbarData = data)
 
-        }},
+            }
+        },
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
 
         Box(modifier = Modifier.padding(paddingValues)) {
-
             val categoryFormActions= CategoryFormActions(
-                onCategoryNameChanged = {onEventFromViewModel(CreationCategoryEvent.OnCategoryNameChanged(it))},
-                onCategorySave =   {onEventFromViewModel(CreationCategoryEvent.OnAddCategoryClicked)},
-                onBack = {onEventFromViewModel(CreationCategoryEvent.OnBackToCreationMenuClicked)}
+                onCategoryNameChanged = {onEventFromViewModel(CategoryEditEvent.OnCategoryNameChanged(it))},
+                onCategorySave =   {onEventFromViewModel(CategoryEditEvent.OnSaveCategoryClicked)},
+                onBack = {onEventFromViewModel(CategoryEditEvent.OnBackToCategoryDetailsClicked)}
             )
             CategoryCreationForm(state.categoryName, stringResource(R.string.add_category_page_title),categoryFormActions)
+
         }
     }
 }
 
 @Composable
-private fun handleEffectsFromViewModel(
-    effectFromViewModel: Flow<CreationCategoryEffect>,
+private fun HandleEffectsFromViewModel(
+    effectFromViewModel: Flow<CategoryEditEffect>,
     snackbarHostState: SnackbarHostState
 ) {
     LaunchedEffect(Unit) {
         effectFromViewModel.collect { effect ->
             when (effect) {
-                is CreationCategoryEffect.ShowSnackbar -> {
 
-                        snackbarHostState.showSnackbar(message = effect.message, actionLabel = effect.resultType,
-                            duration = SnackbarDuration.Short)
-
+                is CategoryEditEffect.ShowSnackbar -> {
+                    snackbarHostState.showSnackbar(message = effect.message, actionLabel = effect.resultType,
+                        duration = SnackbarDuration.Short)
                 }
             }
+
         }
 
     }

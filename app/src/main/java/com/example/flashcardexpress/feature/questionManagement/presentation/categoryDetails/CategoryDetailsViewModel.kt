@@ -42,7 +42,7 @@ class CategoryDetailsViewModel @Inject constructor(
                 sendNavEffect(CategoryDetailsNavEffect.BackToManagePanel)
 
             }
-            CategoryDetailsEvent.OnEditCategoryClicked -> TODO()
+            CategoryDetailsEvent.OnEditCategoryClicked -> sendNavEffect(CategoryDetailsNavEffect.NavigateToCategoryEdit(categoryId,args.categoryName))
         }
 
     }

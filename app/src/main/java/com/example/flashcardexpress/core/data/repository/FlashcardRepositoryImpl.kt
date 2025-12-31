@@ -37,5 +37,10 @@ class FlashcardRepositoryImpl @Inject constructor(private val dao: FlashcardDao)
 
     }
 
+    override suspend fun updateCategory(newCategory: Category) {
+        dao.updateCategory(newCategory.id, newCategory.name)
+
+    }
+
 
 }

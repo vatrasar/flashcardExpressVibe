@@ -26,6 +26,12 @@ interface FlashcardDao {
     @Query("DELETE FROM category WHERE id = :categoryId")
     suspend fun removeCategory(categoryId: Int)
 
+    @Query("UPDATE category SET name = :newCategoryName WHERE id = :categoryId")
+    suspend fun updateCategory(categoryId: Int, newCategoryName: String)
+
+
+
+
 
 
 

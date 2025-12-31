@@ -9,6 +9,8 @@ sealed class CategoryDetailsEffect {
 
 sealed class CategoryDetailsNavEffect {
     data object BackToManagePanel: CategoryDetailsNavEffect()
+    data class NavigateToCategoryEdit(val categoryId:Int, val categoryName:String): CategoryDetailsNavEffect()
+
 
 
 }

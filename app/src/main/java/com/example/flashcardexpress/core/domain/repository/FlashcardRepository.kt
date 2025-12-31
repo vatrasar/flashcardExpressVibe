@@ -11,6 +11,7 @@ interface FlashcardRepository {
     suspend fun isCategoryWithNameExists(categoryName: String): Boolean
    fun getAllCategories(): Flow<List<Category>>
     suspend fun removeCategory(categoryId: Int)
+    suspend fun updateCategory(newCategory: Category)
 
 
 }

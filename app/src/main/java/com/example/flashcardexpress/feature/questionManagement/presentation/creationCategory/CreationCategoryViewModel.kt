@@ -8,13 +8,14 @@ import kotlinx.coroutines.launch
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.core.domain.error.FlashcardAppError
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.AddCategoryUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.CategoryNameValidationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
 @HiltViewModel
-class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddCategoryUseCase) : BaseScreenAndNavEffectsViewModel<CreationCategoryEffect,CreationCategoryNavEffect>(){
+class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddCategoryUseCase,val isCategoryNameValid: CategoryNameValidationUseCase) : BaseScreenAndNavEffectsViewModel<CreationCategoryEffect,CreationCategoryNavEffect>(){
 
     private val _state = MutableStateFlow(CreationCategoryState(""))
     val state = _state.asStateFlow()
@@ -53,15 +54,7 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
 
     }
 
-    private fun isCategoryNameValid(name:String): Boolean
-    {
-        val stringNoWhiteSigns:String=name.filterNot { it.isWhitespace() }
-        if(stringNoWhiteSigns.length !in (1..30) || name.length !in (1..30))
-        {
-            return false
-        }
-        return true
-    }
+
 
     private fun updateStateAfterCategoryChanged(event: CreationCategoryEvent.OnCategoryNameChanged)
     {
@@ -80,7 +73,7 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
             val exception=result.exceptionOrNull()
             when(exception)
             {
-                is FlashcardAppError->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, category already exists!", SnackbarType.ERROR.label))
+                is FlashcardAppError.NameTakenError->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, category already exists!", SnackbarType.ERROR.label))
                 else->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, something went wrong!", SnackbarType.ERROR.label))
             }
 
