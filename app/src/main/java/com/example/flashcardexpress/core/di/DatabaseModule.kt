@@ -1,10 +1,9 @@
 package com.example.flashcardexpress.core.di
 
 import android.content.Context
-import androidx.room.Room
 import androidx.room.Room.databaseBuilder
 import com.example.flashcardexpress.core.data.local.FlashcardDb
-import com.example.flashcardexpress.core.data.local.dao.FlashcardDao
+import com.example.flashcardexpress.core.data.local.dao.CategoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +26,7 @@ object DatabaseModule {
         ).build()
     }
     @Provides
-    fun provideFlashcardDao(database: FlashcardDb): FlashcardDao {
+    fun provideFlashcardDao(database: FlashcardDb): CategoryDao {
         // Hilt bierze bazę z funkcji powyżej i wyciąga z niej DAO
         return database.flashcardDao()
     }

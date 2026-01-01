@@ -1,11 +1,8 @@
 package com.example.flashcardexpress.core.data.local
 
 import androidx.room.Database
-import androidx.room.DatabaseConfiguration
-import androidx.room.InvalidationTracker
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.example.flashcardexpress.core.data.local.dao.FlashcardDao
+import com.example.flashcardexpress.core.data.local.dao.CategoryDao
 import com.example.flashcardexpress.core.data.local.entities.CategoryEntity
 import com.example.flashcardexpress.core.data.local.entities.FlashcardEntity
 
@@ -16,7 +13,7 @@ import com.example.flashcardexpress.core.data.local.entities.FlashcardEntity
 )
 abstract class FlashcardDb: RoomDatabase() {
 
-    abstract fun flashcardDao(): FlashcardDao
+    abstract fun flashcardDao(): CategoryDao
     companion object {
 
         const val DATABASE_NAME = "flashcard_db"

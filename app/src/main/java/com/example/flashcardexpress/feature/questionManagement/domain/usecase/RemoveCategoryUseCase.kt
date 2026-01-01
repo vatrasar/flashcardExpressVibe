@@ -1,10 +1,10 @@
 package com.example.flashcardexpress.feature.questionManagement.domain.usecase
 
 import android.util.Log
-import com.example.flashcardexpress.core.domain.repository.FlashcardRepository
+import com.example.flashcardexpress.core.domain.repository.CategoryRepository
 import javax.inject.Inject
 
-class RemoveCategoryUseCase @Inject constructor(private val repository: FlashcardRepository) {
+class RemoveCategoryUseCase @Inject constructor(private val repository: CategoryRepository) {
 
     suspend operator fun invoke(categoryId: Int)
     {
