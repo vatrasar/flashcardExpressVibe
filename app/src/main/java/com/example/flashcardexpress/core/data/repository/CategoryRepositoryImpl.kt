@@ -2,7 +2,7 @@ package com.example.flashcardexpress.core.data.repository
 
 import com.example.flashcardexpress.core.data.local.dao.CategoryDao
 import com.example.flashcardexpress.core.data.local.entities.CategoryEntity
-import com.example.flashcardexpress.core.data.local.entities.FlashcardEntity
+import com.example.flashcardexpress.core.data.local.entities.QuestionEntity
 import com.example.flashcardexpress.core.data.local.mapper.toDomain
 import com.example.flashcardexpress.core.domain.model.Category
 import com.example.flashcardexpress.core.domain.repository.CategoryRepository
@@ -11,10 +11,6 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(private val dao: CategoryDao): CategoryRepository {
-    override suspend fun insertFlashcard(flashcard: FlashcardEntity) {
-        dao.insertFlashcard(flashcard)
-
-    }
 
     override suspend fun insertCategory(categoryName: String) {
         val category = CategoryEntity(name = categoryName)

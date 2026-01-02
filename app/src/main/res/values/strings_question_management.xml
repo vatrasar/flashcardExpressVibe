@@ -13,5 +13,11 @@
     <string name="list_of_categories">List of categories</string>
     <string name="list_of_questions">List of questions</string>
     <string name="category_exist_error">Error, category already exists!</string>
+    <string name="word">Word</string>
+    <string name="translation">Translation</string>
+    <string name="save_question">Save question</string>
+    <string name="question_creation_page_title">New question</string>
+    <string name="choose_category">Choose category</string>
+    <string name="empty_category_list">Empty, first create category</string>
 
 </resources>

@@ -3,20 +3,16 @@ package com.example.flashcardexpress.feature.questionManagement.presentation.cat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
 import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.SnackbarType
 
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.core.domain.error.FlashcardAppError
-import com.example.flashcardexpress.feature.questionManagement.domain.usecase.CategoryNameValidationUseCase
-import com.example.flashcardexpress.feature.questionManagement.domain.usecase.UpdateCategoryUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.CategoryNameValidationUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.UpdateCategoryUseCase
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
-import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryEffect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

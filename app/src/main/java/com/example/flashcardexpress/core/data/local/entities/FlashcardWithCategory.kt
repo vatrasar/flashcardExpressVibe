@@ -5,7 +5,7 @@ import androidx.room.Relation
 
 data class FlashcardWithCategory (
     @Embedded
-    val flashcard: FlashcardEntity,
+    val flashcard: QuestionEntity,
     @Relation(
         parentColumn = "category_id",
         entityColumn = "id"

@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
-import com.example.flashcardexpress.feature.questionManagement.domain.usecase.RemoveCategoryUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.RemoveCategoryUseCase
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.example.flashcardexpress.feature.questionManagement.domain.usecase
+package com.example.flashcardexpress.feature.questionManagement.domain.usecase.category
 
 import com.example.flashcardexpress.core.domain.model.Category
 import com.example.flashcardexpress.core.domain.repository.CategoryRepository

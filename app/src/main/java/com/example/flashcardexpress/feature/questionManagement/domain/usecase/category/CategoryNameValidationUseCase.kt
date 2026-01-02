@@ -1,4 +1,4 @@
-package com.example.flashcardexpress.feature.questionManagement.domain.usecase
+package com.example.flashcardexpress.feature.questionManagement.domain.usecase.category
 
 import javax.inject.Inject
 

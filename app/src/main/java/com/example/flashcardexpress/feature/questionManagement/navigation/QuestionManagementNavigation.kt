@@ -20,6 +20,9 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.cate
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryViewModel
+import com.example.flashcardexpress.feature.questionManagement.presentation.creationQuestion.CreationQuestionNavEffect
+import com.example.flashcardexpress.feature.questionManagement.presentation.creationQuestion.CreationQuestionScreen
+import com.example.flashcardexpress.feature.questionManagement.presentation.creationQuestion.CreationQuestionViewModel
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelViewModel
@@ -61,9 +64,32 @@ fun NavGraphBuilder.setupQuestionManagementNavigation(navController: NavControll
 
     }
 
+    composable<QuestionManagementScreen.CreationQuestion> {
+        val viewModel: CreationQuestionViewModel = hiltViewModel()
+        val state by viewModel.state.collectAsStateWithLifecycle()
+        HandleQuestionCreationNavigationEvents(viewModel, navController)
+        CreationQuestionScreen(state,viewModel::onEvent,viewModel.effect)
+    }
+
 
 }
 
+@Composable
+private fun HandleQuestionCreationNavigationEvents(
+    viewModel: CreationQuestionViewModel,
+    navController: NavController)
+{
+    LaunchedEffect(viewModel.navEffect) {
+        viewModel.navEffect.collect { effect ->
+            when (effect) {
+                CreationQuestionNavEffect.NavigateBackToCreationMenu -> {
+                    navController.popBackStack()
+                }
+            }
+        }
+    }
+
+}
 @Composable
 private fun handleCategoryCreationNavigationEvents(
     viewModel: CreationCategoryViewModel,

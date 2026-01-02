@@ -5,13 +5,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.flashcardexpress.core.data.local.entities.CategoryEntity
-import com.example.flashcardexpress.core.data.local.entities.FlashcardEntity
+import com.example.flashcardexpress.core.data.local.entities.QuestionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertFlashcard(flashcard: FlashcardEntity)
+
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertCategory(category: CategoryEntity)

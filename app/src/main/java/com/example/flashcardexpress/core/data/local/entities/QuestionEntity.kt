@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class FlashcardEntity (
+data class QuestionEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Int=0,
 

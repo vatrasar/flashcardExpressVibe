@@ -7,8 +7,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.core.domain.error.FlashcardAppError
-import com.example.flashcardexpress.feature.questionManagement.domain.usecase.AddCategoryUseCase
-import com.example.flashcardexpress.feature.questionManagement.domain.usecase.CategoryNameValidationUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.AddCategoryUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.CategoryNameValidationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

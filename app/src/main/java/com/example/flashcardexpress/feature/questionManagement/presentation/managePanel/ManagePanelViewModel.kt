@@ -6,7 +6,7 @@ import javax.inject.Inject
 import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.core.domain.model.Category
-import com.example.flashcardexpress.feature.questionManagement.domain.usecase.GetAllCategoriesUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.GetAllCategoriesUseCase
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelNavEffect.*
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

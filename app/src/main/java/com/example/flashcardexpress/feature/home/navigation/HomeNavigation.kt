@@ -52,7 +52,8 @@ private fun handleCreationMenuNavigationEvents(
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(HomeFeatureScreen.QuestionCreation.route)
+                CreationMenuEffect.NavigateToQuestionCreation -> navController.navigate(
+                    QuestionManagementScreen.CreationQuestion)
                 CreationMenuEffect.NavigateToCategoryCreation -> navController.navigate(
                     QuestionManagementScreen.CreationCategory)
 
