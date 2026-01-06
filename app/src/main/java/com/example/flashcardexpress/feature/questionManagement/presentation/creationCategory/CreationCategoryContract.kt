@@ -3,7 +3,7 @@ package com.example.flashcardexpress.feature.questionManagement.presentation.cre
 import androidx.compose.runtime.Immutable
 
 sealed class CreationCategoryNavEffect{
-    data object NavigateBackToCreationMenuNav: CreationCategoryNavEffect()
+    data object NavigateBackToManagePanel: CreationCategoryNavEffect()
 
 }
 
@@ -15,7 +15,7 @@ sealed class CreationCategoryEffect{
 sealed class CreationCategoryEvent{
     data class OnCategoryNameChanged(val currentValue:String): CreationCategoryEvent()
     data object OnAddCategoryClicked: CreationCategoryEvent()
-    data object OnBackToCreationMenuClicked: CreationCategoryEvent()
+    data object OnBackToManagePanel: CreationCategoryEvent()
 
 
 }

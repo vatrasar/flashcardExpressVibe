@@ -19,5 +19,6 @@
     <string name="question_creation_page_title">New question</string>
     <string name="choose_category">Choose category</string>
     <string name="empty_category_list">Empty, first create category</string>
+    <string name="btn_add_category">Create new category</string>
 
 </resources>

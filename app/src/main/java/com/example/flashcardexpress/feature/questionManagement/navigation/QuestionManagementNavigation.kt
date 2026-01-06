@@ -98,8 +98,8 @@ private fun handleCategoryCreationNavigationEvents(
     LaunchedEffect(viewModel.navEffect) {
         viewModel.navEffect.collect { effect ->
             when (effect) {
-                is CreationCategoryNavEffect.NavigateBackToCreationMenuNav -> {
-                    handleNavigateToCreationMenu(navController)
+                is CreationCategoryNavEffect.NavigateBackToManagePanel -> {
+                    handleNavigateBackToManagePanel(navController)
                 }
             }
         }
@@ -200,8 +200,8 @@ private fun handleBackNavigationToMainMenu(navController: NavController) {
     }
 }
 
-private fun handleNavigateToCreationMenu(navController: NavController) {
-    navController.navigate(HomeFeatureScreen.CreationMenu.route) {
+private fun handleNavigateBackToManagePanel(navController: NavController) {
+    navController.navigate(HomeFeatureScreen.ManagePanel.route) {
         popUpTo<QuestionManagementScreen.CreationCategory> {
             inclusive = true
         }

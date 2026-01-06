@@ -28,8 +28,8 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
             CreationCategoryEvent.OnAddCategoryClicked -> {
                addNewCategory()
             }
-            CreationCategoryEvent.OnBackToCreationMenuClicked -> {
-                sendNavEffect(CreationCategoryNavEffect.NavigateBackToCreationMenuNav)
+            CreationCategoryEvent.OnBackToManagePanel -> {
+                sendNavEffect(CreationCategoryNavEffect.NavigateBackToManagePanel)
             }
 
         }

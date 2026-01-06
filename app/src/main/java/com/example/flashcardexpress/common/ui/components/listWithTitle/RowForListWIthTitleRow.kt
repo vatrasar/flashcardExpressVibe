@@ -25,18 +25,10 @@ fun RowForListWithTitle(rowText:String, content: @Composable () -> Unit)
 
         Text(
             rowText,
-            textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 8.dp)
                 .weight(1f)
 
         )
-
-
-
-
-
-
-
 
 
         content()

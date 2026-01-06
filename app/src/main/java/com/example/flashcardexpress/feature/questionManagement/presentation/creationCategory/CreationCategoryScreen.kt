@@ -1,42 +1,25 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory
 
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.flashcardexpress.R
 
 
-import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.FlashcardSnackbar
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.CategoryCreationForm.CategoryCreationForm
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.CategoryCreationForm.CategoryFormActions
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
 
 
 @Composable
@@ -59,7 +42,7 @@ fun CreationCategoryScreen(state: CreationCategoryState, effectFromViewModel: Fl
             val categoryFormActions= CategoryFormActions(
                 onCategoryNameChanged = {onEventFromViewModel(CreationCategoryEvent.OnCategoryNameChanged(it))},
                 onCategorySave =   {onEventFromViewModel(CreationCategoryEvent.OnAddCategoryClicked)},
-                onBack = {onEventFromViewModel(CreationCategoryEvent.OnBackToCreationMenuClicked)}
+                onBack = {onEventFromViewModel(CreationCategoryEvent.OnBackToManagePanel)}
             )
             CategoryCreationForm(state.categoryName, stringResource(R.string.add_category_page_title),categoryFormActions)
         }
