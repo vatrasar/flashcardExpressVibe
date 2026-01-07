@@ -33,4 +33,9 @@ class QuestionRepositoryImpl @Inject constructor(private val questionDao: Questi
 
     }
 
+    override suspend fun removeQuestion(questionId: Int) {
+        questionDao.removeQuestion(questionId)
+
+    }
+
 }

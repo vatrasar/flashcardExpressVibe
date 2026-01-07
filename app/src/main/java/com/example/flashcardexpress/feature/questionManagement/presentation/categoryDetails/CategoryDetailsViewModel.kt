@@ -8,8 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.GetAllCategoriesUseCase
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.RemoveCategoryUseCase
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.question.GetAllQuestionsOfCategoryUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.question.RemoveQuestionUseCase
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsNavEffect.*
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelState
@@ -23,7 +25,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class CategoryDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle, val removeCategoryUseCase: RemoveCategoryUseCase
-    ,val getAllQuestionsOfCategory: GetAllQuestionsOfCategoryUseCase
+    ,val getAllQuestionsOfCategory: GetAllQuestionsOfCategoryUseCase,
+    val removeQuestion: RemoveQuestionUseCase
 ) : BaseScreenAndNavEffectsViewModel<CategoryDetailsEffect, CategoryDetailsNavEffect>(){
 
     val args = savedStateHandle.toRoute<QuestionManagementScreen.CategoryDetails>()
@@ -54,7 +57,12 @@ class CategoryDetailsViewModel @Inject constructor(
             }
 
             is CategoryDetailsEvent.OnQuestionEditClicked -> TODO()
-            is CategoryDetailsEvent.OnQuestionRemoveClicked -> TODO()
+            is CategoryDetailsEvent.OnQuestionRemoveClicked ->
+            {
+                viewModelScope.launch {
+                    removeQuestion(event.questionId)
+                }
+            }
             CategoryDetailsEvent.OnDeleteCategoryClicked -> {
                 viewModelScope.launch {
                     removeCategoryUseCase(categoryId)

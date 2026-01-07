@@ -7,6 +7,8 @@ interface QuestionRepository {
     suspend fun insertQuestion(question: Question)
     fun getAllQuestionsOfCategory(categoryId: Int): Flow<List<Question>>
 
+    suspend fun removeQuestion(questionId: Int)
+
 
 
 }

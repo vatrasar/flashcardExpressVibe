@@ -14,6 +14,8 @@ interface QuestionDao {
 
     @Query("SELECT * FROM flashcard WHERE category_id = :categoryId")
     fun getAllQuestionsOfCategory(categoryId: Int): Flow<List<QuestionEntity>>
+    @Query("DELETE FROM flashcard WHERE id = :questionId")
+    suspend fun removeQuestion(questionId: Int)
 
 
 
