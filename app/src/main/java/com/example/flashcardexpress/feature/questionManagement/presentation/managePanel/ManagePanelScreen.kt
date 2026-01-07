@@ -1,9 +1,7 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.managePanel
 
 
-import androidx.annotation.Dimension
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,18 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -33,18 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.flashcardexpress.R
 import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.common.ui.components.buttons.BackButton
-import com.example.flashcardexpress.common.ui.components.listWithTitle.ListWithTitle
 import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.FlashcardSnackbar
 import com.example.flashcardexpress.common.ui.components.listWithTitle.EmptyListWithTitle
 import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import com.example.flashcardexpress.common.ui.model.ListTitle
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.ListWithTitleAndSpecialFirstElement
+import com.example.flashcardexpress.feature.questionManagement.presentation.components.PlusButtonOverList
 
 import kotlinx.coroutines.channels.Channel
 
@@ -124,41 +118,20 @@ fun ShowListOfCategories(listOfCategories: List<ElementForListWithTitle>, onEven
         CategoryRightPartOfRow(onEventFromViewModel, element)
     }
     ListWithTitleAndSpecialFirstElement(listTitle, listOfCategories,modifier,normalRowContent) {
-        Spacer(modifier= Modifier.height(20.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-
-        ) {
-
-            Button(onClick = {
-                onEventFromViewModel(ManagePanelEvent.OnNavigateToCategoryCreation)
-            },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                )
-
-            ) {
-                Text(stringResource(R.string.btn_add_category))
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null
-                )
-            }
-
-        }
-        Spacer(modifier= Modifier.height(20.dp))
+        PlusButtonOverList({
+            onEventFromViewModel(ManagePanelEvent.OnNavigateToCategoryCreation)
+        },R.string.btn_add_category)
     }
 }
+
+
 
 @Composable
 private fun CategoryRightPartOfRow(
     onEventFromViewModel: (ManagePanelEvent) -> Unit,
     title: ElementForListWithTitle
 ) {
+    Spacer(modifier = Modifier.width(AppDimensions.marginBetweenTextAndButtonsInRowOfList))
     Button(
         onClick = { onEventFromViewModel(ManagePanelEvent.OnCategoryClicked(title)) },
         colors = ButtonDefaults.buttonColors(

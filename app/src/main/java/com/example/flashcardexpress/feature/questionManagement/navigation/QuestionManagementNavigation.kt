@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.flashcardexpress.feature.home.navigation.HomeFeatureScreen
+import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen.*
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsViewModel
@@ -143,7 +144,12 @@ private fun HandleCategoryDetailsNaviaitonEvents(
                 }
 
                 is CategoryDetailsNavEffect.NavigateToCategoryEdit -> {
-                    navController.navigate(QuestionManagementScreen.CategoryEdit(effect.categoryId,effect.categoryName))
+                    navController.navigate(CategoryEdit(effect.categoryId,effect.categoryName))
+                }
+
+                is CategoryDetailsNavEffect.NavigateToQuestionCreation -> {
+
+                    navController.navigate(CreationQuestion(effect.categoryId))
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.creationQuestion
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.SnackbarType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -10,16 +12,19 @@ import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsView
 import com.example.flashcardexpress.core.domain.model.Question
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.GetAllCategoriesUseCase
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.question.AddQuestionUseCase
+import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.QuestionCreationForm.CategorySelectOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 
 @HiltViewModel
-class CreationQuestionViewModel @Inject constructor(val addQuestion: AddQuestionUseCase, val getCategories: GetAllCategoriesUseCase) :
+class CreationQuestionViewModel @Inject constructor(val addQuestion: AddQuestionUseCase, val savedStateHandle: SavedStateHandle) :
     BaseScreenAndNavEffectsViewModel<CreationQuestionEffect, CreationQuestionNavEffect>() {
 
 
+    val args = savedStateHandle.toRoute<QuestionManagementScreen.CreationQuestion>()
+    val categoryId=args.categoryId
     private val _state = MutableStateFlow(CreationQuestionState(
         "","",null, emptyList()
     ))
@@ -48,34 +53,14 @@ class CreationQuestionViewModel @Inject constructor(val addQuestion: AddQuestion
 
     }
 
-    init {
-        initStateWithCategoriesList()
-    }
 
-    fun initStateWithCategoriesList()
-    {
-        viewModelScope.launch {
-            val categoriesResult=getCategories()
-            categoriesResult.collect {
-                val categorySelectOptionsList=it.map {
-                    category->
-                    CategorySelectOption(category.id,category.name)
-                }
-                _state.value=_state.value.copy(categories = categorySelectOptionsList)
-            }
 
-        }
-    }
+
 
     private fun saveQuestion() {
         val formState = state.value
-        if(formState.categorySelected==null)
-        {
-            sendEffect(CreationQuestionEffect.ShowSnackbar("Category is not selected!",
-                SnackbarType.ERROR.label))
-            return
-        }
-        val question = Question(formState.word, formState.translation, 1, formState.categorySelected.id)
+
+        val question = Question(formState.word, formState.translation, 1, categoryId)
 
         viewModelScope.launch {
             addQuestion(question)

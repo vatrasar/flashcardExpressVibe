@@ -40,6 +40,8 @@ import com.example.flashcardexpress.common.ui.components.listWithTitle.EmptyList
 import com.example.flashcardexpress.common.ui.components.listWithTitle.ListWithTitle
 import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import com.example.flashcardexpress.common.ui.model.ListTitle
+import com.example.flashcardexpress.feature.questionManagement.presentation.components.ListWithTitleAndSpecialFirstElement
+import com.example.flashcardexpress.feature.questionManagement.presentation.components.PlusButtonOverList
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelEvent
 
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ShowListOfCategories
@@ -85,6 +87,7 @@ fun CategoryDetailsScreen(state: CategoryDetailsState,
                 ShowEmptyList(onEventFromViewModel,modifier = Modifier.weight(1f))
             }else
             {
+                Spacer(modifier = Modifier.height(30.dp))
                 ShowListOfQuestions(state.questions,onEventFromViewModel,modifier = Modifier.weight(1f))
             }
             BackButton {
@@ -125,8 +128,8 @@ private fun ManageButtons(onEventFromViewModel: (CategoryDetailsEvent) -> Unit)
         )
         Button(
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
             ),
             modifier = Modifier.fillMaxWidth(),
             onClick = { onEventFromViewModel(CategoryDetailsEvent.OnEditCategoryClicked) }
@@ -142,8 +145,13 @@ private fun ManageButtons(onEventFromViewModel: (CategoryDetailsEvent) -> Unit)
 @Composable
 private fun ShowListOfQuestions(listOfQuestions: List<ElementForListWithTitle>,onEventFromViewModel: (CategoryDetailsEvent) -> Unit,modifier: Modifier) {
     val listTitle=ListTitle(stringResource(R.string.list_of_questions), MaterialTheme.typography.titleMedium)
-    ListWithTitle(listTitle, listOfQuestions, modifier) {
-        QuestionRightPartOfRow(onEventFromViewModel, it)
+    val normalRowContent=@Composable {element: ElementForListWithTitle->
+        QuestionRightPartOfRow(onEventFromViewModel, element)
+    }
+    ListWithTitleAndSpecialFirstElement(listTitle, listOfQuestions, modifier,normalRowContent) {
+        PlusButtonOverList({
+            onEventFromViewModel(CategoryDetailsEvent.OnCreateQuestionClicked)
+        },R.string.btn_add_question)
     }
 }
 
@@ -151,6 +159,7 @@ private fun ShowListOfQuestions(listOfQuestions: List<ElementForListWithTitle>,o
 @Composable
 private fun QuestionRightPartOfRow(onEventFromViewModel: (CategoryDetailsEvent) -> Unit,element: ElementForListWithTitle){
 
+    Spacer(modifier = Modifier.width(AppDimensions.marginBetweenTextAndButtonsInRowOfList))
     Button(
         onClick = { onEventFromViewModel(CategoryDetailsEvent.OnQuestionRemoveClicked(element.id)) },
         colors = ButtonDefaults.buttonColors(
@@ -163,11 +172,12 @@ private fun QuestionRightPartOfRow(onEventFromViewModel: (CategoryDetailsEvent) 
             contentDescription = null
         )
     }
+    Spacer(modifier = Modifier.width(5.dp))
     Button(
         onClick = { onEventFromViewModel(CategoryDetailsEvent.OnQuestionEditClicked(element.id)) },
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
         Icon(
@@ -189,20 +199,25 @@ private fun ShowEmptyList(onEventFromViewModel: (CategoryDetailsEvent) -> Unit, 
 
 @Composable
 private fun TextAndButtonForEmptyList(onEventFromViewModel: (CategoryDetailsEvent) -> Unit) {
-    Text(
-        stringResource(R.string.list_of_questions_empty),
-        fontStyle = FontStyle.Italic
-    )
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-    Spacer(modifier = Modifier.height(10.dp))
-//    Button(
-//        onClick = {
-//            onEventFromViewModel(ManagePanelEvent.OnNavigateToCategoryCreation)
-//
-//        }
-//    ) {
-//        Text(stringResource(R.string.btn_go_to_create_first_category))
-//    }
+        Text(
+            stringResource(R.string.list_of_questions_empty),
+            fontStyle = FontStyle.Italic
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Button(
+            onClick = {
+                onEventFromViewModel(CategoryDetailsEvent.OnCreateQuestionClicked)
+
+            },
+
+
+
+        ) {
+            Text(stringResource(R.string.btn_go_to_create_question))
+        }
+    }
 }
 
 @Composable

@@ -3,26 +3,46 @@ package com.example.flashcardexpress.feature.questionManagement.presentation.cat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.RemoveCategoryUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.question.GetAllQuestionsOfCategoryUseCase
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsNavEffect.*
+import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelState
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
 @HiltViewModel
 class CategoryDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle, val removeCategoryUseCase: RemoveCategoryUseCase
+    ,val getAllQuestionsOfCategory: GetAllQuestionsOfCategoryUseCase
 ) : BaseScreenAndNavEffectsViewModel<CategoryDetailsEffect, CategoryDetailsNavEffect>(){
 
     val args = savedStateHandle.toRoute<QuestionManagementScreen.CategoryDetails>()
-    private val _state = MutableStateFlow(CategoryDetailsState(listOf(),args.categoryName))
     val categoryId=args.categoryId
-    val state = _state.asStateFlow()
+    val state =getAllQuestionsOfCategory(categoryId).map{
+
+        CategoryDetailsState(it.map {
+            ElementForListWithTitle(it.word, it.id)
+        }.toList()
+            ,args.categoryName)
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = CategoryDetailsState(listOf(),args.categoryName),
+        started =  SharingStarted.WhileSubscribed(5000)
+    )
+
+
+
+
 
 
 
@@ -42,7 +62,9 @@ class CategoryDetailsViewModel @Inject constructor(
                 sendNavEffect(CategoryDetailsNavEffect.BackToManagePanel)
 
             }
-            CategoryDetailsEvent.OnEditCategoryClicked -> sendNavEffect(CategoryDetailsNavEffect.NavigateToCategoryEdit(categoryId,args.categoryName))
+            CategoryDetailsEvent.OnEditCategoryClicked -> sendNavEffect(NavigateToCategoryEdit(categoryId,args.categoryName))
+            CategoryDetailsEvent.OnCreateQuestionClicked -> sendNavEffect(NavigateToQuestionCreation(categoryId))
+
         }
 
     }

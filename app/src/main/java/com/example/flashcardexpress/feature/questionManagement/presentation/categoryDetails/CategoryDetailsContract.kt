@@ -10,7 +10,7 @@ sealed class CategoryDetailsEffect {
 sealed class CategoryDetailsNavEffect {
     data object BackToManagePanel: CategoryDetailsNavEffect()
     data class NavigateToCategoryEdit(val categoryId:Int, val categoryName:String): CategoryDetailsNavEffect()
-
+    data class NavigateToQuestionCreation(val categoryId:Int): CategoryDetailsNavEffect()
 
 
 }
@@ -21,6 +21,7 @@ sealed class CategoryDetailsEvent {
     data object OnBackToManagePanelClicked : CategoryDetailsEvent()
     data object OnDeleteCategoryClicked : CategoryDetailsEvent()
     data object OnEditCategoryClicked : CategoryDetailsEvent()
+    data object OnCreateQuestionClicked : CategoryDetailsEvent()
 
 }
 

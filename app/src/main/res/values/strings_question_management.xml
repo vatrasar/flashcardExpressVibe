@@ -20,5 +20,8 @@
     <string name="choose_category">Choose category</string>
     <string name="empty_category_list">Empty, first create category</string>
     <string name="btn_add_category">Create new category</string>
+    <string name="btn_go_to_create_question">Create first question</string>
+    <string name="btn_add_question">Create new question</string>
+
 
 </resources>

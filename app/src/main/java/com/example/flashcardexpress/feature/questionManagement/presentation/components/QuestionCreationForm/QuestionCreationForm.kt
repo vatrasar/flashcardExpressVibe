@@ -110,13 +110,7 @@ private fun TitleAndFormInputs(
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
-    Spacer(modifier = Modifier.height(AppDimensions.marginBetweenInputs))
-    Row(
-        horizontalArrangement = Arrangement.Start
-        , modifier = Modifier.fillMaxWidth()
-    ) {
-        CategorySelect(actions,inputValues.selectedCategory,inputValues.categories)
-    }
+
 
 
 }

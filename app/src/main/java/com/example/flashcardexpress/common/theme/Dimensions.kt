@@ -9,4 +9,5 @@ object AppDimensions {
     val marginBetweenRowsInList=5.dp
 
     val marginBetweenInputs=20.dp
+    val marginBetweenTextAndButtonsInRowOfList=30.dp
 }
