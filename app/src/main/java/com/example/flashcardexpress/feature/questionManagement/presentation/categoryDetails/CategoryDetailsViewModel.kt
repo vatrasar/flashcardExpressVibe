@@ -15,8 +15,11 @@ import com.example.flashcardexpress.feature.questionManagement.domain.usecase.qu
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsNavEffect.*
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelState
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -31,21 +34,10 @@ class CategoryDetailsViewModel @Inject constructor(
 
     val args = savedStateHandle.toRoute<QuestionManagementScreen.CategoryDetails>()
     val categoryId=args.categoryId
-    val state =getAllQuestionsOfCategory(categoryId).map{
-
-        CategoryDetailsState(it.map {
-            ElementForListWithTitle(it.word, it.id)
-        }.toList()
-            ,args.categoryName)
-    }.stateIn(
-        scope = viewModelScope,
-        initialValue = CategoryDetailsState(listOf(),args.categoryName),
-        started =  SharingStarted.WhileSubscribed(5000)
-    )
-
-
-
-
+    val _isConfirmCategoryDeleteDialogVisible= MutableStateFlow(false);
+    val _isConfirmQuestionDeleteDialogVisible= MutableStateFlow(false);
+    var idOfQuestionToDelete= 0;
+    val state = buildState()
 
 
 
@@ -53,27 +45,74 @@ class CategoryDetailsViewModel @Inject constructor(
     public fun onEvent(event: CategoryDetailsEvent) {
         when (event) {
             is CategoryDetailsEvent.OnBackToManagePanelClicked -> {
-                sendNavEffect(CategoryDetailsNavEffect.BackToManagePanel)
+                sendNavEffect(BackToManagePanel)
             }
 
             is CategoryDetailsEvent.OnQuestionEditClicked -> TODO()
             is CategoryDetailsEvent.OnQuestionRemoveClicked ->
             {
-                viewModelScope.launch {
-                    removeQuestion(event.questionId)
-                }
+                _isConfirmQuestionDeleteDialogVisible.value=true
+                idOfQuestionToDelete=event.questionId
+
             }
             CategoryDetailsEvent.OnDeleteCategoryClicked -> {
-                viewModelScope.launch {
-                    removeCategoryUseCase(categoryId)
-                }
-                sendNavEffect(CategoryDetailsNavEffect.BackToManagePanel)
+
+                _isConfirmCategoryDeleteDialogVisible.value=true
 
             }
             CategoryDetailsEvent.OnEditCategoryClicked -> sendNavEffect(NavigateToCategoryEdit(categoryId,args.categoryName))
             CategoryDetailsEvent.OnCreateQuestionClicked -> sendNavEffect(NavigateToQuestionCreation(categoryId))
+            CategoryDetailsEvent.OnAlertDismissClicked -> closeAlertWindow()
+            CategoryDetailsEvent.OnConfirmDeleteCategoryClicked ->{
+                removeCategory()
+            }
 
+            CategoryDetailsEvent.OnConfirmDeleteQuestionClicked -> {
+                removeQuestion()
+            }
         }
 
     }
+
+    private fun removeQuestion() {
+        viewModelScope.launch {
+            removeQuestion(idOfQuestionToDelete)
+        }
+    }
+
+    private fun removeCategory() {
+        viewModelScope.launch {
+            removeCategoryUseCase(categoryId)
+        }
+        sendNavEffect(BackToManagePanel)
+    }
+
+    fun closeAlertWindow()
+    {
+        _isConfirmCategoryDeleteDialogVisible.value=false
+        _isConfirmQuestionDeleteDialogVisible.value=false
+
+    }
+
+    private fun buildState(): StateFlow<CategoryDetailsState> = combine(
+        getAllQuestionsOfCategory(categoryId),
+        _isConfirmCategoryDeleteDialogVisible,
+        _isConfirmQuestionDeleteDialogVisible
+
+    ) { questions, isConfirmCategoryDeleteDialogVisible, isConfirmQuestionDeleteDialogVisible ->
+        val elementsOnListWithTitle = questions.map {
+            ElementForListWithTitle(it.word, it.id)
+        }.toList()
+
+        CategoryDetailsState(
+            elementsOnListWithTitle,
+            args.categoryName,
+            isConfirmCategoryDeleteDialogVisible,
+            isConfirmQuestionDeleteDialogVisible
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = CategoryDetailsState(listOf(), args.categoryName, false, false),
+        started = SharingStarted.WhileSubscribed(5000)
+    )
 }

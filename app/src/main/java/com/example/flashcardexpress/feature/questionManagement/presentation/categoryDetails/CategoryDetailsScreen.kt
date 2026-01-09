@@ -1,10 +1,6 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails
 
-import androidx.annotation.Dimension
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
@@ -30,24 +25,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.flashcardexpress.R
 import com.example.flashcardexpress.common.theme.AppDimensions
+import com.example.flashcardexpress.common.ui.components.ConfirmationDialog
 import com.example.flashcardexpress.common.ui.components.buttons.BackButton
 import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.FlashcardSnackbar
 import com.example.flashcardexpress.common.ui.components.listWithTitle.EmptyListWithTitle
-import com.example.flashcardexpress.common.ui.components.listWithTitle.ListWithTitle
 import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import com.example.flashcardexpress.common.ui.model.ListTitle
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.ListWithTitleAndSpecialFirstElement
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.PlusButtonOverList
-import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelEvent
 
-import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ShowListOfCategories
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
 fun CategoryDetailsScreen(state: CategoryDetailsState,
@@ -57,6 +47,22 @@ fun CategoryDetailsScreen(state: CategoryDetailsState,
     val snackbarHostState = remember { SnackbarHostState() }
 
     HandleEffectsFromViewModel(effectFromViewModel, snackbarHostState)
+    if(state.isConfirmCategoryDeleteAlertVisible) {
+        ConfirmationDialog(
+            onConfirm = { onEventFromViewModel(CategoryDetailsEvent.OnConfirmDeleteCategoryClicked) },
+            onDismiss = { onEventFromViewModel(CategoryDetailsEvent.OnAlertDismissClicked) },
+            text = stringResource(R.string.delete_category_confirmation),
+
+
+        )
+    }
+    if(state.isConfirmQuestionDeleteAlertVisible) {
+        ConfirmationDialog(
+            onConfirm = { onEventFromViewModel(CategoryDetailsEvent.OnConfirmDeleteQuestionClicked)},
+            onDismiss = { onEventFromViewModel(CategoryDetailsEvent.OnAlertDismissClicked)},
+            text = stringResource(R.string.delete_question_confirmation))
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -94,10 +100,6 @@ fun CategoryDetailsScreen(state: CategoryDetailsState,
                 onEventFromViewModel(CategoryDetailsEvent.OnBackToManagePanelClicked)
             }
             Spacer(modifier = Modifier.height(AppDimensions.marginTop))
-
-
-
-
 
         }
     }
@@ -233,11 +235,3 @@ private fun HandleEffectsFromViewModel(
     }
 }
 
-@Preview
-@Composable
-fun CategoryDetailsScreenPreview() {
-    CategoryDetailsScreen(CategoryDetailsState(listOf(),"Test"),
-        onEventFromViewModel = {},
-        Channel<CategoryDetailsEffect>().receiveAsFlow()
-    )
-}

@@ -22,6 +22,8 @@
     <string name="btn_add_category">Create new category</string>
     <string name="btn_go_to_create_question">Create first question</string>
     <string name="btn_add_question">Create new question</string>
+    <string name="delete_category_confirmation">Are you sure you want to delete this category?</string>
+    <string name="delete_question_confirmation">Are you sure you want to delete this question?</string>
 
 
 </resources>

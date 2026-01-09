@@ -20,8 +20,12 @@ sealed class CategoryDetailsEvent {
     data class OnQuestionEditClicked(val questionId: Int) : CategoryDetailsEvent()
     data object OnBackToManagePanelClicked : CategoryDetailsEvent()
     data object OnDeleteCategoryClicked : CategoryDetailsEvent()
+    data object OnConfirmDeleteCategoryClicked : CategoryDetailsEvent()
+    data object OnConfirmDeleteQuestionClicked : CategoryDetailsEvent()
+    data object OnAlertDismissClicked : CategoryDetailsEvent()
     data object OnEditCategoryClicked : CategoryDetailsEvent()
     data object OnCreateQuestionClicked : CategoryDetailsEvent()
+
 
 }
 
@@ -29,6 +33,8 @@ sealed class CategoryDetailsEvent {
 @Immutable
 data class CategoryDetailsState(
     val questions:List<ElementForListWithTitle>,
-    val categoryName: String
+    val categoryName: String,
+    val isConfirmCategoryDeleteAlertVisible: Boolean,
+    val isConfirmQuestionDeleteAlertVisible: Boolean
 
 )
