@@ -27,6 +27,9 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.crea
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelScreen
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelViewModel
+import com.example.flashcardexpress.feature.questionManagement.presentation.questionEdit.QuestionEditNavEffect
+import com.example.flashcardexpress.feature.questionManagement.presentation.questionEdit.QuestionEditScreen
+import com.example.flashcardexpress.feature.questionManagement.presentation.questionEdit.QuestionEditViewModel
 import com.example.flashcardexpress.navigation.Screen
 
 
@@ -70,6 +73,25 @@ fun NavGraphBuilder.setupQuestionManagementNavigation(navController: NavControll
         val state by viewModel.state.collectAsStateWithLifecycle()
         HandleQuestionCreationNavigationEvents(viewModel, navController)
         CreationQuestionScreen(state,viewModel::onEvent,viewModel.effect)
+    }
+
+    composable<QuestionManagementScreen.QuestionEdit> {
+        val viewModel: QuestionEditViewModel = hiltViewModel()
+        val state by viewModel.state.collectAsStateWithLifecycle()
+        LaunchedEffect(viewModel.navEffect)
+        {
+            viewModel.navEffect.collect {
+                when(it)
+                {
+                    QuestionEditNavEffect.BackToCategoryDetails -> {
+                        navController.popBackStack()
+                    }
+                }
+            }
+        }
+        QuestionEditScreen(viewModel::onEvent,viewModel.effect,state)
+
+
     }
 
 
@@ -150,6 +172,10 @@ private fun HandleCategoryDetailsNaviaitonEvents(
                 is CategoryDetailsNavEffect.NavigateToQuestionCreation -> {
 
                     navController.navigate(CreationQuestion(effect.categoryId))
+                }
+
+                is CategoryDetailsNavEffect.NavigateToQuestionEdit -> {
+                    navController.navigate(QuestionEdit(effect.questionId))
                 }
             }
         }

@@ -42,13 +42,15 @@ class CategoryDetailsViewModel @Inject constructor(
 
 
 
-    public fun onEvent(event: CategoryDetailsEvent) {
+    fun onEvent(event: CategoryDetailsEvent) {
         when (event) {
             is CategoryDetailsEvent.OnBackToManagePanelClicked -> {
                 sendNavEffect(BackToManagePanel)
             }
 
-            is CategoryDetailsEvent.OnQuestionEditClicked -> TODO()
+            is CategoryDetailsEvent.OnQuestionEditClicked -> {
+                sendNavEffect(NavigateToQuestionEdit(event.questionId))
+            }
             is CategoryDetailsEvent.OnQuestionRemoveClicked ->
             {
                 _isConfirmQuestionDeleteDialogVisible.value=true

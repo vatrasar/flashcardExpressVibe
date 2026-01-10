@@ -8,3 +8,12 @@ fun QuestionEntity.toDomain(): Question
     return Question(word,translation,id,categoryId)
 
 }
+
+fun Question.toEntity(): QuestionEntity {
+    return QuestionEntity(
+        id = id,
+        word = word,
+        translation = translation,
+        categoryId = categoryId
+    )
+}

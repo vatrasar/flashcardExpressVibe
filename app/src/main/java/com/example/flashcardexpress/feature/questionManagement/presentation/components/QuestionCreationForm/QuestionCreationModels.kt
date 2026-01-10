@@ -16,8 +16,7 @@ data class CategorySelectOption(val id: Int, val name: String)
 data class QuestionCreationFormInputValues(
     val word: String,
     val translation:String,
-    val selectedCategory: CategorySelectOption?,
-    val categories: List<CategorySelectOption>
+
 )
 
 

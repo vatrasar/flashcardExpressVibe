@@ -9,6 +9,10 @@ interface QuestionRepository {
 
     suspend fun removeQuestion(questionId: Int)
 
+    suspend fun getQuestionById(questionId: Int): Question
+    suspend fun updateQuestion(question: Question)
+
+
 
 
 }

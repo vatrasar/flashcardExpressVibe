@@ -3,6 +3,7 @@ package com.example.flashcardexpress.core.data.repository
 import com.example.flashcardexpress.core.data.local.dao.QuestionDao
 import com.example.flashcardexpress.core.data.local.entities.QuestionEntity
 import com.example.flashcardexpress.core.data.local.mapper.toDomain
+import com.example.flashcardexpress.core.data.local.mapper.toEntity
 import com.example.flashcardexpress.core.domain.model.Question
 import com.example.flashcardexpress.core.domain.repository.QuestionRepository
 import kotlinx.coroutines.flow.Flow
@@ -37,5 +38,15 @@ class QuestionRepositoryImpl @Inject constructor(private val questionDao: Questi
         questionDao.removeQuestion(questionId)
 
     }
+
+    override suspend fun getQuestionById(questionId: Int): Question {
+        return questionDao.getQuestionById(questionId).toDomain()
+    }
+
+    override suspend fun updateQuestion(question: Question) {
+        questionDao.updateQuestion(question.toEntity())
+
+    }
+
 
 }
