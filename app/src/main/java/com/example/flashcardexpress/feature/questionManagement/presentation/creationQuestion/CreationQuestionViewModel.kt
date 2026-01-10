@@ -65,7 +65,10 @@ class CreationQuestionViewModel @Inject constructor(val addQuestion: AddQuestion
         viewModelScope.launch {
             addQuestion(question)
             sendEffect(CreationQuestionEffect.ShowSnackbar("Flashcard created!", SnackbarType.SUCCESS.label))
-
+            _state.value=_state.value.copy(
+                word = "",
+                translation = ""
+            )
         }
     }
 }
