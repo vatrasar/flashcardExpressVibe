@@ -43,7 +43,7 @@ fun NavGraphBuilder.setupQuestionManagementNavigation(navController: NavControll
         CreationCategoryScreen(state,viewModel.effect,viewModel::onEvent)
 
     }
-    composable(HomeFeatureScreen.ManagePanel.route){
+    composable<QuestionManagementScreen.ManagePanel>{
         val viewModel: ManagePanelViewModel = hiltViewModel()
         val state by viewModel.state.collectAsStateWithLifecycle()
         HandleManagePanelNavigationEvents(viewModel, navController)
@@ -184,7 +184,7 @@ private fun HandleCategoryDetailsNaviaitonEvents(
 
 
 private fun handleBackNavToManagePanel(navController: NavController) {
-    navController.navigate(HomeFeatureScreen.ManagePanel.route)
+    navController.navigate(QuestionManagementScreen.ManagePanel)
     {
         popUpTo<QuestionManagementScreen.CategoryDetails>
         {

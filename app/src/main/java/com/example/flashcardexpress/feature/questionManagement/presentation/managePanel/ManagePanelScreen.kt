@@ -69,9 +69,7 @@ fun ManagePanelScreen(state: ManagePanelState, onEventFromViewModel: (ManagePane
                 ShowListOfCategories(state.listOfCategories,onEventFromViewModel,modifier = Modifier.weight(1f))
 
             }
-            BackButton {
-                onEventFromViewModel(ManagePanelEvent.OnBackToHomeClicked)
-            }
+
             Spacer(modifier = Modifier.height(AppDimensions.marginTop))
 
 

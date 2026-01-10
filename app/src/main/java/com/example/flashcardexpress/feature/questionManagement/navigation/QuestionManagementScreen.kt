@@ -19,7 +19,8 @@ sealed interface QuestionManagementScreen {
     data class CreationQuestion(val categoryId:Int): QuestionManagementScreen
     @Serializable
     data class QuestionEdit(val questionId:Int): QuestionManagementScreen
-
+    @Serializable
+    data object ManagePanel: QuestionManagementScreen
 
 }
 
