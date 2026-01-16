@@ -16,6 +16,7 @@ import com.example.flashcardexpress.feature.questionManagement.navigation.Questi
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.QuestionCreationForm.CategorySelectOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.LocalDate
 
 
 @HiltViewModel
@@ -60,7 +61,7 @@ class CreationQuestionViewModel @Inject constructor(val addQuestion: AddQuestion
     private fun saveQuestion() {
         val formState = state.value
 
-        val question = Question(formState.word, formState.translation, 1, categoryId)
+        val question = Question(formState.word, formState.translation, 1, categoryId,0,LocalDate.now())
 
         viewModelScope.launch {
             addQuestion(question)

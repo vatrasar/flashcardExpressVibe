@@ -15,5 +15,10 @@ import com.example.flashcardexpress.R
 @Composable
 fun BackButton(onEventFromViewModel: () -> Unit)
 {
-     BaseButton(stringResource(R.string.btn_back),onEventFromViewModel)
+    val colors= ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.secondary,
+        contentColor = MaterialTheme.colorScheme.onSecondary
+
+    )
+     BaseButton(stringResource(R.string.btn_back),onEventFromViewModel,colors)
 }

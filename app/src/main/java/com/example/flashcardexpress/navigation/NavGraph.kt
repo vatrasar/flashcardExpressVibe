@@ -19,6 +19,8 @@ import com.example.flashcardexpress.feature.home.navigation.setupHomeNavigation
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import com.example.flashcardexpress.feature.questionManagement.navigation.setupQuestionManagementNavigation
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.QuestionCreationForm.QuestionCreationForm
+import com.example.flashcardexpress.feature.repeat.navigation.RepeatScreen
+import com.example.flashcardexpress.feature.repeat.navigation.setupRepeatNavigation
 import com.example.flashcardexpress.navigation.components.AppBottomBar
 
 
@@ -30,7 +32,9 @@ fun SetupNavGraph(navController: NavHostController){
     val showBottomBar = remember(currentDestination) {
 
         currentDestination?.hierarchy?.any { destination ->
-            destination.hasRoute(QuestionManagementScreen.ManagePanel::class)
+            destination.hasRoute(QuestionManagementScreen.ManagePanel::class)||
+                    destination.hasRoute(RepeatScreen.RepeatPanel::class)
+
         } == true
     }
     Scaffold(
@@ -67,6 +71,7 @@ fun SetupNavGraph(navController: NavHostController){
         {
             setupHomeNavigation(navController)
             setupQuestionManagementNavigation(navController)
+            setupRepeatNavigation(navController)
         }
 
     }

@@ -78,7 +78,7 @@ fun CategoryDetailsScreen(state: CategoryDetailsState,
             , horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(AppDimensions.marginTop))
             Text(
-                state.categoryName+" "+stringResource(R.string.details_label),
+                state.categoryName,
                 style= MaterialTheme.typography.titleLarge
 
             )
@@ -146,7 +146,7 @@ private fun ManageButtons(onEventFromViewModel: (CategoryDetailsEvent) -> Unit)
 
 @Composable
 private fun ShowListOfQuestions(listOfQuestions: List<ElementForListWithTitle>,onEventFromViewModel: (CategoryDetailsEvent) -> Unit,modifier: Modifier) {
-    val listTitle=ListTitle(stringResource(R.string.list_of_questions), MaterialTheme.typography.titleMedium)
+    val listTitle=ListTitle(stringResource(R.string.repeat_panel_list_title), MaterialTheme.typography.titleMedium)
     val normalRowContent=@Composable {element: ElementForListWithTitle->
         QuestionRightPartOfRow(onEventFromViewModel, element)
     }

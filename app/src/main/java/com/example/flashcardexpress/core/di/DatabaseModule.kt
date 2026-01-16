@@ -5,6 +5,7 @@ import androidx.room.Room.databaseBuilder
 import com.example.flashcardexpress.core.data.local.FlashcardDb
 import com.example.flashcardexpress.core.data.local.dao.CategoryDao
 import com.example.flashcardexpress.core.data.local.dao.QuestionDao
+import com.example.flashcardexpress.core.data.local.dao.RepetitionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +25,9 @@ object DatabaseModule {
             context,
             FlashcardDb::class.java,
             FlashcardDb.DATABASE_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
     @Provides
     fun provideFlashcardDao(database: FlashcardDb): CategoryDao {
@@ -35,6 +38,11 @@ object DatabaseModule {
     @Provides
     fun provideQuestionDao(database: FlashcardDb): QuestionDao {
         return database.questionDao()
+    }
+
+    @Provides
+    fun provideRepetitionDao(database: FlashcardDb): RepetitionDao {
+        return database.repetitionDao()
     }
 
 }

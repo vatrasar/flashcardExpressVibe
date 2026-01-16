@@ -233,7 +233,7 @@ private fun handleBackNavigationToMainMenu(navController: NavController) {
 }
 
 private fun handleNavigateBackToManagePanel(navController: NavController) {
-    navController.navigate(HomeFeatureScreen.ManagePanel.route) {
+    navController.navigate(QuestionManagementScreen.ManagePanel) {
         popUpTo<QuestionManagementScreen.CreationCategory> {
             inclusive = true
         }

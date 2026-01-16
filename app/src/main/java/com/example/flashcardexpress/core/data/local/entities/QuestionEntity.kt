@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.sql.Date
 
 
 @Entity(
@@ -25,5 +26,9 @@ data class QuestionEntity (
     @ColumnInfo("word")
     val word: String,
     @ColumnInfo("translation")
-    val translation: String
+    val translation: String,
+    @ColumnInfo("learning_master_level")
+    val learningMasterLevel: Int,
+    @ColumnInfo("date_of_next_repetition")
+    val dateOfNextRepetition: Long
 )

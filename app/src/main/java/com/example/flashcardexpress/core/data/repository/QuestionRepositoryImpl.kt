@@ -4,6 +4,7 @@ import com.example.flashcardexpress.core.data.local.dao.QuestionDao
 import com.example.flashcardexpress.core.data.local.entities.QuestionEntity
 import com.example.flashcardexpress.core.data.local.mapper.toDomain
 import com.example.flashcardexpress.core.data.local.mapper.toEntity
+import com.example.flashcardexpress.core.data.local.mapper.toEntityWithNoId
 import com.example.flashcardexpress.core.domain.model.Question
 import com.example.flashcardexpress.core.domain.repository.QuestionRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,11 +14,7 @@ import javax.inject.Inject
 class QuestionRepositoryImpl @Inject constructor(private val questionDao: QuestionDao): QuestionRepository{
 
     override suspend fun insertQuestion(question: Question) {
-        val questionEntity = QuestionEntity(
-            word = question.word,
-            translation = question.translation,
-            categoryId = question.categoryId
-        )
+        val questionEntity = question.toEntityWithNoId()
         questionDao.insertQuestion(questionEntity)
 
     }
@@ -44,9 +41,14 @@ class QuestionRepositoryImpl @Inject constructor(private val questionDao: Questi
     }
 
     override suspend fun updateQuestion(question: Question) {
+
         questionDao.updateQuestion(question.toEntity())
 
     }
+
+
+
+
 
 
 }
