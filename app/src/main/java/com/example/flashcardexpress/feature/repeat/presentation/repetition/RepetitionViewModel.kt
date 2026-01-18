@@ -102,7 +102,10 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
 
     private fun onAnswerIncorrect() {
         viewModelScope.launch {
-            repetitionSessionManager.processUserAnswer(false)
+
+                repetitionSessionManager.processUserAnswer(false)
+
+
         }
         injectNextFlashcard()
         updateStage()
@@ -110,7 +113,13 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
 
     private fun onAnswerCorrect() {
         viewModelScope.launch {
-            repetitionSessionManager.processUserAnswer(true)
+            try {
+                repetitionSessionManager.processUserAnswer(true)
+            }catch (e: Exception)
+            {
+                Log.d("error",e.message.toString())
+            }
+
         }
         injectNextFlashcard()
         updateStage()

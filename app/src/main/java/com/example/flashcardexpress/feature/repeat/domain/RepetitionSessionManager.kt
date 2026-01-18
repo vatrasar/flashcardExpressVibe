@@ -19,6 +19,7 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
     private var initialEvaluationMistakes=mutableListOf<QuestionToLearn>()
     private var learningQueue=mutableListOf<QuestionToLearn>()
     private var currentQuestion: QuestionToLearn=QuestionToLearn(0,"default question","default translation",true)
+
     private var questionsCorrectInFirstStage=mutableListOf<QuestionToLearn>()
 
     fun injectQuestions(questionsToInject: List<QuestionToLearn>) {
@@ -148,13 +149,20 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
             questionsCorrectInFirstStage.add(currentQuestion)
 
         }
-        val questionPreviousMasteryLevel=questionRepository.getQuestionById(currentQuestion.id).learningMasterLevel
+        else{
+            val currentQuestionForDbOperation=currentQuestion.copy()
+            val questionPreviousMasteryLevel=questionRepository.getQuestionById(currentQuestionForDbOperation.id).learningMasterLevel
 
-        if (questionPreviousMasteryLevel>3)
-        {
-            questionRepository.removeQuestion(currentQuestion.id)
+            if (questionPreviousMasteryLevel>3)
+            {
+                questionRepository.removeQuestion(currentQuestionForDbOperation.id)
+            }
+            else{
+                updateInDbMasteryLevelAndNextRepetitionDate(questionPreviousMasteryLevel,currentQuestionForDbOperation.id)
+            }
+
+
         }
-        updateInDbMasteryLevelAndNextRepetitionDate(questionPreviousMasteryLevel,currentQuestion.id)
 
     }
 
@@ -234,10 +242,12 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
 
             }
             LearningStage.INITIAL_EVALUATION -> {
-                val isAllQuestionWrongInFirstStage = initialEvaluationMistakes.size == questionsToLearn.size
+
+                val isAllQuestionWrongInFirstStage = initialEvaluationMistakes.size == questionsToLearn.size && isWordAQuestionInFlashcard
                 if(isAllQuestionWrongInFirstStage)
                 {
                     learningStage=LearningStage.LEARNING
+
                     return
 
                 }
