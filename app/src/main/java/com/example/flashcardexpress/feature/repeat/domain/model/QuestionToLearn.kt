@@ -6,7 +6,8 @@ data class QuestionToLearn(
     val id:Int,
     val word: String,
     val translation: String,
-    var isQuestionToRemoveFromQueueAfterSuccess: Boolean
+    var isQuestionToRemoveFromQueueAfterSuccess: Boolean,
+    var numberOfMistakes:Int=0
 )
 
 

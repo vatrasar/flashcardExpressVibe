@@ -41,11 +41,7 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
 
     }
 
-    private suspend fun updateAllMistakesAfterFinishingRepetition() {
-        for (question in initialEvaluationMistakes) {
-            updateInDbMasteryLevelAndNextRepetitionDate(0, question.id)
-        }
-    }
+
 
 
     suspend fun processUserAnswer(isAnswerCorrect: Boolean)
@@ -82,6 +78,12 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
         return resultNumber
     }
 
+    private suspend fun updateAllMistakesAfterFinishingRepetition() {
+        for (question in initialEvaluationMistakes) {
+            updateInDbMasteryLevelAndNextRepetitionDate(0, question.id)
+        }
+    }
+
 
 
     private suspend fun processUserWrongAnswer() {
@@ -115,6 +117,7 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
     }
 
     private fun processUserWrongAnswerDuringFinalTest() {
+        currentQuestion.numberOfMistakes+=10
         learningQueue = questionsToLearn.shuffled().toMutableList()
         learningStage = LearningStage.LEARNING
     }
@@ -122,6 +125,7 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
     private fun processUserWrongAnswerDuringLearning() {
         val indexToInjectQuestionInQueue: Int = min(learningQueue.size, 2)
         currentQuestion.isQuestionToRemoveFromQueueAfterSuccess = false
+        currentQuestion.numberOfMistakes++
         learningQueue.add(indexToInjectQuestionInQueue, currentQuestion)
     }
 
@@ -225,7 +229,14 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
 
 
     private fun populateQueue() {
-        learningQueue.addAll(questionsToLearn.shuffled())
+        if (learningStage== LearningStage.FINAL_TEST)
+        {
+            learningQueue=questionsToLearn.sortedBy { it.numberOfMistakes }.toMutableList()
+        }
+        else{
+            learningQueue.addAll(questionsToLearn.shuffled())
+        }
+
     }
 
     private fun updateStage()

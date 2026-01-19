@@ -122,19 +122,19 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
 
     }
 
-    private fun injectNextFlashcard() {
+    private suspend fun injectNextFlashcard() {
 
-        viewModelScope.launch {
-            val newFlahscard = repetitionSessionManager.getNextFlashcard()
 
-            if (newFlahscard == null) {
-                sendNavEffect(RepetitionNavEffect.BackToRepeatPanelAfterFinishingRepetition)
+        val newFlahscard = repetitionSessionManager.getNextFlashcard()
 
-            } else {
-                _state.value = _state.value.copy(isAnswerPage = false, flashcard = newFlahscard)
-            }
+        if (newFlahscard == null) {
+            sendNavEffect(RepetitionNavEffect.BackToRepeatPanelAfterFinishingRepetition)
+
+        } else {
+            _state.value = _state.value.copy(isAnswerPage = false, flashcard = newFlahscard)
         }
-
-
     }
+
+
+
 }
