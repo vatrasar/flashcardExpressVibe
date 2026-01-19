@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FlashcardExpress</string>
+    <string name="app_name">FlashExpress</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="btn_back">Back</string>
 
