@@ -27,16 +27,18 @@ class GetAllRepetitionsForTodayUseCase @Inject constructor(private val repetitio
         val maxQuestionsPerSession = 35
         val splitThreshold = 20
         var orginalCategoryWithCount=categoryWithCount
-        var resultList=listOf<CategoryWithCount>(orginalCategoryWithCount)
+        var resultList=listOf<CategoryWithCount>()
 
-        while(orginalCategoryWithCount.count>maxQuestionsPerSession)
+
+        while(orginalCategoryWithCount.count>=maxQuestionsPerSession)
         {
-            val countOfNewCategoryWithCount=orginalCategoryWithCount.count-splitThreshold
+            val countOfNewCategoryWithCount=splitThreshold
             val countOfOrginalCategoryWithCount=orginalCategoryWithCount.count-splitThreshold
             orginalCategoryWithCount=orginalCategoryWithCount.copy(count=countOfOrginalCategoryWithCount)
             val newCategoryWithCount=orginalCategoryWithCount.copy(count=countOfNewCategoryWithCount)
             resultList=resultList.plus(newCategoryWithCount)
         }
+        resultList=resultList.plus(orginalCategoryWithCount)
         return resultList
 
     }
