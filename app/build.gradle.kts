@@ -7,6 +7,7 @@ plugins {
 
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
     alias(libs.plugins.ksp)
 
 
@@ -21,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.flashcardexpress"
-        minSdk = 34
+        minSdk = 33
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"

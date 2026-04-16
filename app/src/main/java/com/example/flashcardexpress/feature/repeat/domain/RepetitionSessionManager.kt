@@ -4,6 +4,7 @@ import com.example.flashcardexpress.core.domain.model.QuestionUpdateAfterRepetit
 import com.example.flashcardexpress.core.domain.repository.QuestionRepository
 import com.example.flashcardexpress.core.domain.repository.RepetitionRepository
 import com.example.flashcardexpress.feature.repeat.domain.model.Flashcard
+import com.example.flashcardexpress.feature.repeat.domain.model.LearningSessionBackupState
 import com.example.flashcardexpress.feature.repeat.domain.model.enums.LearningStage
 import com.example.flashcardexpress.feature.repeat.domain.model.QuestionToLearn
 import java.time.LocalDate
@@ -27,6 +28,17 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
         learningQueue=questionsToInject.toMutableList()
     }
 
+    fun injectSessionStage(stage: LearningSessionBackupState)
+    {
+        learningStage=stage.learningStage
+        isWordAQuestionInFlashcard=stage.isWordAQuestionInFlashcard
+        questionsToLearn=stage.questionsToLearn
+        initialEvaluationMistakes=stage.initialEvaluationMistakes.toMutableList()
+        learningQueue=stage.learningQueue.toMutableList()
+        currentQuestion=stage.currentQuestion
+
+    }
+
     suspend fun getNextFlashcard(): Flashcard?
     {
         val nextQuestion=getNextQuestion()
@@ -39,6 +51,26 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
         currentQuestion = nextQuestion
         return buildFlashcard(nextQuestion)
 
+    }
+
+    fun getCurrentFlashcard(): Flashcard?
+    {
+        return buildFlashcard(currentQuestion);
+    }
+
+
+    fun getCurrentSesssionStateForBackup(): LearningSessionBackupState
+    {
+        val sessionStateForBackup: LearningSessionBackupState=LearningSessionBackupState(
+            currentQuestion=currentQuestion,
+            learningStage=learningStage,
+            isWordAQuestionInFlashcard=isWordAQuestionInFlashcard,
+            learningQueue = learningQueue,
+            questionsCorrectInFirstStage = questionsCorrectInFirstStage,
+            initialEvaluationMistakes = initialEvaluationMistakes,
+            questionsToLearn = questionsToLearn
+        )
+        return sessionStateForBackup;
     }
 
 

@@ -1,28 +1,22 @@
 package com.example.flashcardexpress.feature.repeat.presentation.repetition
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
 
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.feature.repeat.domain.RepetitionSessionManager
 import com.example.flashcardexpress.feature.repeat.domain.model.Flashcard
-import com.example.flashcardexpress.feature.repeat.domain.model.QuestionToLearn
+import com.example.flashcardexpress.feature.repeat.domain.model.LearningSessionBackupState
 import com.example.flashcardexpress.feature.repeat.domain.usecase.GetQuestionsToLearnUseCase
 import com.example.flashcardexpress.feature.repeat.navigation.RepeatScreen
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.descriptors.setSerialDescriptor
 
 
 @HiltViewModel
@@ -30,7 +24,10 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
     BaseScreenAndNavEffectsViewModel<RepetitionEffect, RepetitionNavEffect>() {
 
 
-
+    companion object{
+        const val KEY_IS_NEW_LEARNING_SESSION="isNewLearningSession"
+        const val KEY_SESSION_BACKUP_STATE = "session_backup_state"
+    }
     private val _state = MutableStateFlow(RepetitionState(true,
         Flashcard("default question", "default translation"),0))
     val state = _state.asStateFlow()
@@ -38,36 +35,18 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
 
     init {
         val args=savedStateHandle.toRoute<RepeatScreen.Repetition>()
-        val categoryId=args.categoryId
-        val numberOfQuestions=args.numberOfQuestionsInRepetition
-        viewModelScope.launch() {
-
-            var currentQuestion: Flashcard?=null
-            withContext(Dispatchers.IO){
-                val questionsToLearn=getQuestionsToLearn(categoryId,numberOfQuestions)
-                repetitionSessionManager.injectQuestions(questionsToLearn)
-                currentQuestion=repetitionSessionManager.getNextFlashcard()
-
-            }
-
-            val learningStageNumber=repetitionSessionManager.getCurrentStageNumber()
-
-
-            if (currentQuestion==null)
-            {
-                sendNavEffect(RepetitionNavEffect.BackToRepeatPanel)
-            }
-            else{
-
-              _state.value=RepetitionState(false,currentQuestion,learningStageNumber)
-
-
-            }
-
+        if(args.isNewLearningSession) {
+            initNewLearningSession(args)
 
         }
+        else
+            restoreLastLearningSessionAfterAndroidKilledProcess()
+
 
     }
+
+
+
     public fun onEvent(event: RepetitionEvent) {
         when (event) {
             RepetitionEvent.OnCancelRepetition -> sendNavEffect(RepetitionNavEffect.BackToRepeatPanel)
@@ -95,7 +74,77 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
 
     }
 
+    private fun updateBackupSessionState() {
+
+        savedStateHandle[KEY_SESSION_BACKUP_STATE] = this.repetitionSessionManager.getCurrentSesssionStateForBackup()
+
+
+    }
+
+    private fun restoreLastLearningSessionAfterAndroidKilledProcess() {
+        val learningStateBackupSession = requireNotNull(savedStateHandle.get<LearningSessionBackupState>(KEY_SESSION_BACKUP_STATE)) {
+            "LearningSessionBackupState is missing in SavedStateHandle! Did you forget to initialize it?"
+        }
+
+        repetitionSessionManager.injectSessionStage(learningStateBackupSession)
+        var currentQuestion: Flashcard? = repetitionSessionManager.getCurrentFlashcard()
+        val learningStageNumber = repetitionSessionManager.getCurrentStageNumber()
+        initRepetitionState(currentQuestion,learningStageNumber)
+
+    }
+
+    private fun initNewLearningSession(args: RepeatScreen.Repetition) {
+        viewModelScope.launch() {
+            initSessionManagerState(args)
+            savedStateHandle[KEY_IS_NEW_LEARNING_SESSION] = false
+            updateBackupSessionState()
+        }
+    }
+
+    private suspend fun initSessionManagerState(args: RepeatScreen.Repetition) {
+        val categoryId = args.categoryId
+        val numberOfQuestions = args.numberOfQuestionsInRepetition
+
+
+        var currentQuestion: Flashcard? = null
+        withContext(Dispatchers.IO) {
+            val questionsToLearn = getQuestionsToLearn(categoryId, numberOfQuestions)
+            repetitionSessionManager.injectQuestions(questionsToLearn)
+            currentQuestion = repetitionSessionManager.getNextFlashcard()
+
+        }
+
+        val learningStageNumber = repetitionSessionManager.getCurrentStageNumber()
+
+
+        initRepetitionState(currentQuestion, learningStageNumber)
+
+
+
+    }
+
+    private fun initRepetitionState(
+        currentQuestion: Flashcard?,
+        learningStageNumber: Int
+    ) {
+        if (currentQuestion == null) {
+            sendNavEffect(RepetitionNavEffect.BackToRepeatPanel)
+        } else {
+
+            _state.value = RepetitionState(false, currentQuestion, learningStageNumber)
+
+
+        }
+    }
+
+
     private fun updateStage() {
+        updateScreenStage()
+        updateBackupSessionState()
+
+    }
+
+    private fun updateScreenStage() {
         val stageNumber = repetitionSessionManager.getCurrentStageNumber()
         _state.value = _state.value.copy(learningStage = stageNumber)
     }
