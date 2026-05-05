@@ -14,7 +14,7 @@ interface QuestionDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertQuestion(question: QuestionEntity)
 
-    @Query("SELECT * FROM flashcard WHERE category_id = :categoryId")
+    @Query("SELECT * FROM flashcard WHERE category_id = :categoryId ORDER BY created_at DESC")
     fun getAllQuestionsOfCategory(categoryId: Int): Flow<List<QuestionEntity>>
     @Query("DELETE FROM flashcard WHERE id = :questionId")
     suspend fun removeQuestion(questionId: Int)

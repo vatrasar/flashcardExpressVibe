@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.flashcardexpress.core.domain.model.Question
 import com.example.flashcardexpress.core.domain.repository.QuestionRepository
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 /**
@@ -18,7 +19,7 @@ class GetQuestionByIdUseCase @Inject constructor(val repository: QuestionReposit
             return repository.getQuestionById(id)
         } catch (e: Exception) {
             Log.e("GetQuestionByIdUseCase", "Error getting question by ID", e)
-            return Question("", "", 0,0,0, LocalDate.now())
+            return Question("", "", 0, 0, 0, LocalDate.now(), LocalDateTime.now())
 
         }
     }

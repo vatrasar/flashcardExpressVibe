@@ -17,6 +17,7 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.comp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @HiltViewModel
@@ -61,7 +62,15 @@ class CreationQuestionViewModel @Inject constructor(val addQuestion: AddQuestion
     private fun saveQuestion() {
         val formState = state.value
 
-        val question = Question(formState.word, formState.translation, 1, categoryId,0,LocalDate.now())
+        val question = Question(
+            word = formState.word,
+            translation = formState.translation,
+            id = 0,
+            categoryId = categoryId,
+            learningMasterLevel = 0,
+            dateOfNextRepetition = LocalDate.now(),
+            createdAt = LocalDateTime.now()
+        )
 
         viewModelScope.launch {
             addQuestion(question)

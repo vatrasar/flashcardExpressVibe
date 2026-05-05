@@ -19,7 +19,11 @@ class UpdateQuestionWordAndTranslationUseCase @Inject constructor(private val qu
 
         try {
             val previousQuestion=questionRepository.getQuestionById(question.id)
-            val newVersionOfQuestion=question.copy(dateOfNextRepetition = previousQuestion.dateOfNextRepetition, learningMasterLevel = previousQuestion.learningMasterLevel)
+            val newVersionOfQuestion = question.copy(
+                dateOfNextRepetition = previousQuestion.dateOfNextRepetition,
+                learningMasterLevel = previousQuestion.learningMasterLevel,
+                createdAt = previousQuestion.createdAt
+            )
             questionRepository.updateQuestion(newVersionOfQuestion)
         } catch (e: Exception) {
             Log.e("UpdateQuestionUseCase", "Error updating question", e)

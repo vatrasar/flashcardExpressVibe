@@ -30,5 +30,7 @@ data class QuestionEntity (
     @ColumnInfo("learning_master_level")
     val learningMasterLevel: Int,
     @ColumnInfo("date_of_next_repetition")
-    val dateOfNextRepetition: Long
+    val dateOfNextRepetition: Long,
+    @ColumnInfo("created_at")
+    val createdAt: Long
 )

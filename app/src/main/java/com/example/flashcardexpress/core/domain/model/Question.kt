@@ -1,7 +1,7 @@
 package com.example.flashcardexpress.core.domain.model
 
-import java.sql.Date
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Question(
     val word: String,
@@ -9,5 +9,6 @@ data class Question(
     val id: Int,
     val categoryId: Int,
     val learningMasterLevel: Int,
-    val dateOfNextRepetition: LocalDate
+    val dateOfNextRepetition: LocalDate,
+    val createdAt: LocalDateTime
 )

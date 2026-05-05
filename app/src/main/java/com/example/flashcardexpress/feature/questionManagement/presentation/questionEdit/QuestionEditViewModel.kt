@@ -14,6 +14,7 @@ import com.example.flashcardexpress.feature.questionManagement.navigation.Questi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @HiltViewModel
@@ -67,9 +68,15 @@ class QuestionEditViewModel @Inject constructor(savedStateHandle: SavedStateHand
 
     private fun saveNewVersionOfQuestion() {
         val stateValue = state.value
-        val questionNewVersion =
-            Question(stateValue.word, stateValue.translation, args.questionId, categoryId,0,
-                LocalDate.now())
+        val questionNewVersion = Question(
+            word = stateValue.word,
+            translation = stateValue.translation,
+            id = args.questionId,
+            categoryId = categoryId,
+            learningMasterLevel = 0,
+            dateOfNextRepetition = LocalDate.now(),
+            createdAt = LocalDateTime.now()
+        )
 
         viewModelScope.launch {
             updateQuestion(questionNewVersion)
