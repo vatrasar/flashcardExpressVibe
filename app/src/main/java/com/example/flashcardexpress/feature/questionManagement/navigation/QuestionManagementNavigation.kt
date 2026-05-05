@@ -9,7 +9,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.flashcardexpress.feature.home.navigation.HomeFeatureScreen
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen.*
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsNavEffect
 import com.example.flashcardexpress.feature.questionManagement.presentation.categoryDetails.CategoryDetailsScreen
@@ -201,17 +200,10 @@ private fun HandleManagePanelNavigationEvents(
     LaunchedEffect(viewModel.navEffect) {
         viewModel.navEffect.collect { effect ->
             when(effect) {
-                is ManagePanelNavEffect.BackToHome -> handleBackNavigationToMainMenu(navController)
                 is ManagePanelNavEffect.NavigateCategoryDetails -> navController.navigate(
                     QuestionManagementScreen.CategoryDetails(effect.category.id,effect.category.name))
                 ManagePanelNavEffect.NavigateToCategoryCreation -> {
                     navController.navigate(QuestionManagementScreen.CreationCategory)
-                    {
-                        popUpTo(HomeFeatureScreen.ManagePanel.route)
-                        {
-                            inclusive = true
-                        }
-                    }
                 }
 
             }
@@ -224,13 +216,6 @@ private fun HandleManagePanelNavigationEvents(
 
 
 
-private fun handleBackNavigationToMainMenu(navController: NavController) {
-    navController.navigate(Screen.Home.route) {
-        popUpTo(HomeFeatureScreen.ManagePanel.route){
-            inclusive = true
-        }
-    }
-}
 
 private fun handleNavigateBackToManagePanel(navController: NavController) {
     navController.navigate(QuestionManagementScreen.ManagePanel) {

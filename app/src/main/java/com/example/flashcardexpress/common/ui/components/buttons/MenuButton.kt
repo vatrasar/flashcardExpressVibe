@@ -25,8 +25,7 @@ import androidx.compose.ui.unit.dp
  * - [Text]: Displays the button's label.
  *
  * Used In:
- * - [HomeScreen]
- * - [CreationMenuScreen]
+ * - Application menu screens.
  */
 @Composable
 fun MenuButton(btnText:String,onEventFromViewModel: () -> Unit)

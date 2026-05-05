@@ -10,14 +10,12 @@ sealed class ManagePanelEffect {
 
 sealed class ManagePanelNavEffect{
     data class NavigateCategoryDetails(val category: Category) : ManagePanelNavEffect()
-    data object BackToHome : ManagePanelNavEffect()
     data object NavigateToCategoryCreation : ManagePanelNavEffect()
 
 }
 
 sealed class ManagePanelEvent {
     data class OnCategoryClicked(val category: ElementForListWithTitle) : ManagePanelEvent()
-    data object OnBackToHomeClicked : ManagePanelEvent()
     data object OnNavigateToCategoryCreation : ManagePanelEvent()
 
 }

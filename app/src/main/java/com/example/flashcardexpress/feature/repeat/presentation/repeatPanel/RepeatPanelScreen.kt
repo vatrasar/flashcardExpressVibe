@@ -61,7 +61,7 @@ import kotlinx.coroutines.flow.Flow
  * Navigation events exposed:
  * - [RepeatPanelEvent.OnRepetitionClicked]: Triggered when a category's repetition button is clicked.
  *
- * Navigable from: [HomeScreen].
+ * Navigable from: Main application navigation.
  */
 @Composable
 fun RepeatPanelScreen(

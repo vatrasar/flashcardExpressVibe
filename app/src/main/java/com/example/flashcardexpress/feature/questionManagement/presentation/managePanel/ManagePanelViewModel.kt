@@ -33,9 +33,6 @@ class ManagePanelViewModel @Inject constructor(val getAllCategoriesUseCase: GetA
                 sendNavEffect(NavigateCategoryDetails(category))
             }
 
-            ManagePanelEvent.OnBackToHomeClicked -> {
-                sendNavEffect(BackToHome)
-            }
 
             ManagePanelEvent.OnNavigateToCategoryCreation -> {
                 sendNavEffect(NavigateToCategoryCreation)

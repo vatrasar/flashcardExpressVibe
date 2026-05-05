@@ -62,7 +62,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
  * - [ManagePanelEvent.OnNavigateToCategoryCreation]: Triggered when the add category button is clicked.
  * - [ManagePanelEvent.OnCategoryClicked]: Triggered when a category in the list is selected.
  *
- * Navigable from: [HomeScreen].
+ * Navigable from: Main application navigation.
  */
 @Composable
 fun ManagePanelScreen(state: ManagePanelState, onEventFromViewModel: (ManagePanelEvent) -> Unit, effectFromViewModel: Flow<ManagePanelEffect>) {

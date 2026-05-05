@@ -15,7 +15,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.flashcardexpress.feature.home.navigation.setupHomeNavigation
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import com.example.flashcardexpress.feature.questionManagement.navigation.setupQuestionManagementNavigation
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.QuestionCreationForm.QuestionCreationForm
@@ -69,7 +68,6 @@ fun SetupNavGraph(navController: NavHostController){
             modifier= Modifier.padding(innerPadding)
         )
         {
-            setupHomeNavigation(navController)
             setupQuestionManagementNavigation(navController)
             setupRepeatNavigation(navController)
         }
