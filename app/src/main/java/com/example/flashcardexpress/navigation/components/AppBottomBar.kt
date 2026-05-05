@@ -12,6 +12,24 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.flashcardexpress.navigation.BottomNavItem
 import com.example.flashcardexpress.navigation.Screen
 
+/**
+ * Bottom navigation bar for the application.
+ *
+ * Purpose:
+ * Provides a persistent navigation interface for switching between the main sections of the app.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [currentDestination]: The current navigation destination to determine which item is selected.
+ * - [onNavigateToDestination]: Callback function triggered when a navigation item is clicked.
+ * - [modifier]: Modifier to be applied to the navigation bar.
+ *
+ * Key UI elements:
+ * - [NavigationBar]: Container for the navigation items.
+ * - [NavigationBarItem]: Individual items representing navigation destinations with icons and labels.
+ *
+ * Used In:
+ * - Main application scaffold (usually in [MainActivity]).
+ */
 @Composable
 fun AppBottomBar(
     currentDestination: NavDestination?,

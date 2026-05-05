@@ -12,6 +12,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
+/**
+ * A progress bar divided into multiple segments, representing different stages or steps.
+ *
+ * Purpose:
+ * Visualizes progress in a learning session or any multi-step task.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [slotsNumber]: Total number of segments (slots) in the bar.
+ * - [currentSlot]: The index of the current active or completed segment (1-indexed).
+ * - [modifier]: Modifier for the progress bar container.
+ *
+ * Key UI elements:
+ * - [Row]: Horizontally aligns the segments.
+ * - [Box]: Individual segment representing a single step, colored based on completion status.
+ *
+ * Used In:
+ * - [RepetitionScreen]
+ */
 @Composable
 fun SegmentedProgressBar(slotsNumber:Int, currentSlot:Int,modifier: Modifier=Modifier)
 {

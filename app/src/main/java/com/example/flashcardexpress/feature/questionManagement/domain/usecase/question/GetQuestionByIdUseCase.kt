@@ -6,6 +6,12 @@ import com.example.flashcardexpress.core.domain.repository.QuestionRepository
 import java.time.LocalDate
 import javax.inject.Inject
 
+/**
+ * Use case for retrieving a specific flashcard question by its unique identifier.
+ *
+ * Invoked by:
+ * - [QuestionEditViewModel]
+ */
 class GetQuestionByIdUseCase @Inject constructor(val repository: QuestionRepository) {
     suspend operator fun invoke(id: Int): Question {
         try {

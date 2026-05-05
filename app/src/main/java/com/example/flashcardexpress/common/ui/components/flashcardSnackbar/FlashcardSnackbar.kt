@@ -23,6 +23,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
+/**
+ * A custom snackbar component for displaying feedback messages with distinct visual styles for different message types.
+ *
+ * Purpose:
+ * Provides a uniform way to display transient feedback (success, error, or info) across the application.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [snackbarData]: Data provided by the [SnackbarHostState], containing the message and the message type (via `actionLabel`).
+ *
+ * Key UI elements:
+ * - [Snackbar]: The themed container for the message.
+ * - [Icon]: Visual indicator of the message type (e.g., checkmark for success, cross for error).
+ * - [Text]: Displays the feedback message.
+ *
+ * Used In:
+ * - [CreationCategoryScreen]
+ * - [ManagePanelScreen]
+ * - [CategoryDetailsScreen]
+ * - [CreationQuestionScreen]
+ * - [QuestionEditScreen]
+ * - [CategoryEditScreen]
+ * - [RepetitionScreen]
+ * - [RepeatPanelScreen]
+ */
 @Composable
 fun FlashcardSnackbar(snackbarData: SnackbarData)
 {

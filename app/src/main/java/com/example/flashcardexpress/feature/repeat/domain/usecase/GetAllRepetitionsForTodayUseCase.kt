@@ -7,6 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Use case for retrieving all flashcard repetitions scheduled for the current day.
+ *
+ * This use case handles splitting large repetition sessions into smaller, more manageable chunks (sessions).
+ *
+ * Invoked by:
+ * - [RepeatPanelViewModel]
+ */
 class GetAllRepetitionsForTodayUseCase @Inject constructor(private val repetitionRepository: RepetitionRepository) {
 
     operator fun invoke():Flow<List<CategoryWithCount>>

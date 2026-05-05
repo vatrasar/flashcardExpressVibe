@@ -25,6 +25,23 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.comp
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationQuestion.CreationQuestionEvent
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Screen for editing an existing flashcard (question).
+ *
+ * Available Functionalities:
+ * - Modifying the existing word (question) and its translation (answer).
+ * - Saving the updated flashcard to the database.
+ * - Navigating back to the category details screen.
+ *
+ * Key UI elements:
+ * - [QuestionCreationForm]: The main form for flashcard input, reused for editing.
+ * - [FlashcardSnackbar]: Displays feedback messages.
+ *
+ * Navigation events exposed:
+ * - [QuestionEditEvent.OnBackToCategoryDetailsClicked]: Triggered when the user chooses to navigate back.
+ *
+ * Navigable from: [CategoryDetailsScreen].
+ */
 @Composable
 fun QuestionEditScreen(
     onEventFromViewModel: (QuestionEditEvent) -> Unit,

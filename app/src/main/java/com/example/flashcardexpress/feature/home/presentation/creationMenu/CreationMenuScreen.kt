@@ -35,6 +35,26 @@ import com.example.flashcardexpress.common.ui.components.buttons.MenuButton
 import com.example.flashcardexpress.feature.home.presentation.homeMenu.HomeEvent
 
 
+/**
+ * Menu screen for choosing between creating a new question or a new category.
+ *
+ * Available Functionalities:
+ * - Navigating to the question creation screen.
+ * - Navigating to the category creation screen.
+ * - Returning to the home screen.
+ *
+ * Key UI elements:
+ * - [MenuButton] for question creation.
+ * - [Card] representing the category creation option.
+ * - [BackButton] for returning to the previous screen.
+ *
+ * Navigation events exposed:
+ * - [CreationMenuEvent.OnNavigateToQuestionCreation]: Triggered when the "Create question" button is clicked.
+ * - [CreationMenuEvent.OnNavigateToCategoryCreation]: Triggered when the category creation card is clicked.
+ * - [CreationMenuEvent.OnBackToHome]: Triggered when the back button is clicked.
+ *
+ * Navigable from: [HomeScreen].
+ */
 @Composable
 fun CreationMenuScreen(onEventFromViewModel:(CreationMenuEvent)->Unit)
 {

@@ -37,6 +37,27 @@ import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.CategoryCreationForm.CategoryFormActions
 
 
+/**
+ * Reusable form for entering flashcard details (question and answer).
+ *
+ * Purpose:
+ * Provides a consistent UI for both creating new questions and editing existing ones.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [inputValues]: Current values for the word and its translation.
+ * - [pageTitle]: Title to be displayed at the top of the form.
+ * - [actions]: Set of callbacks for text changes, saving, and navigating back.
+ *
+ * Key UI elements:
+ * - [OutlinedTextField] for "Word" (question) input.
+ * - [OutlinedTextField] for "Translation" (answer) input.
+ * - "Save" button to trigger the saving logic.
+ * - "Back" button to return to the previous screen.
+ *
+ * Used In:
+ * - [CreationQuestionScreen]
+ * - [QuestionEditScreen]
+ */
 @Composable
 fun QuestionCreationForm(
     inputValues: QuestionCreationFormInputValues,

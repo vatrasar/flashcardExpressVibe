@@ -20,6 +20,24 @@ import com.example.flashcardexpress.R
 import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.common.ui.components.buttons.MenuButton
 
+/**
+ * Main menu screen of the application.
+ *
+ * Available Functionalities:
+ * - Navigating to Creation Menu for adding new categories or questions.
+ * - Navigating to Repeat Menu for learning sessions.
+ * - Navigating to Manage Panel for viewing and editing existing flashcards.
+ *
+ * Key UI elements:
+ * - List of [MenuButton] components representing main application sections.
+ * - Headline text indicating the current screen.
+ *
+ * Navigation events exposed:
+ * - [HomeEvent.NavigateToCreationMenu]: Triggered when the creation menu button is clicked.
+ * - [HomeEvent.NavigateToManagePanel]: Triggered when the manage panel button is clicked.
+ *
+ * Navigable from: Main application navigation entry point.
+ */
 @Composable
 fun HomeScreen(onEventFromViewModel:(HomeEvent)->Unit)
 {

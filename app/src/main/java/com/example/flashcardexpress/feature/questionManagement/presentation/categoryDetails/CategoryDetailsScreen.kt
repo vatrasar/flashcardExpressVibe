@@ -39,6 +39,32 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.comp
 
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Screen showing the details of a specific flashcard category, including its name and associated questions.
+ *
+ * Available Functionalities:
+ * - Deleting the current category (with confirmation).
+ * - Navigating to the category editing screen.
+ * - Viewing a list of all questions in this category.
+ * - Deleting individual questions (with confirmation).
+ * - Navigating to the question editing screen.
+ * - Navigating to the question creation screen for this category.
+ * - Returning to the Manage Panel.
+ *
+ * Key UI elements:
+ * - [ManageButtons]: Buttons for editing or deleting the category.
+ * - [ListWithTitleAndSpecialFirstElement]: Displays the list of questions with an add button.
+ * - [ConfirmationDialog]: Shown when deleting a category or question.
+ * - [FlashcardSnackbar]: Displays feedback messages.
+ *
+ * Navigation events exposed:
+ * - [CategoryDetailsEvent.OnEditCategoryClicked]: Triggered when the category edit button is clicked.
+ * - [CategoryDetailsEvent.OnCreateQuestionClicked]: Triggered when the add question button is clicked.
+ * - [CategoryDetailsEvent.OnQuestionEditClicked]: Triggered when a question's edit button is clicked.
+ * - [CategoryDetailsEvent.OnBackToManagePanelClicked]: Triggered when the back button is clicked.
+ *
+ * Navigable from: [ManagePanelScreen].
+ */
 @Composable
 fun CategoryDetailsScreen(state: CategoryDetailsState,
                           onEventFromViewModel: (CategoryDetailsEvent) -> Unit,

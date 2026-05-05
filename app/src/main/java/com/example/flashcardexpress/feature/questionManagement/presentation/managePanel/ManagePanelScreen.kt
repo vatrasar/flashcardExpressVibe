@@ -45,6 +45,25 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
+/**
+ * Screen for managing flashcard categories.
+ *
+ * Available Functionalities:
+ * - Viewing a list of all existing flashcard categories.
+ * - Navigating to the category creation screen.
+ * - Navigating to the details screen of a specific category.
+ *
+ * Key UI elements:
+ * - [ListWithTitleAndSpecialFirstElement]: Displays the list of categories with an add button.
+ * - [EmptyListWithTitle]: Displayed when no categories are available.
+ * - [FlashcardSnackbar]: Displays feedback messages.
+ *
+ * Navigation events exposed:
+ * - [ManagePanelEvent.OnNavigateToCategoryCreation]: Triggered when the add category button is clicked.
+ * - [ManagePanelEvent.OnCategoryClicked]: Triggered when a category in the list is selected.
+ *
+ * Navigable from: [HomeScreen].
+ */
 @Composable
 fun ManagePanelScreen(state: ManagePanelState, onEventFromViewModel: (ManagePanelEvent) -> Unit, effectFromViewModel: Flow<ManagePanelEffect>) {
     val snackbarHostState = remember { SnackbarHostState() }

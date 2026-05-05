@@ -12,6 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * A basic button component with standardized styling and full-width behavior.
+ *
+ * Purpose:
+ * Serves as a foundational button component to ensure UI consistency across the app.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [btnText]: The text to be displayed inside the button.
+ * - [onEventFromViewModel]: Callback function triggered when the button is clicked.
+ * - [colors]: The color configuration for the button's container and content.
+ *
+ * Key UI elements:
+ * - [Button]: The main clickable material component.
+ * - [Text]: Displays the button's label.
+ *
+ * Used In:
+ * - [CreationMenuScreen]
+ * - [RepetitionScreen]
+ */
 @Composable
 fun BaseButton(btnText:String,onEventFromViewModel: () -> Unit, colors: ButtonColors)
 {

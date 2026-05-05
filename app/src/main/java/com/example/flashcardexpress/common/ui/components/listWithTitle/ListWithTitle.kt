@@ -22,6 +22,27 @@ import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import com.example.flashcardexpress.common.ui.model.ListTitle
 
+/**
+ * A generic list component that displays a title and a collection of items.
+ *
+ * Purpose:
+ * Provides a standardized way to display a scrollable list of items with a header title.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [title]: Configuration for the list header (text and style).
+ * - [listOfElements]: The data to be displayed in the list.
+ * - [modifier]: Modifier for the outer container.
+ * - [rowsContent]: Composable function defining the right part of each list row (e.g., action buttons).
+ *
+ * Key UI elements:
+ * - [Text]: Displays the list title.
+ * - [LazyColumn]: Efficiently renders only the visible items in the list.
+ * - [CardForListWithTitle]: A styled container for each individual list item.
+ *
+ * Used In:
+ * - [ListWithTitleAndSpecialFirstElement]
+ * - Various screens for displaying lists of data.
+ */
 @Composable
 fun<SpecificElementForListWithTitle: ElementForListWithTitle> ListWithTitle(title: ListTitle, listOfElements:List<SpecificElementForListWithTitle>, modifier: Modifier=Modifier, rowsContent: @Composable (SpecificElementForListWithTitle) -> Unit)
 {

@@ -42,6 +42,30 @@ import com.example.flashcardexpress.feature.repeat.domain.model.Flashcard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
+/**
+ * Screen where the user performs flashcard repetitions (learning session).
+ *
+ * Available Functionalities:
+ * - Viewing a question on a flashcard.
+ * - Revealing the answer to the current question.
+ * - Marking an answer as correct (known) or incorrect (not known).
+ * - Tracking progress through a segmented progress bar.
+ * - Canceling the repetition session and returning to the previous screen.
+ * - Returning to the question view from the answer view.
+ *
+ * Key UI elements:
+ * - [FlashcardColumn]: Displays the question or answer text.
+ * - [SegmentedProgressBar]: Indicates the current stage of the learning session.
+ * - [ButtonsSectionQuestionPage]: Navigation buttons shown on the question view.
+ * - [ButtonsSectionAnswerPage]: Selection buttons shown on the answer view.
+ * - [FlashcardSnackbar]: Displays feedback or session-related messages.
+ *
+ * Navigation events exposed:
+ * - [RepetitionEvent.OnCancelRepetition]: Triggered when the close button is clicked to end the session.
+ * - [RepetitionEvent.OnBackToQuestion]: Triggered when returning from answer view to question view.
+ *
+ * Navigable from: [RepeatPanelScreen].
+ */
 @Composable
 fun RepetitionScreen(
     onEventFromViewModel: (RepetitionEvent) -> Unit,

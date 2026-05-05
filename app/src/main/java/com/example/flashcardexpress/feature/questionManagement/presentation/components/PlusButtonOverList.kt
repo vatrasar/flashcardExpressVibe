@@ -20,6 +20,25 @@ import androidx.compose.ui.unit.dp
 import com.example.flashcardexpress.R
 import com.example.flashcardexpress.feature.questionManagement.presentation.managePanel.ManagePanelEvent
 
+/**
+ * A styled button with a "+" icon designed to be placed as a header or special element in a list.
+ *
+ * Purpose:
+ * Provides a consistent way to present an "Add" action (e.g., Add Category, Add Question).
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [onEventFromViewModel]: Callback function triggered when the button is clicked.
+ * - [textId]: String resource ID for the button's label.
+ *
+ * Key UI elements:
+ * - [Button]: The main clickable container.
+ * - [Icon]: Displays the [Icons.Default.Add] symbol.
+ * - [Text]: Displays the label provided by [textId].
+ *
+ * Used In:
+ * - [ManagePanelScreen]
+ * - [CategoryDetailsScreen]
+ */
 @Composable
 public fun PlusButtonOverList(onEventFromViewModel: () -> Unit,textId:Int) {
     Spacer(modifier = Modifier.height(20.dp))

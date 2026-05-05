@@ -17,6 +17,26 @@ import androidx.compose.ui.unit.dp
 import com.example.flashcardexpress.common.theme.AppDimensions
 import com.example.flashcardexpress.common.ui.model.ListTitle
 
+/**
+ * A layout component for displaying a list title and placeholder content for empty states.
+ *
+ * Purpose:
+ * Provides a consistent structure for screens where a list is currently empty, allowing for informational text or call-to-action buttons.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [title]: Configuration for the list header (text and style).
+ * - [modifier]: Modifier for the outer container.
+ * - [content]: Composable function defining the placeholder content (e.g., "List is empty" message or "Add" button).
+ *
+ * Key UI elements:
+ * - [Text]: Displays the list title.
+ * - [Box]: Centers the [content] vertically and horizontally within the available space.
+ *
+ * Used In:
+ * - [ManagePanelScreen]
+ * - [CategoryDetailsScreen]
+ * - [RepeatPanelScreen]
+ */
 @Composable
 fun EmptyListWithTitle(title: ListTitle, modifier: Modifier=Modifier, content: @Composable () -> Unit)
 {

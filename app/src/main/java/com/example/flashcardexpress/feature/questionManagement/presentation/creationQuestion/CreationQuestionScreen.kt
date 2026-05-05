@@ -22,6 +22,23 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
+/**
+ * Screen for creating a new flashcard (question) within a specific category.
+ *
+ * Available Functionalities:
+ * - Entering the word (question) and its translation (answer).
+ * - Saving the new flashcard to the database.
+ * - Navigating back to the previous screen.
+ *
+ * Key UI elements:
+ * - [QuestionCreationForm]: The main form for flashcard input.
+ * - [FlashcardSnackbar]: Displays feedback messages.
+ *
+ * Navigation events exposed:
+ * - [CreationQuestionEvent.OnBackToCreationMenuClicked]: Triggered when the user chooses to navigate back.
+ *
+ * Navigable from: [CreationMenuScreen], [CategoryDetailsScreen].
+ */
 @Composable
 fun CreationQuestionScreen(
     state: CreationQuestionState,

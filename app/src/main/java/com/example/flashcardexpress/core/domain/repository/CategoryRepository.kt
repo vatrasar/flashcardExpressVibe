@@ -6,10 +6,41 @@ import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
 
+    /**
+     * Inserts a new category into the database.
+     *
+     * Invoked by:
+     * - [AddCategoryUseCase]
+     */
     suspend fun insertCategory(categoryName: String)
+    /**
+     * Checks if a category with the specified name already exists.
+     *
+     * Invoked by:
+     * - [AddCategoryUseCase]
+     * - [UpdateCategoryUseCase]
+     */
     suspend fun isCategoryWithNameExists(categoryName: String): Boolean
-   fun getAllCategories(): Flow<List<Category>>
+    /**
+     * Retrieves all categories from the database as a flow.
+     *
+     * Invoked by:
+     * - [GetAllCategoriesUseCase]
+     */
+    fun getAllCategories(): Flow<List<Category>>
+    /**
+     * Removes a category and its associated questions from the database.
+     *
+     * Invoked by:
+     * - [RemoveCategoryUseCase]
+     */
     suspend fun removeCategory(categoryId: Int)
+    /**
+     * Updates an existing category's name.
+     *
+     * Invoked by:
+     * - [UpdateCategoryUseCase]
+     */
     suspend fun updateCategory(newCategory: Category)
 
 

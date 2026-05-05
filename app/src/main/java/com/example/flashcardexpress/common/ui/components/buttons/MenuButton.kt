@@ -10,6 +10,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * A button component designed for use in menu screens.
+ *
+ * Purpose:
+ * Provides a standardized button for primary menu actions with the app's primary color scheme.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [btnText]: The text to be displayed inside the button.
+ * - [onEventFromViewModel]: Callback function triggered when the button is clicked.
+ *
+ * Key UI elements:
+ * - [Button]: The main material button component with primary colors.
+ * - [Text]: Displays the button's label.
+ *
+ * Used In:
+ * - [HomeScreen]
+ * - [CreationMenuScreen]
+ */
 @Composable
 fun MenuButton(btnText:String,onEventFromViewModel: () -> Unit)
 {

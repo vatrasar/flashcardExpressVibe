@@ -22,6 +22,26 @@ import com.example.flashcardexpress.R.string
 import com.example.flashcardexpress.common.theme.AppDimensions
 
 
+/**
+ * Reusable form for entering category details.
+ *
+ * Purpose:
+ * Provides a consistent UI for both creating new categories and editing existing ones.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [inputContent]: Current value of the category name.
+ * - [pageTitle]: Title to be displayed at the top of the form.
+ * - [categoryFormActions]: Set of callbacks for name changes, saving, and navigating back.
+ *
+ * Key UI elements:
+ * - [OutlinedTextField] for category name input.
+ * - "Save" button to trigger the category saving logic.
+ * - "Back" button to return to the previous screen.
+ *
+ * Used In:
+ * - [CreationCategoryScreen]
+ * - [CategoryEditScreen]
+ */
 @Composable
 public fun CategoryCreationForm(
     inputContent: String,

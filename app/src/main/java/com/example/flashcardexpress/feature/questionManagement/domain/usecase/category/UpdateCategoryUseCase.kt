@@ -5,6 +5,14 @@ import com.example.flashcardexpress.core.domain.model.Category
 import com.example.flashcardexpress.core.domain.repository.CategoryRepository
 import javax.inject.Inject
 
+/**
+ * Use case for updating the name of an existing flashcard category.
+ *
+ * Checks if the new name is already taken before performing the update.
+ *
+ * Invoked by:
+ * - [CategoryEditViewModel]
+ */
 class UpdateCategoryUseCase @Inject constructor(private val categoryRepository: CategoryRepository) {
     suspend operator fun invoke(categoryId: Int, newCategoryName: String):Result<Unit>
     {

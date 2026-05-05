@@ -26,6 +26,23 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.crea
 import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryEvent
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Screen for editing an existing flashcard category.
+ *
+ * Available Functionalities:
+ * - Modifying the existing category name.
+ * - Saving the updated category name to the database.
+ * - Navigating back to the category details screen.
+ *
+ * Key UI elements:
+ * - [CategoryCreationForm]: The main form for category input, reused for editing.
+ * - [FlashcardSnackbar]: Displays feedback messages.
+ *
+ * Navigation events exposed:
+ * - [CategoryEditEvent.OnBackToCategoryDetailsClicked]: Triggered when the user chooses to navigate back.
+ *
+ * Navigable from: [CategoryDetailsScreen].
+ */
 @Composable
 fun CategoryEditScreen(
     state: CategoryEditState,

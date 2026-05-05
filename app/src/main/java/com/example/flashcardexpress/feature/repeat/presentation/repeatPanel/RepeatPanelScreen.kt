@@ -45,6 +45,24 @@ import com.example.flashcardexpress.feature.repeat.domain.model.ElementForListWi
 
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Screen showing a list of available repetitions (flashcards to learn) for today.
+ *
+ * Available Functionalities:
+ * - Viewing a list of categories that have questions ready for repetition.
+ * - Viewing the total number of questions to repeat today.
+ * - Starting a repetition session for a specific category.
+ *
+ * Key UI elements:
+ * - [ListWithTitleAndSpecialFirstElement]: Displays categories with the count of questions to repeat.
+ * - [EmptyListWithTitle]: Displayed when there are no repetitions available for today.
+ * - [FlashcardSnackbar]: Displays feedback or success messages (e.g., after finishing a session).
+ *
+ * Navigation events exposed:
+ * - [RepeatPanelEvent.OnRepetitionClicked]: Triggered when a category's repetition button is clicked.
+ *
+ * Navigable from: [HomeScreen].
+ */
 @Composable
 fun RepeatPanelScreen(
     onEventFromViewModel: (RepeatPanelEvent) -> Unit,

@@ -22,6 +22,23 @@ import com.example.flashcardexpress.feature.questionManagement.presentation.comp
 import kotlinx.coroutines.flow.Flow
 
 
+/**
+ * Screen for creating a new flashcard category.
+ *
+ * Available Functionalities:
+ * - Entering and validating a new category name.
+ * - Saving the new category to the database.
+ * - Navigating back to the previous screen.
+ *
+ * Key UI elements:
+ * - [CategoryCreationForm]: The main form for category input.
+ * - [FlashcardSnackbar]: Displays feedback messages (e.g., success or error).
+ *
+ * Navigation events exposed:
+ * - [CreationCategoryEvent.OnBackToManagePanel]: Triggered when the user chooses to navigate back.
+ *
+ * Navigable from: [CreationMenuScreen].
+ */
 @Composable
 fun CreationCategoryScreen(state: CreationCategoryState, effectFromViewModel: Flow<CreationCategoryEffect>, onEventFromViewModel:(CreationCategoryEvent)->Unit)
 {

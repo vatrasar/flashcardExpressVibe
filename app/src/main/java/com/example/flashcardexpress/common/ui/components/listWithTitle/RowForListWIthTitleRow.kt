@@ -14,6 +14,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
+/**
+ * A standardized row layout for list items.
+ *
+ * Purpose:
+ * Provides a consistent structure for list rows, with an item label on the left and custom actions on the right.
+ *
+ * Usage (Inputs/Outputs/State):
+ * - [rowText]: The main text to be displayed for the list item (e.g., category name, question).
+ * - [content]: Composable function defining the right part of the row, usually containing action buttons.
+ *
+ * Key UI elements:
+ * - [Row]: Horizontally aligns the text and the custom content with space between them.
+ * - [Text]: Displays [rowText] with ellipsis if it's too long to fit in a single line.
+ *
+ * Used In:
+ * - [ListWithTitle]
+ * - [ShowElementsOfList]
+ */
 @Composable
 fun RowForListWithTitle(rowText:String, content: @Composable () -> Unit)
 {
