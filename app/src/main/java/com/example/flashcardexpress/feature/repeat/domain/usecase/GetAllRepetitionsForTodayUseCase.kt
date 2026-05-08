@@ -32,8 +32,8 @@ class GetAllRepetitionsForTodayUseCase @Inject constructor(private val repetitio
     }
 
     private fun splitCategoryIfTooBig(categoryWithCount: CategoryWithCount): List<CategoryWithCount> {
-        val maxQuestionsPerSession = 35
-        val splitThreshold = 20
+        val maxQuestionsPerSession = 25
+        val splitThreshold = 15
         var orginalCategoryWithCount=categoryWithCount
         var resultList=listOf<CategoryWithCount>()
 
