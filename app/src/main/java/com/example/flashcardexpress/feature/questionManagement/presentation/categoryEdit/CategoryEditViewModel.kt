@@ -11,6 +11,7 @@ import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.Snack
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.core.domain.error.FlashcardAppError
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.CategoryNameValidationUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.GetAvailableLanguagesUseCase
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.UpdateCategoryUseCase
 import com.example.flashcardexpress.feature.questionManagement.navigation.QuestionManagementScreen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,14 +22,20 @@ import kotlinx.coroutines.flow.asStateFlow
 class CategoryEditViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     val updateCategoryUseCase: UpdateCategoryUseCase,
-    val isCategoryNameValid: CategoryNameValidationUseCase
-
+    val isCategoryNameValid: CategoryNameValidationUseCase,
+    getAvailableLanguagesUseCase: GetAvailableLanguagesUseCase
 ) :
     BaseScreenAndNavEffectsViewModel<CategoryEditEffect, CategoryEditNavEffect>() {
 
     private val args=savedStateHandle.toRoute<QuestionManagementScreen.CategoryEdit>()
     private val categoryId=args.categoryId
-    private val _state = MutableStateFlow(CategoryEditState(args.categoryName, args.language))
+    private val _state = MutableStateFlow(
+        CategoryEditState(
+            categoryName = args.categoryName,
+            language = args.language,
+            languages = getAvailableLanguagesUseCase()
+        )
+    )
     val state = _state.asStateFlow()
     public fun onEvent(event: CategoryEditEvent) {
         when (event) {

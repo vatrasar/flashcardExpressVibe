@@ -18,6 +18,9 @@ interface CategoryDao {
     @Query("SELECT EXISTS(SELECT 1 FROM category WHERE name = :categoryName)")
     suspend fun isCategoryWithNameExists(categoryName: String): Boolean
 
+    @Query("SELECT EXISTS(SELECT 1 FROM category WHERE name = :categoryName AND id != :excludeCategoryId)")
+    suspend fun isCategoryWithNameExistsExcludingId(categoryName: String, excludeCategoryId: Int): Boolean
+
     @Query("SELECT * FROM category")
     fun getAllCategories(): Flow<List<CategoryEntity>>
 
@@ -27,11 +30,6 @@ interface CategoryDao {
     @Query("UPDATE category SET name = :newCategoryName, language = :language WHERE id = :categoryId")
     suspend fun updateCategory(categoryId: Int, newCategoryName: String, language: String)
 
-
-
-
-
-
-
-
+    @Query("SELECT * FROM category WHERE id = :categoryId")
+    suspend fun getCategoryById(categoryId: Int): CategoryEntity?
 }

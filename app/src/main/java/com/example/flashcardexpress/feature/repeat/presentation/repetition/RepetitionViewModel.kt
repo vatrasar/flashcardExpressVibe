@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import androidx.navigation.toRoute
+import com.example.flashcardexpress.core.domain.repository.CategoryRepository
+import com.example.flashcardexpress.core.data.androidTools.TTSManager
 
 import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsViewModel
 import com.example.flashcardexpress.feature.repeat.domain.RepetitionSessionManager
@@ -20,8 +22,13 @@ import kotlinx.coroutines.withContext
 
 
 @HiltViewModel
-class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHandle,val getQuestionsToLearn: GetQuestionsToLearnUseCase,val repetitionSessionManager: RepetitionSessionManager) :
-    BaseScreenAndNavEffectsViewModel<RepetitionEffect, RepetitionNavEffect>() {
+class RepetitionViewModel @Inject constructor(
+    val savedStateHandle: SavedStateHandle,
+    val getQuestionsToLearn: GetQuestionsToLearnUseCase,
+    val repetitionSessionManager: RepetitionSessionManager,
+    val categoryRepository: CategoryRepository,
+    val ttsManager: TTSManager
+) : BaseScreenAndNavEffectsViewModel<RepetitionEffect, RepetitionNavEffect>() {
 
 
     companion object{
@@ -34,7 +41,13 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
 
 
     init {
-        val args=savedStateHandle.toRoute<RepeatScreen.Repetition>()
+        val args = savedStateHandle.toRoute<RepeatScreen.Repetition>()
+        viewModelScope.launch {
+            val category = categoryRepository.getCategoryById(args.categoryId)
+            category?.let { cat ->
+                _state.value = _state.value.copy(categoryLanguage = cat.language)
+            }
+        }
         if(args.isNewLearningSession) {
             initNewLearningSession(args)
 
@@ -65,6 +78,14 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
             }
             RepetitionEvent.OnShowAnswer -> {
                 _state.value=_state.value.copy(isAnswerPage = true)
+            }
+            RepetitionEvent.OnPlayTtsClick -> {
+                val text = if (_state.value.isAnswerPage) {
+                    _state.value.flashcard.answer
+                } else {
+                    _state.value.flashcard.question
+                }
+                ttsManager.speak(text, _state.value.categoryLanguage)
             }
 
         }
@@ -131,7 +152,12 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
             sendNavEffect(RepetitionNavEffect.BackToRepeatPanel)
         } else {
 
-            _state.value = RepetitionState(false, currentQuestion, learningStageNumber)
+            _state.value = RepetitionState(
+                isAnswerPage = false,
+                flashcard = currentQuestion,
+                learningStage = learningStageNumber,
+                categoryLanguage = _state.value.categoryLanguage
+            )
 
 
         }
@@ -184,6 +210,8 @@ class RepetitionViewModel @Inject constructor(val savedStateHandle: SavedStateHa
         }
     }
 
-
-
+    override fun onCleared() {
+        super.onCleared()
+        ttsManager.stop()
+    }
 }

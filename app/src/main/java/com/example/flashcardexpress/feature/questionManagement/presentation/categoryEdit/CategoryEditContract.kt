@@ -28,6 +28,7 @@ sealed class CategoryEditEvent {
 @Immutable
 data class CategoryEditState(
     val categoryName: String,
-    val language: String
+    val language: String,
+    val languages: List<String> = emptyList()
 )
 

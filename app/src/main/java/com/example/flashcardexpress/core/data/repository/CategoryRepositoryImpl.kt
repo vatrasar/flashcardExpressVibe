@@ -22,6 +22,16 @@ class CategoryRepositoryImpl @Inject constructor(private val dao: CategoryDao): 
         return dao.isCategoryWithNameExists(categoryName)
     }
 
+    /**
+     * Checks if a category with the specified name already exists, excluding a specific ID.
+     *
+     * Invoked by:
+     * - [UpdateCategoryUseCase]
+     */
+    override suspend fun isCategoryWithNameExistsExcludingId(categoryName: String, excludeCategoryId: Int): Boolean {
+        return dao.isCategoryWithNameExistsExcludingId(categoryName, excludeCategoryId)
+    }
+
     override fun getAllCategories(): Flow<List<Category>> {
         return dao.getAllCategories().map { entities ->
             entities.map { it.toDomain() }
@@ -38,5 +48,13 @@ class CategoryRepositoryImpl @Inject constructor(private val dao: CategoryDao): 
 
     }
 
-
+    /**
+     * Retrieves a category by its ID.
+     *
+     * Invoked by:
+     * - [RepetitionViewModel]
+     */
+    override suspend fun getCategoryById(categoryId: Int): Category? {
+        return dao.getCategoryById(categoryId)?.toDomain()
+    }
 }

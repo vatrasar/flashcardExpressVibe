@@ -25,5 +25,6 @@
     <string name="delete_category_confirmation">Are you sure you want to delete this category?</string>
     <string name="delete_question_confirmation">Are you sure you want to delete this question?</string>
     <string name="question_edit_page_title">Edit question</string>
+    <string name="category_edit_page_title">Edit category</string>
 
 </resources>

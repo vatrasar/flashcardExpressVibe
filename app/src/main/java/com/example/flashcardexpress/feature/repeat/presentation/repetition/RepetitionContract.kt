@@ -23,6 +23,7 @@ sealed class RepetitionEvent {
     data object OnAnswerIncorrect:RepetitionEvent()
     data object OnBackToQuestion:RepetitionEvent()
     data object OnShowAnswer:RepetitionEvent()
+    data object OnPlayTtsClick:RepetitionEvent()
 
 
 
@@ -33,6 +34,7 @@ sealed class RepetitionEvent {
 data class RepetitionState(
     val isAnswerPage: Boolean,
     val flashcard: Flashcard,
-    val learningStage:Int
+    val learningStage:Int,
+    val categoryLanguage: String = "English"
 
 )

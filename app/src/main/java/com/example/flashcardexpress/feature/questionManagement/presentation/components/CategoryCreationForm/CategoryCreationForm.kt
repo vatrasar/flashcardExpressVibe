@@ -60,6 +60,7 @@ import com.example.flashcardexpress.common.theme.AppDimensions
 public fun CategoryCreationForm(
     inputContent: String,
     selectedLanguage: String,
+    languages: List<String>,
     pageTitle: String,
     categoryFormActions: CategoryFormActions
 ) {
@@ -68,7 +69,7 @@ public fun CategoryCreationForm(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        FormContent(inputContent, selectedLanguage, pageTitle, categoryFormActions)
+        FormContent(inputContent, selectedLanguage, languages, pageTitle, categoryFormActions)
     }
 }
 
@@ -76,6 +77,7 @@ public fun CategoryCreationForm(
 private fun FormContent(
     inputContent: String,
     selectedLanguage: String,
+    languages: List<String>,
     pageTitle: String,
     categoryFormActions: CategoryFormActions
 ) {
@@ -85,6 +87,7 @@ private fun FormContent(
         TitleAndFormInput(
             inputContent = inputContent,
             selectedLanguage = selectedLanguage,
+            languages = languages,
             pageTitle = pageTitle,
             onValueChange = categoryFormActions.onCategoryNameChanged,
             onLanguageChanged = categoryFormActions.onLanguageChanged
@@ -130,6 +133,7 @@ private fun Buttons(
 private fun TitleAndFormInput(
     inputContent: String,
     selectedLanguage: String,
+    languages: List<String>,
     pageTitle: String,
     onValueChange: (String) -> Unit,
     onLanguageChanged: (String) -> Unit
@@ -152,6 +156,7 @@ private fun TitleAndFormInput(
     Spacer(modifier = Modifier.height(20.dp))
     LanguageDropdownSelector(
         selectedLanguage = selectedLanguage,
+        languages = languages,
         onLanguageChanged = onLanguageChanged
     )
 }
@@ -159,9 +164,9 @@ private fun TitleAndFormInput(
 @Composable
 private fun LanguageDropdownSelector(
     selectedLanguage: String,
+    languages: List<String>,
     onLanguageChanged: (String) -> Unit
 ) {
-    val languages = listOf("English", "Spanish", "German", "Polish", "French")
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth()) {

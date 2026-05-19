@@ -73,7 +73,8 @@ fun CategoryEditScreen(
             CategoryCreationForm(
                 inputContent = state.categoryName,
                 selectedLanguage = state.language,
-                pageTitle = stringResource(R.string.add_category_page_title),
+                languages = state.languages,
+                pageTitle = stringResource(R.string.category_edit_page_title),
                 categoryFormActions = categoryFormActions
             )
 

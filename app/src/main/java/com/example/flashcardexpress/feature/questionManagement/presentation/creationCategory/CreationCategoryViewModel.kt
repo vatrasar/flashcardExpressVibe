@@ -9,15 +9,25 @@ import com.example.flashcardexpress.common.viewModel.BaseScreenAndNavEffectsView
 import com.example.flashcardexpress.core.domain.error.FlashcardAppError
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.AddCategoryUseCase
 import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.CategoryNameValidationUseCase
+import com.example.flashcardexpress.feature.questionManagement.domain.usecase.category.GetAvailableLanguagesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
 @HiltViewModel
-class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddCategoryUseCase,val isCategoryNameValid: CategoryNameValidationUseCase) : BaseScreenAndNavEffectsViewModel<CreationCategoryEffect,CreationCategoryNavEffect>(){
+class CreationCategoryViewModel @Inject constructor(
+    val addCategoryUseCase: AddCategoryUseCase,
+    val isCategoryNameValid: CategoryNameValidationUseCase,
+    getAvailableLanguagesUseCase: GetAvailableLanguagesUseCase
+) : BaseScreenAndNavEffectsViewModel<CreationCategoryEffect,CreationCategoryNavEffect>(){
 
-    private val _state = MutableStateFlow(CreationCategoryState(""))
+    private val _state = MutableStateFlow(
+        CreationCategoryState(
+            categoryName = "",
+            languages = getAvailableLanguagesUseCase()
+        )
+    )
     val state = _state.asStateFlow()
 
     public fun onEvent(event: CreationCategoryEvent)

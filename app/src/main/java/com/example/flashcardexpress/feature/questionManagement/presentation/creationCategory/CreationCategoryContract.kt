@@ -24,5 +24,6 @@ sealed class CreationCategoryEvent{
 @Immutable
 data class CreationCategoryState(
     val categoryName: String,
-    val language: String = "English"
+    val language: String = "English",
+    val languages: List<String> = emptyList()
 )

@@ -11,5 +11,5 @@
     <string name="btn_don_know">Incorrect</string>
     <string name="answer">Answer</string>
     <string name="btn_check">Check</string>
-
+    <string name="speak_word">Speak word</string>
 </resources>

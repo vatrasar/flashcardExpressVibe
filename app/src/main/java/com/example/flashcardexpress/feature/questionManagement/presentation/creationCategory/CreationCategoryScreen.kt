@@ -65,6 +65,7 @@ fun CreationCategoryScreen(state: CreationCategoryState, effectFromViewModel: Fl
             CategoryCreationForm(
                 inputContent = state.categoryName,
                 selectedLanguage = state.language,
+                languages = state.languages,
                 pageTitle = stringResource(R.string.add_category_page_title),
                 categoryFormActions = categoryFormActions
             )

@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -27,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -49,12 +51,13 @@ import kotlinx.coroutines.flow.flowOf
  * - Viewing a question on a flashcard.
  * - Revealing the answer to the current question.
  * - Marking an answer as correct (known) or incorrect (not known).
+ * - Pronouncing the active word or translation using Text-to-Speech.
  * - Tracking progress through a segmented progress bar.
  * - Canceling the repetition session and returning to the previous screen.
  * - Returning to the question view from the answer view.
  *
  * Key UI elements:
- * - [FlashcardColumn]: Displays the question or answer text.
+ * - [FlashcardColumn]: Displays the question or answer text, and a TTS button.
  * - [SegmentedProgressBar]: Indicates the current stage of the learning session.
  * - [ButtonsSectionQuestionPage]: Navigation buttons shown on the question view.
  * - [ButtonsSectionAnswerPage]: Selection buttons shown on the answer view.
@@ -63,6 +66,7 @@ import kotlinx.coroutines.flow.flowOf
  * Navigation events exposed:
  * - [RepetitionEvent.OnCancelRepetition]: Triggered when the close button is clicked to end the session.
  * - [RepetitionEvent.OnBackToQuestion]: Triggered when returning from answer view to question view.
+ * - [RepetitionEvent.OnPlayTtsClick]: Triggered when the TTS button is clicked to pronounce the word/translation.
  *
  * Navigable from: [RepeatPanelScreen].
  */
@@ -95,7 +99,7 @@ fun RepetitionScreen(
             Spacer(modifier = Modifier.height(20.dp))
             SegmentedProgressBar(6,state.learningStage)
             Spacer(modifier = Modifier.height(70.dp))
-            FlashcardColumn(state, modifier = Modifier.weight(1f))
+            FlashcardColumn(state, onEventFromViewModel, modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.height(70.dp))
             if(state.isAnswerPage)
             {
@@ -158,7 +162,11 @@ private fun ButtonsSectionQuestionPage(onEventFromViewModel: (RepetitionEvent) -
 
 
 @Composable
-private fun FlashcardColumn(state: RepetitionState, modifier: Modifier = Modifier) {
+private fun FlashcardColumn(
+    state: RepetitionState,
+    onEventFromViewModel: (RepetitionEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxWidth().
         clip(RoundedCornerShape(16.dp)).
             background(color = MaterialTheme.colorScheme.surfaceVariant)
@@ -183,6 +191,19 @@ private fun FlashcardColumn(state: RepetitionState, modifier: Modifier = Modifie
                 textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(20.dp))
+        IconButton(
+            onClick = { onEventFromViewModel(RepetitionEvent.OnPlayTtsClick) },
+            modifier = Modifier
+                .align(androidx.compose.ui.Alignment.CenterHorizontally)
+                .testTag("playTtsButton")
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.VolumeUp,
+                contentDescription = stringResource(R.string.speak_word),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
 
     }
 }

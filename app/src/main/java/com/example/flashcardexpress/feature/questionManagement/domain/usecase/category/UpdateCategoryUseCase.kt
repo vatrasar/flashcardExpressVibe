@@ -17,7 +17,7 @@ class UpdateCategoryUseCase @Inject constructor(private val categoryRepository: 
     suspend operator fun invoke(categoryId: Int, newCategoryName: String, language: String):Result<Unit>
     {
         val category = Category(newCategoryName,categoryId, language)
-        if(categoryRepository.isCategoryWithNameExists(newCategoryName))
+        if(categoryRepository.isCategoryWithNameExistsExcludingId(newCategoryName, categoryId))
         {
             return Result.failure(FlashcardAppError.NameTakenError())
         }
