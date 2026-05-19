@@ -14,6 +14,7 @@ sealed class CreationCategoryEffect{
 
 sealed class CreationCategoryEvent{
     data class OnCategoryNameChanged(val currentValue:String): CreationCategoryEvent()
+    data class OnLanguageChanged(val currentValue:String): CreationCategoryEvent()
     data object OnAddCategoryClicked: CreationCategoryEvent()
     data object OnBackToManagePanel: CreationCategoryEvent()
 
@@ -22,5 +23,6 @@ sealed class CreationCategoryEvent{
 
 @Immutable
 data class CreationCategoryState(
-    val categoryName: String
+    val categoryName: String,
+    val language: String = "English"
 )

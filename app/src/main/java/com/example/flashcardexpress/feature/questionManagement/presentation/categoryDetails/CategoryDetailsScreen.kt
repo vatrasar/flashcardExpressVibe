@@ -108,6 +108,12 @@ fun CategoryDetailsScreen(state: CategoryDetailsState,
                 style= MaterialTheme.typography.titleLarge
 
             )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Language: ${state.language}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
 
             Spacer(modifier = Modifier.height(AppDimensions.marginTop))
             ManageButtons(onEventFromViewModel)

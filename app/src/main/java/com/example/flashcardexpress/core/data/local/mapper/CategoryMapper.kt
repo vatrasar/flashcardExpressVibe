@@ -6,8 +6,8 @@ import com.example.flashcardexpress.core.domain.model.Category
 fun CategoryEntity.toDomain(): Category{
     return Category(
         id = id,
-        name = name
-
+        name = name,
+        language = language
     )
 }
 

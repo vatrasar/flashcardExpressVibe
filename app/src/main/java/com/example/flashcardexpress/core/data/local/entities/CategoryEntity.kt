@@ -14,6 +14,8 @@ data class CategoryEntity (
     val id: Int=0,
     @ColumnInfo("name")
     val name: String,
+    @ColumnInfo("language")
+    val language: String
 
 
 

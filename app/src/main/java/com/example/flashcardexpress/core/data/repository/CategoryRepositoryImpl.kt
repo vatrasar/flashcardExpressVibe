@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(private val dao: CategoryDao): CategoryRepository {
 
-    override suspend fun insertCategory(categoryName: String) {
-        val category = CategoryEntity(name = categoryName)
+    override suspend fun insertCategory(categoryName: String, language: String) {
+        val category = CategoryEntity(name = categoryName, language = language)
         dao.insertCategory(category)
 
     }
@@ -34,7 +34,7 @@ class CategoryRepositoryImpl @Inject constructor(private val dao: CategoryDao): 
     }
 
     override suspend fun updateCategory(newCategory: Category) {
-        dao.updateCategory(newCategory.id, newCategory.name)
+        dao.updateCategory(newCategory.id, newCategory.name, newCategory.language)
 
     }
 

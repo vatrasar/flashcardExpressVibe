@@ -9,7 +9,7 @@ sealed class CategoryDetailsEffect {
 
 sealed class CategoryDetailsNavEffect {
     data object BackToManagePanel: CategoryDetailsNavEffect()
-    data class NavigateToCategoryEdit(val categoryId:Int, val categoryName:String): CategoryDetailsNavEffect()
+    data class NavigateToCategoryEdit(val categoryId:Int, val categoryName:String, val language:String): CategoryDetailsNavEffect()
     data class NavigateToQuestionCreation(val categoryId:Int): CategoryDetailsNavEffect()
     data class NavigateToQuestionEdit(val questionId:Int): CategoryDetailsNavEffect()
 
@@ -37,6 +37,7 @@ data class CategoryDetailsState(
     val questions:List<ElementForListWithTitle>,
     val categoryName: String,
     val isConfirmCategoryDeleteAlertVisible: Boolean,
-    val isConfirmQuestionDeleteAlertVisible: Boolean
+    val isConfirmQuestionDeleteAlertVisible: Boolean,
+    val language: String = "English"
 
 )

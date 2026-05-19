@@ -62,7 +62,7 @@ class CategoryDetailsViewModel @Inject constructor(
                 _isConfirmCategoryDeleteDialogVisible.value=true
 
             }
-            CategoryDetailsEvent.OnEditCategoryClicked -> sendNavEffect(NavigateToCategoryEdit(categoryId,args.categoryName))
+            CategoryDetailsEvent.OnEditCategoryClicked -> sendNavEffect(NavigateToCategoryEdit(categoryId, args.categoryName, args.language))
             CategoryDetailsEvent.OnCreateQuestionClicked -> sendNavEffect(NavigateToQuestionCreation(categoryId))
             CategoryDetailsEvent.OnAlertDismissClicked -> closeAlertWindow()
             CategoryDetailsEvent.OnConfirmDeleteCategoryClicked ->{
@@ -110,11 +110,12 @@ class CategoryDetailsViewModel @Inject constructor(
             elementsOnListWithTitle,
             args.categoryName,
             isConfirmCategoryDeleteDialogVisible,
-            isConfirmQuestionDeleteDialogVisible
+            isConfirmQuestionDeleteDialogVisible,
+            args.language
         )
     }.stateIn(
         scope = viewModelScope,
-        initialValue = CategoryDetailsState(listOf(), args.categoryName, false, false),
+        initialValue = CategoryDetailsState(listOf(), args.categoryName, false, false, args.language),
         started = SharingStarted.WhileSubscribed(5000)
     )
 }

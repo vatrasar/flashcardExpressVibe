@@ -12,7 +12,7 @@ interface CategoryRepository {
      * Invoked by:
      * - [AddCategoryUseCase]
      */
-    suspend fun insertCategory(categoryName: String)
+    suspend fun insertCategory(categoryName: String, language: String)
     /**
      * Checks if a category with the specified name already exists.
      *

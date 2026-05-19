@@ -28,13 +28,16 @@ class CategoryEditViewModel @Inject constructor(
 
     private val args=savedStateHandle.toRoute<QuestionManagementScreen.CategoryEdit>()
     private val categoryId=args.categoryId
-    private val _state = MutableStateFlow(CategoryEditState(args.categoryName))
+    private val _state = MutableStateFlow(CategoryEditState(args.categoryName, args.language))
     val state = _state.asStateFlow()
     public fun onEvent(event: CategoryEditEvent) {
         when (event) {
             CategoryEditEvent.OnBackToCategoryDetailsClicked -> sendNavEffect(CategoryEditNavEffect.BackToCategoryDetails)
             is CategoryEditEvent.OnCategoryNameChanged -> {
                 _state.value = _state.value.copy(categoryName = event.currentValue)
+            }
+            is CategoryEditEvent.OnLanguageChanged -> {
+                _state.value = _state.value.copy(language = event.currentValue)
             }
             CategoryEditEvent.OnSaveCategoryClicked -> {
                 if(!isCategoryNameValid(_state.value.categoryName))
@@ -53,9 +56,9 @@ class CategoryEditViewModel @Inject constructor(
     }
 
     private suspend fun launchCategoryUpdate() {
-        val result = updateCategoryUseCase(categoryId, _state.value.categoryName)
+        val result = updateCategoryUseCase(categoryId, _state.value.categoryName, _state.value.language)
         if (result.isSuccess) {
-            sendNavEffect(CategoryEditNavEffect.BackToCategoryDetailsAfterUpdate(_state.value.categoryName,categoryId))
+            sendNavEffect(CategoryEditNavEffect.BackToCategoryDetailsAfterUpdate(_state.value.categoryName, categoryId, _state.value.language))
         } else {
             val exception = result.exceptionOrNull()
             when (exception) {

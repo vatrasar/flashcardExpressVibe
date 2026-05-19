@@ -66,10 +66,16 @@ fun CategoryEditScreen(
         Box(modifier = Modifier.padding(paddingValues)) {
             val categoryFormActions= CategoryFormActions(
                 onCategoryNameChanged = {onEventFromViewModel(CategoryEditEvent.OnCategoryNameChanged(it))},
+                onLanguageChanged = {onEventFromViewModel(CategoryEditEvent.OnLanguageChanged(it))},
                 onCategorySave =   {onEventFromViewModel(CategoryEditEvent.OnSaveCategoryClicked)},
                 onBack = {onEventFromViewModel(CategoryEditEvent.OnBackToCategoryDetailsClicked)}
             )
-            CategoryCreationForm(state.categoryName, stringResource(R.string.add_category_page_title),categoryFormActions)
+            CategoryCreationForm(
+                inputContent = state.categoryName,
+                selectedLanguage = state.language,
+                pageTitle = stringResource(R.string.add_category_page_title),
+                categoryFormActions = categoryFormActions
+            )
 
         }
     }

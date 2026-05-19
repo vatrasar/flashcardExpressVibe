@@ -10,7 +10,7 @@ import com.example.flashcardexpress.core.data.local.entities.QuestionEntity
 
 @Database(
     entities = [QuestionEntity::class, CategoryEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class FlashcardDb: RoomDatabase() {

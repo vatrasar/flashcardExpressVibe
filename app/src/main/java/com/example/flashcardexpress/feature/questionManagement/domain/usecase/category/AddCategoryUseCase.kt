@@ -14,7 +14,7 @@ import javax.inject.Inject
  * - [CreationCategoryViewModel]
  */
 class AddCategoryUseCase @Inject constructor(private val categoryRepository: CategoryRepository)  {
-    suspend operator fun invoke(newCategoryName: String):Result<Unit>
+    suspend operator fun invoke(newCategoryName: String, language: String):Result<Unit>
     {
         if(categoryRepository.isCategoryWithNameExists(newCategoryName))
         {
@@ -22,7 +22,7 @@ class AddCategoryUseCase @Inject constructor(private val categoryRepository: Cat
         }
 
         try {
-            categoryRepository.insertCategory(newCategoryName)
+            categoryRepository.insertCategory(newCategoryName, language)
             return Result.success(Unit)
         }catch (ex:Exception)
         {

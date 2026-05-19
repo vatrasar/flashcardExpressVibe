@@ -14,9 +14,9 @@ import javax.inject.Inject
  * - [CategoryEditViewModel]
  */
 class UpdateCategoryUseCase @Inject constructor(private val categoryRepository: CategoryRepository) {
-    suspend operator fun invoke(categoryId: Int, newCategoryName: String):Result<Unit>
+    suspend operator fun invoke(categoryId: Int, newCategoryName: String, language: String):Result<Unit>
     {
-        val category = Category(newCategoryName,categoryId)
+        val category = Category(newCategoryName,categoryId, language)
         if(categoryRepository.isCategoryWithNameExists(newCategoryName))
         {
             return Result.failure(FlashcardAppError.NameTakenError())

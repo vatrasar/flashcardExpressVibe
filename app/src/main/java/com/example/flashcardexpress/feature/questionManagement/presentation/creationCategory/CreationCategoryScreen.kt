@@ -58,10 +58,16 @@ fun CreationCategoryScreen(state: CreationCategoryState, effectFromViewModel: Fl
 
             val categoryFormActions= CategoryFormActions(
                 onCategoryNameChanged = {onEventFromViewModel(CreationCategoryEvent.OnCategoryNameChanged(it))},
+                onLanguageChanged = {onEventFromViewModel(CreationCategoryEvent.OnLanguageChanged(it))},
                 onCategorySave =   {onEventFromViewModel(CreationCategoryEvent.OnAddCategoryClicked)},
                 onBack = {onEventFromViewModel(CreationCategoryEvent.OnBackToManagePanel)}
             )
-            CategoryCreationForm(state.categoryName, stringResource(R.string.add_category_page_title),categoryFormActions)
+            CategoryCreationForm(
+                inputContent = state.categoryName,
+                selectedLanguage = state.language,
+                pageTitle = stringResource(R.string.add_category_page_title),
+                categoryFormActions = categoryFormActions
+            )
         }
     }
 }

@@ -143,7 +143,7 @@ private fun HandleCategoryEditNavigationEvents(
 
                 is CategoryEditNavEffect.BackToCategoryDetailsAfterUpdate -> {
 
-                    navController.navigate(QuestionManagementScreen.CategoryDetails(effect.categoryId,effect.categoryName))
+                    navController.navigate(QuestionManagementScreen.CategoryDetails(effect.categoryId, effect.categoryName, effect.language))
                 }
             }
         }
@@ -165,7 +165,7 @@ private fun HandleCategoryDetailsNaviaitonEvents(
                 }
 
                 is CategoryDetailsNavEffect.NavigateToCategoryEdit -> {
-                    navController.navigate(CategoryEdit(effect.categoryId,effect.categoryName))
+                    navController.navigate(CategoryEdit(effect.categoryId, effect.categoryName, effect.language))
                 }
 
                 is CategoryDetailsNavEffect.NavigateToQuestionCreation -> {
@@ -201,7 +201,7 @@ private fun HandleManagePanelNavigationEvents(
         viewModel.navEffect.collect { effect ->
             when(effect) {
                 is ManagePanelNavEffect.NavigateCategoryDetails -> navController.navigate(
-                    QuestionManagementScreen.CategoryDetails(effect.category.id,effect.category.name))
+                    QuestionManagementScreen.CategoryDetails(effect.category.id, effect.category.name, effect.category.language))
                 ManagePanelNavEffect.NavigateToCategoryCreation -> {
                     navController.navigate(QuestionManagementScreen.CreationCategory)
                 }

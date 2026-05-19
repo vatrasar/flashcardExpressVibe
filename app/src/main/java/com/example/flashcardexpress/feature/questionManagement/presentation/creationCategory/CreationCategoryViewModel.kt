@@ -25,6 +25,7 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
         when(event)
         {
             is CreationCategoryEvent.OnCategoryNameChanged -> updateStateAfterCategoryChanged(event)
+            is CreationCategoryEvent.OnLanguageChanged -> updateStateAfterLanguageChanged(event)
             CreationCategoryEvent.OnAddCategoryClicked -> {
                addNewCategory()
             }
@@ -39,6 +40,7 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
     private fun addNewCategory() {
         val formState=state.value
         val newCategoryName=formState.categoryName
+        val language=formState.language
         if(!isCategoryNameValid(newCategoryName))
         {
             sendEffect(CreationCategoryEffect.ShowSnackbar("Category name need to have between 1 and 30 characters", SnackbarType.ERROR.label))
@@ -47,7 +49,7 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
 
 
         viewModelScope.launch {
-            addCategoryLaunch(newCategoryName)
+            addCategoryLaunch(newCategoryName, language)
 
         }
 
@@ -61,10 +63,17 @@ class CreationCategoryViewModel @Inject constructor(val addCategoryUseCase: AddC
         _state.update { it.copy(categoryName = event.currentValue) }
 
     }
+
+    private fun updateStateAfterLanguageChanged(event: CreationCategoryEvent.OnLanguageChanged)
+    {
+        _state.update { it.copy(language = event.currentValue) }
+
+    }
     private suspend fun addCategoryLaunch(
-        newCategoryName: String
+        newCategoryName: String,
+        language: String
     ) {
-        val result = addCategoryUseCase(newCategoryName)
+        val result = addCategoryUseCase(newCategoryName, language)
         if (result.isSuccess) {
             sendEffect(CreationCategoryEffect.ShowSnackbar("Category created!", SnackbarType.SUCCESS.label))
 

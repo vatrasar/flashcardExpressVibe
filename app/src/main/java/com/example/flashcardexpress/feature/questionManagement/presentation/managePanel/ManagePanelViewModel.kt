@@ -14,6 +14,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 
+class CategoryElementForList(
+    elementName: String,
+    id: Int,
+    val language: String
+) : ElementForListWithTitle(elementName, id)
+
 @HiltViewModel
 class ManagePanelViewModel @Inject constructor(val getAllCategoriesUseCase: GetAllCategoriesUseCase) : BaseScreenAndNavEffectsViewModel<ManagePanelEffect, ManagePanelNavEffect>() {
 
@@ -29,7 +35,8 @@ class ManagePanelViewModel @Inject constructor(val getAllCategoriesUseCase: GetA
         when (event) {
             is ManagePanelEvent.OnCategoryClicked -> {
                 val categoryElement=event.category
-                val category=Category(categoryElement.elementName,categoryElement.id)
+                val language = (categoryElement as? CategoryElementForList)?.language ?: "English"
+                val category=Category(categoryElement.elementName, categoryElement.id, language)
                 sendNavEffect(NavigateCategoryDetails(category))
             }
 
@@ -48,4 +55,4 @@ class ManagePanelViewModel @Inject constructor(val getAllCategoriesUseCase: GetA
 }
 
 private fun convertCategoriesToElementsOfListWithTitle(categories: List<Category>): List<ElementForListWithTitle> =
-    categories.map { ElementForListWithTitle(it.name, it.id) }
+    categories.map { CategoryElementForList(it.name, it.id, it.language) }

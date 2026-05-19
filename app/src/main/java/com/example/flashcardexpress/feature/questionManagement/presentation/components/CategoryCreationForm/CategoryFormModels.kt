@@ -2,6 +2,7 @@ package com.example.flashcardexpress.feature.questionManagement.presentation.com
 
 data class CategoryFormActions (
     val onCategoryNameChanged: (String) -> Unit,
+    val onLanguageChanged: (String) -> Unit,
     val onCategorySave: () -> Unit,
     val onBack: () -> Unit
 )

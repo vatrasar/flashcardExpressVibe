@@ -2,6 +2,8 @@ package com.example.flashcardexpress.core.di
 
 import android.content.Context
 import androidx.room.Room.databaseBuilder
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.flashcardexpress.core.data.local.FlashcardDb
 import com.example.flashcardexpress.core.data.local.dao.CategoryDao
 import com.example.flashcardexpress.core.data.local.dao.QuestionDao
@@ -16,6 +18,12 @@ import jakarta.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE category ADD COLUMN language TEXT NOT NULL DEFAULT 'English'")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(
@@ -26,6 +34,7 @@ object DatabaseModule {
             FlashcardDb::class.java,
             FlashcardDb.DATABASE_NAME
         )
+            .addMigrations(MIGRATION_5_6)
             .fallbackToDestructiveMigration()
             .build()
     }
