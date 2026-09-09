@@ -22,8 +22,7 @@ class TTSManager @Inject constructor(
     private var pendingLanguage: String? = null
 
     init {
-        tts = TextToSpeech(context, this)
-        tts?.setSpeechRate(0.5f)
+        initialize()
     }
 
     /**
@@ -52,6 +51,9 @@ class TTSManager @Inject constructor(
      * - [com.example.flashcardexpress.feature.repeat.presentation.repetition.RepetitionViewModel]
      */
     fun speak(text: String, language: String) {
+        if (tts == null) {
+            initialize()
+        }
         if (!isInitialized) {
             pendingText = text
             pendingLanguage = language
@@ -71,6 +73,29 @@ class TTSManager @Inject constructor(
      */
     fun stop() {
         tts?.stop()
+    }
+
+    /**
+     * Shuts down the TextToSpeech engine and releases all allocated resources.
+     *
+     * Invoked by:
+     * - [com.example.flashcardexpress.feature.repeat.presentation.repetition.RepetitionViewModel]
+     */
+    fun shutdown() {
+        tts?.stop()
+        tts?.shutdown()
+        tts = null
+        isInitialized = false
+        pendingText = null
+        pendingLanguage = null
+    }
+
+    private fun initialize() {
+        if (tts == null) {
+            tts = TextToSpeech(context, this).apply {
+                setSpeechRate(0.5f)
+            }
+        }
     }
 
     private fun getLocaleForLanguage(languageName: String): Locale {

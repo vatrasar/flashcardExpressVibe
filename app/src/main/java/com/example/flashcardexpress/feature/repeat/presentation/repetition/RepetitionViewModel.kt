@@ -176,25 +176,21 @@ class RepetitionViewModel @Inject constructor(
     }
 
     private fun onAnswerIncorrect() {
+        ttsManager.stop()
         viewModelScope.launch {
-
             repetitionSessionManager.processUserAnswer(false)
             injectNextFlashcard()
             updateStage()
-
         }
-
     }
 
     private fun onAnswerCorrect() {
+        ttsManager.stop()
         viewModelScope.launch {
             repetitionSessionManager.processUserAnswer(true)
             injectNextFlashcard()
             updateStage()
-
         }
-
-
     }
 
     private suspend fun injectNextFlashcard() {
@@ -212,6 +208,6 @@ class RepetitionViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        ttsManager.stop()
+        ttsManager.shutdown()
     }
 }
