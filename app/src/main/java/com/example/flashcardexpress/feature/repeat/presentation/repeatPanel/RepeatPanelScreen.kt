@@ -101,7 +101,7 @@ fun RepeatPanelScreen(
                 ListWithTitleAndSpecialFirstElement(listTitle,state.listOfRepetitions,modifier = Modifier.weight(1f),normalRowContent) {
                     Spacer(modifier = Modifier.height(AppDimensions.marginForSpecialElementInList))
                     Row()  {
-                        Text("Number of questions: ")
+                        Text(stringResource(R.string.number_of_questions_label))
                         Text(text=state.totalNumberOfQuestions.toString(),
                             color= MaterialTheme.colorScheme.primary
                         )
@@ -160,18 +160,19 @@ private fun HandleEffectsFromViewModel(
     effectFromViewModel: Flow<RepeatPanelEffect>,
     snackbarHostState: SnackbarHostState
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     LaunchedEffect(Unit) {
         effectFromViewModel.collect { effect ->
             when (effect) {
                 is RepeatPanelEffect.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(effect.message, SnackbarType.SUCCESS.label, duration = SnackbarDuration.Short)
-
-
+                    snackbarHostState.showSnackbar(
+                        message = effect.message.asString(context),
+                        actionLabel = SnackbarType.SUCCESS.label,
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }
-
         }
-
     }
 }
 

@@ -44,16 +44,17 @@ class RepeatPanelViewModel @Inject constructor(getAllRepetitionsForToday: GetAll
     )
 
     init {
-        val args=savedStateHandle.toRoute<RepeatScreen.RepeatPanel>()
-        val isRepetitionFinished=args.isRepetitionFinished
-        if (isRepetitionFinished)
-        {
-            sendEffect(RepeatPanelEffect.ShowSnackbar(
-                "Repetition finished!"
-                ))
+        val args = savedStateHandle.toRoute<RepeatScreen.RepeatPanel>()
+        val isRepetitionFinished = args.isRepetitionFinished
+        if (isRepetitionFinished) {
+            sendEffect(
+                RepeatPanelEffect.ShowSnackbar(
+                    com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                        com.example.flashcardexpress.R.string.repetition_finished
+                    )
+                )
+            )
         }
-
-
     }
 
     public fun onEvent(event: RepeatPanelEvent) {

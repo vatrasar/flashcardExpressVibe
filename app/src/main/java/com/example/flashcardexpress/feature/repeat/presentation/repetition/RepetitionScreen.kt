@@ -230,7 +230,7 @@ private fun TopRow(
             BackToQuestionsBtn(onEventFromViewModel)
         }
 
-        Text("Repetition", textAlign = TextAlign.Center)
+        Text(text = stringResource(R.string.repetition_title), textAlign = TextAlign.Center)
         IconButton(onClick = {}) {
             Icon(
                 imageVector = Icons.Default.MoreVert, contentDescription = null,

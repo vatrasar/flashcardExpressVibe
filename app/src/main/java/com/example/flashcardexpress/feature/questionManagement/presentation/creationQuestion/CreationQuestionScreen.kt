@@ -83,21 +83,19 @@ private fun HandleEffectsFromViewModel(
     effectFromViewModel: Flow<CreationQuestionEffect>,
     snackbarHostState: SnackbarHostState
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     LaunchedEffect(Unit) {
         effectFromViewModel.collect { effect ->
             when (effect) {
                 is CreationQuestionEffect.ShowSnackbar -> {
                     snackbarHostState.showSnackbar(
-                        message = effect.message,
+                        message = effect.message.asString(context),
                         duration = SnackbarDuration.Short,
-                        actionLabel = effect.resultType
+                        actionLabel = effect.type.label
                     )
                 }
             }
-
-
         }
-
     }
 }
 

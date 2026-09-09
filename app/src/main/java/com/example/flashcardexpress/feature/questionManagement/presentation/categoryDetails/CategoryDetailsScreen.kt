@@ -110,7 +110,7 @@ fun CategoryDetailsScreen(state: CategoryDetailsState,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Language: ${state.language}",
+                text = stringResource(R.string.category_language_label, state.language),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -1,11 +1,11 @@
 package com.example.flashcardexpress.feature.questionManagement.presentation.categoryEdit
 
 import androidx.compose.runtime.Immutable
-import com.example.flashcardexpress.feature.questionManagement.presentation.creationCategory.CreationCategoryEffect
+import com.example.flashcardexpress.common.ui.components.flashcardSnackbar.SnackbarType
+import com.example.flashcardexpress.core.domain.util.UiText
 
 sealed class CategoryEditEffect {
-    data class ShowSnackbar(val message:String,val resultType:String):CategoryEditEffect()
-
+    data class ShowSnackbar(val message: UiText, val type: SnackbarType): CategoryEditEffect()
 }
 
 sealed class CategoryEditNavEffect {

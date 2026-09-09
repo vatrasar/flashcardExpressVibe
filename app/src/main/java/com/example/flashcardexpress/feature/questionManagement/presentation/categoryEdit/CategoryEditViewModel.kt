@@ -49,7 +49,14 @@ class CategoryEditViewModel @Inject constructor(
             CategoryEditEvent.OnSaveCategoryClicked -> {
                 if(!isCategoryNameValid(_state.value.categoryName))
                 {
-                    sendEffect(CategoryEditEffect.ShowSnackbar("Category name need to have between 1 and 30 characters", SnackbarType.ERROR.label))
+                    sendEffect(
+                        CategoryEditEffect.ShowSnackbar(
+                            com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                                com.example.flashcardexpress.R.string.category_name_length_error
+                            ),
+                            SnackbarType.ERROR
+                        )
+                    )
                     return
                 }
                 viewModelScope.launch {
@@ -71,15 +78,19 @@ class CategoryEditViewModel @Inject constructor(
             when (exception) {
                 is FlashcardAppError.NameTakenError -> sendEffect(
                     CategoryEditEffect.ShowSnackbar(
-                        "Error, category already exists!",
-                        SnackbarType.ERROR.label
+                        com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                            com.example.flashcardexpress.R.string.category_exist_error
+                        ),
+                        SnackbarType.ERROR
                     )
                 )
 
                 else -> sendEffect(
                     CategoryEditEffect.ShowSnackbar(
-                        "Error, something went wrong!",
-                        SnackbarType.ERROR.label
+                        com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                            com.example.flashcardexpress.R.string.error_something_went_wrong
+                        ),
+                        SnackbarType.ERROR
                     )
                 )
 

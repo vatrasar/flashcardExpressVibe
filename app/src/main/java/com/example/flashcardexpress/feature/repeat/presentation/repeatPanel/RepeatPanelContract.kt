@@ -4,9 +4,10 @@ import androidx.compose.runtime.Immutable
 import com.example.flashcardexpress.common.ui.model.ElementForListWithTitle
 import com.example.flashcardexpress.feature.repeat.presentation.repetition.RepetitionNavEffect
 
-sealed class RepeatPanelEffect {
-    data class ShowSnackbar(val message:String): RepeatPanelEffect()
+import com.example.flashcardexpress.core.domain.util.UiText
 
+sealed class RepeatPanelEffect {
+    data class ShowSnackbar(val message: UiText): RepeatPanelEffect()
 }
 
 sealed class RepeatPanelNavEffect {

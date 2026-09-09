@@ -6,11 +6,12 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.flashcardexpress.navigation.BottomNavItem
-import com.example.flashcardexpress.navigation.Screen
 
 /**
  * Bottom navigation bar for the application.
@@ -28,37 +29,33 @@ import com.example.flashcardexpress.navigation.Screen
  * - [NavigationBarItem]: Individual items representing navigation destinations with icons and labels.
  *
  * Used In:
- * - Main application scaffold (usually in [MainActivity]).
+ * - [com.example.flashcardexpress.navigation.SetupNavGraph]
  */
 @Composable
 fun AppBottomBar(
     currentDestination: NavDestination?,
     onNavigateToDestination: (Any) -> Unit,
     modifier: Modifier = Modifier
-)
-{
+) {
     val items = BottomNavItem.getAll()
-    NavigationBar() {
+    NavigationBar(modifier = modifier.testTag("appBottomBar")) {
         for (item in items) {
             val isSelected = currentDestination?.hierarchy?.any {
                 it.hasRoute(item.destination::class)
             } == true
+            val title = stringResource(item.titleRes)
             NavigationBarItem(
                 selected = isSelected,
                 onClick = { onNavigateToDestination(item.destination) },
-                icon = { Icon(
-                    imageVector = item.icon,
-                    contentDescription = ""
-
-                    ) },
-                label = { Text( text=item.title) }
+                icon = {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = title
+                    )
+                },
+                label = { Text(text = title) },
+                modifier = Modifier.testTag("bottomNavItem_${title.lowercase()}")
             )
         }
-
-
-
-
     }
-
-
 }

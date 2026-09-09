@@ -53,7 +53,14 @@ class CreationCategoryViewModel @Inject constructor(
         val language=formState.language
         if(!isCategoryNameValid(newCategoryName))
         {
-            sendEffect(CreationCategoryEffect.ShowSnackbar("Category name need to have between 1 and 30 characters", SnackbarType.ERROR.label))
+            sendEffect(
+                CreationCategoryEffect.ShowSnackbar(
+                    com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                        com.example.flashcardexpress.R.string.category_name_length_error
+                    ),
+                    SnackbarType.ERROR
+                )
+            )
             return
         }
 
@@ -85,15 +92,36 @@ class CreationCategoryViewModel @Inject constructor(
     ) {
         val result = addCategoryUseCase(newCategoryName, language)
         if (result.isSuccess) {
-            sendEffect(CreationCategoryEffect.ShowSnackbar("Category created!", SnackbarType.SUCCESS.label))
+            sendEffect(
+                CreationCategoryEffect.ShowSnackbar(
+                    com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                        com.example.flashcardexpress.R.string.category_created_success
+                    ),
+                    SnackbarType.SUCCESS
+                )
+            )
 
 
         } else  {
             val exception=result.exceptionOrNull()
             when(exception)
             {
-                is FlashcardAppError.NameTakenError->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, category already exists!", SnackbarType.ERROR.label))
-                else->sendEffect(CreationCategoryEffect.ShowSnackbar("Error, something went wrong!", SnackbarType.ERROR.label))
+                is FlashcardAppError.NameTakenError -> sendEffect(
+                    CreationCategoryEffect.ShowSnackbar(
+                        com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                            com.example.flashcardexpress.R.string.category_exist_error
+                        ),
+                        SnackbarType.ERROR
+                    )
+                )
+                else -> sendEffect(
+                    CreationCategoryEffect.ShowSnackbar(
+                        com.example.flashcardexpress.core.domain.util.UiText.StringResource(
+                            com.example.flashcardexpress.R.string.error_something_went_wrong
+                        ),
+                        SnackbarType.ERROR
+                    )
+                )
             }
 
 

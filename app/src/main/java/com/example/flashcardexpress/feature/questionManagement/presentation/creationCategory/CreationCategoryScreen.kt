@@ -78,18 +78,19 @@ private fun handleEffectsFromViewModel(
     effectFromViewModel: Flow<CreationCategoryEffect>,
     snackbarHostState: SnackbarHostState
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     LaunchedEffect(Unit) {
         effectFromViewModel.collect { effect ->
             when (effect) {
                 is CreationCategoryEffect.ShowSnackbar -> {
-
-                        snackbarHostState.showSnackbar(message = effect.message, actionLabel = effect.resultType,
-                            duration = SnackbarDuration.Short)
-
+                    snackbarHostState.showSnackbar(
+                        message = effect.message.asString(context),
+                        actionLabel = effect.type.label,
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }
         }
-
     }
 }
 
