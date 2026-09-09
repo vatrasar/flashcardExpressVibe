@@ -13,16 +13,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
+import javax.inject.Singleton
+
+private val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE category ADD COLUMN language TEXT NOT NULL DEFAULT 'English'")
+    }
+}
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    private val MIGRATION_5_6 = object : Migration(5, 6) {
-        override fun migrate(db: SupportSQLiteDatabase) {
-            db.execSQL("ALTER TABLE category ADD COLUMN language TEXT NOT NULL DEFAULT 'English'")
-        }
-    }
 
     @Provides
     @Singleton
