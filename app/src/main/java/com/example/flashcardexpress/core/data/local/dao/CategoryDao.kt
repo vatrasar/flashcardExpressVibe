@@ -32,4 +32,13 @@ interface CategoryDao {
 
     @Query("SELECT * FROM category WHERE id = :categoryId")
     suspend fun getCategoryById(categoryId: Int): CategoryEntity?
+
+    @Query("SELECT * FROM category WHERE id = :categoryId")
+    fun getCategoryFlowById(categoryId: Int): Flow<CategoryEntity?>
+
+    @Query("UPDATE category SET learned_words_count = learned_words_count + 1 WHERE id = :categoryId")
+    suspend fun incrementLearnedWordsCount(categoryId: Int)
+
+    @Query("SELECT COALESCE(SUM(learned_words_count), 0) FROM category")
+    fun getGlobalLearnedWordsCount(): Flow<Int>
 }

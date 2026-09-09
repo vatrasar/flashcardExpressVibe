@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statistics_title">Statistics</string>
+    <string name="statistics_overall_title">Overall Progress</string>
+    <string name="statistics_categories_title">Categories</string>
+    <string name="statistics_mastery_rate">Mastery</string>
+    <string name="statistics_total_words">Total Words</string>
+    <string name="statistics_learned_words">Mastered</string>
+    <string name="statistics_learning_words">In Progress</string>
+    <string name="statistics_due_today">Due Today</string>
+    <string name="statistics_learning_stages_title">Learning Stages</string>
+    <string name="statistics_stage_today">Today / New</string>
+    <string name="statistics_stage_1_day">1 Day</string>
+    <string name="statistics_stage_3_days">3 Days</string>
+    <string name="statistics_stage_10_days">10 Days</string>
+    <string name="statistics_stage_30_days">30 Days</string>
+    <string name="statistics_stage_mastered">Mastered</string>
+    <string name="statistics_no_categories">No categories available yet.</string>
+    <string name="statistics_no_words">No words in this category yet.</string>
+    <string name="statistics_category_details_title">Category Statistics</string>
+    <string name="statistics_category_words_count">%1$d active • %2$d mastered</string>
+    <string name="statistics_percentage_format">%1$d%%</string>
+</resources>

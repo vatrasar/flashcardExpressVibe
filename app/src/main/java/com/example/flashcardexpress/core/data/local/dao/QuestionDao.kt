@@ -16,19 +16,16 @@ interface QuestionDao {
 
     @Query("SELECT * FROM flashcard WHERE category_id = :categoryId ORDER BY created_at DESC")
     fun getAllQuestionsOfCategory(categoryId: Int): Flow<List<QuestionEntity>>
+
+    @Query("SELECT * FROM flashcard ORDER BY created_at DESC")
+    fun getAllQuestions(): Flow<List<QuestionEntity>>
+
     @Query("DELETE FROM flashcard WHERE id = :questionId")
     suspend fun removeQuestion(questionId: Int)
 
     @Query("SELECT * FROM flashcard WHERE id = :questionId")
     suspend fun getQuestionById(questionId: Int): QuestionEntity
+
     @Update
     suspend fun updateQuestion(question: QuestionEntity)
-
-
-
-
-
-
-
-
 }

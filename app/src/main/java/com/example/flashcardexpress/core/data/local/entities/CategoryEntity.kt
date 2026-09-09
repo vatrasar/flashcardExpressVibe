@@ -15,9 +15,7 @@ data class CategoryEntity (
     @ColumnInfo("name")
     val name: String,
     @ColumnInfo("language")
-    val language: String
-
-
-
-
+    val language: String,
+    @ColumnInfo("learned_words_count", defaultValue = "0")
+    val learnedWordsCount: Int = 0
 )

@@ -7,7 +7,17 @@ fun CategoryEntity.toDomain(): Category{
     return Category(
         id = id,
         name = name,
-        language = language
+        language = language,
+        learnedWordsCount = learnedWordsCount
+    )
+}
+
+fun Category.toEntity(): CategoryEntity {
+    return CategoryEntity(
+        id = id,
+        name = name,
+        language = language,
+        learnedWordsCount = learnedWordsCount
     )
 }
 

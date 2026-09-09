@@ -41,14 +41,18 @@ class QuestionRepositoryImpl @Inject constructor(private val questionDao: Questi
     }
 
     override suspend fun updateQuestion(question: Question) {
-
         questionDao.updateQuestion(question.toEntity())
-
     }
 
-
-
-
-
-
+    /**
+     * Retrieves all questions from the database as a flow.
+     *
+     * Invoked by:
+     * - [GetGlobalStatisticsUseCase]
+     */
+    override fun getAllQuestions(): Flow<List<Question>> {
+        return questionDao.getAllQuestions().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
 }

@@ -4,5 +4,6 @@
     <string name="btn_back">Back</string>
     <string name="bottom_nav_manage">Manage</string>
     <string name="bottom_nav_repeat">Repeat</string>
+    <string name="bottom_nav_statistics">Statistics</string>
     <string name="error_something_went_wrong">Error, something went wrong!</string>
 </resources>

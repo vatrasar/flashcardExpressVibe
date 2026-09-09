@@ -57,4 +57,28 @@ interface CategoryRepository {
      * - [RepetitionViewModel]
      */
     suspend fun getCategoryById(categoryId: Int): Category?
+
+    /**
+     * Retrieves a category as a Flow by its ID.
+     *
+     * Invoked by:
+     * - [GetCategoryStatisticsUseCase]
+     */
+    fun getCategoryFlowById(categoryId: Int): Flow<Category?>
+
+    /**
+     * Increments the learned words counter for a category.
+     *
+     * Invoked by:
+     * - [RepetitionSessionManager]
+     */
+    suspend fun incrementLearnedWordsCount(categoryId: Int)
+
+    /**
+     * Retrieves the total count of learned words across all categories.
+     *
+     * Invoked by:
+     * - [GetGlobalStatisticsUseCase]
+     */
+    fun getGlobalLearnedWordsCount(): Flow<Int>
 }

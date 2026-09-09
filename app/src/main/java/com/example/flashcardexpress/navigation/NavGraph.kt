@@ -20,6 +20,8 @@ import com.example.flashcardexpress.feature.questionManagement.navigation.setupQ
 import com.example.flashcardexpress.feature.questionManagement.presentation.components.QuestionCreationForm.QuestionCreationForm
 import com.example.flashcardexpress.feature.repeat.navigation.RepeatScreen
 import com.example.flashcardexpress.feature.repeat.navigation.setupRepeatNavigation
+import com.example.flashcardexpress.feature.statistics.navigation.StatisticsScreen
+import com.example.flashcardexpress.feature.statistics.navigation.setupStatisticsNavigation
 import com.example.flashcardexpress.navigation.components.AppBottomBar
 
 
@@ -32,7 +34,8 @@ fun SetupNavGraph(navController: NavHostController){
 
         currentDestination?.hierarchy?.any { destination ->
             destination.hasRoute(QuestionManagementScreen.ManagePanel::class)||
-                    destination.hasRoute(RepeatScreen.RepeatPanel::class)
+                    destination.hasRoute(RepeatScreen.RepeatPanel::class)||
+                    destination.hasRoute(StatisticsScreen.Overview::class)
 
         } == true
     }
@@ -70,6 +73,7 @@ fun SetupNavGraph(navController: NavHostController){
         {
             setupQuestionManagementNavigation(navController)
             setupRepeatNavigation(navController)
+            setupStatisticsNavigation(navController)
         }
 
     }

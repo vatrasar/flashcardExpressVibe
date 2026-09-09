@@ -1,5 +1,8 @@
 package com.example.flashcardexpress.core.domain.model
 
-data class Category(val name: String, val id: Int, val language: String = "English") {
-
-}
+data class Category(
+    val name: String,
+    val id: Int,
+    val language: String = "English",
+    val learnedWordsCount: Int = 0
+)

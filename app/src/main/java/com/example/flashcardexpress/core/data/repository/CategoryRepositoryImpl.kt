@@ -57,4 +57,34 @@ class CategoryRepositoryImpl @Inject constructor(private val dao: CategoryDao): 
     override suspend fun getCategoryById(categoryId: Int): Category? {
         return dao.getCategoryById(categoryId)?.toDomain()
     }
+
+    /**
+     * Retrieves a category as a Flow by its ID.
+     *
+     * Invoked by:
+     * - [GetCategoryStatisticsUseCase]
+     */
+    override fun getCategoryFlowById(categoryId: Int): Flow<Category?> {
+        return dao.getCategoryFlowById(categoryId).map { it?.toDomain() }
+    }
+
+    /**
+     * Increments the learned words counter for a category.
+     *
+     * Invoked by:
+     * - [RepetitionSessionManager]
+     */
+    override suspend fun incrementLearnedWordsCount(categoryId: Int) {
+        dao.incrementLearnedWordsCount(categoryId)
+    }
+
+    /**
+     * Retrieves the total count of learned words across all categories.
+     *
+     * Invoked by:
+     * - [GetGlobalStatisticsUseCase]
+     */
+    override fun getGlobalLearnedWordsCount(): Flow<Int> {
+        return dao.getGlobalLearnedWordsCount()
+    }
 }

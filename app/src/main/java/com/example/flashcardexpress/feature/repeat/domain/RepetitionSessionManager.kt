@@ -1,6 +1,7 @@
 package com.example.flashcardexpress.feature.repeat.domain
 
 import com.example.flashcardexpress.core.domain.model.QuestionUpdateAfterRepetition
+import com.example.flashcardexpress.core.domain.repository.CategoryRepository
 import com.example.flashcardexpress.core.domain.repository.QuestionRepository
 import com.example.flashcardexpress.core.domain.repository.RepetitionRepository
 import com.example.flashcardexpress.feature.repeat.domain.model.Flashcard
@@ -11,7 +12,21 @@ import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.math.min
 
-class RepetitionSessionManager @Inject constructor(val repetitionRepository: RepetitionRepository, val questionRepository: QuestionRepository) {
+/**
+ * Manages the repetition session state, queues, and user answer evaluations.
+ *
+ * NOTE: Words that reach mastery level (> 3) are intentionally removed from the database
+ * upon mastery as designed by the user (not a bug). Their completion is tracked by incrementing
+ * the learned words count on their corresponding category.
+ *
+ * Invoked by:
+ * - [RepetitionViewModel]
+ */
+class RepetitionSessionManager @Inject constructor(
+    val repetitionRepository: RepetitionRepository,
+    val questionRepository: QuestionRepository,
+    val categoryRepository: CategoryRepository
+) {
 
 
     private var learningStage: LearningStage =LearningStage.INITIAL_EVALUATION
@@ -187,19 +202,22 @@ class RepetitionSessionManager @Inject constructor(val repetitionRepository: Rep
         }
         else{
             val currentQuestionForDbOperation=currentQuestion.copy()
-            val questionPreviousMasteryLevel=questionRepository.getQuestionById(currentQuestionForDbOperation.id).learningMasterLevel
+            val questionFromDb=questionRepository.getQuestionById(currentQuestionForDbOperation.id)
+            val questionPreviousMasteryLevel=questionFromDb.learningMasterLevel
 
             if (questionPreviousMasteryLevel>3)
             {
-                questionRepository.removeQuestion(currentQuestionForDbOperation.id)
+                handleMasteredQuestion(questionFromDb.categoryId, currentQuestionForDbOperation.id)
             }
             else{
                 updateInDbMasteryLevelAndNextRepetitionDate(questionPreviousMasteryLevel,currentQuestionForDbOperation.id)
             }
-
-
         }
+    }
 
+    private suspend fun handleMasteredQuestion(categoryId: Int, questionId: Int) {
+        categoryRepository.incrementLearnedWordsCount(categoryId)
+        questionRepository.removeQuestion(questionId)
     }
 
     private suspend fun updateInDbMasteryLevelAndNextRepetitionDate(questionPreviousMasteryLevel: Int,questionId:Int) {

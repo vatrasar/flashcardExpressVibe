@@ -43,10 +43,11 @@ interface QuestionRepository {
      */
     suspend fun updateQuestion(question: Question)
 
-
-
-
-
-
-
+    /**
+     * Retrieves all questions from the database as a flow.
+     *
+     * Invoked by:
+     * - [GetGlobalStatisticsUseCase]
+     */
+    fun getAllQuestions(): Flow<List<Question>>
 }

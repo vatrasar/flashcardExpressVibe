@@ -21,6 +21,12 @@ private val MIGRATION_5_6 = object : Migration(5, 6) {
     }
 }
 
+private val MIGRATION_6_7 = object : Migration(6, 7) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE category ADD COLUMN learned_words_count INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
@@ -35,7 +41,7 @@ object DatabaseModule {
             FlashcardDb::class.java,
             FlashcardDb.DATABASE_NAME
         )
-            .addMigrations(MIGRATION_5_6)
+            .addMigrations(MIGRATION_5_6, MIGRATION_6_7)
             .fallbackToDestructiveMigration()
             .build()
     }
