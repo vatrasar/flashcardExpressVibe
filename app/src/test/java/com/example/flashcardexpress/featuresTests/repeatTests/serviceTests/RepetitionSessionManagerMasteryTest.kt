@@ -51,6 +51,11 @@ class RepetitionSessionManagerMasteryTest {
         override suspend fun getQuestionById(questionId: Int) = question
         override suspend fun updateQuestion(question: Question) = Unit
         override fun getAllQuestions(): Flow<List<Question>> = flowOf(emptyList())
+        override suspend fun getLinkedQuestionIds(questionId: Int): List<Int> = emptyList()
+        override suspend fun getAllLinkedQuestionIds(questionId: Int): List<Int> = emptyList()
+        override suspend fun linkQuestions(questionId: Int, targetQuestionId: Int) = Unit
+        override suspend fun unlinkQuestions(questionId: Int, targetQuestionId: Int) = Unit
+        override suspend fun getQuestionsByIds(questionIds: List<Int>): List<Question> = emptyList()
     }
 
     private class FakeRepetitionRepository : RepetitionRepository {

@@ -26,6 +26,9 @@ interface QuestionDao {
     @Query("SELECT * FROM flashcard WHERE id = :questionId")
     suspend fun getQuestionById(questionId: Int): QuestionEntity
 
+    @Query("SELECT * FROM flashcard WHERE id IN (:questionIds)")
+    suspend fun getQuestionsByIds(questionIds: List<Int>): List<QuestionEntity>
+
     @Update
     suspend fun updateQuestion(question: QuestionEntity)
 }

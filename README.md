@@ -2,182 +2,85 @@
   <img src="app/src/main/ic_launcher-playstore.png" width="96" height="96" alt="FlashExpress Logo" />
 </p>
 
-<h1 align="center">FlashExpress</h1>
+<h1 align="center">FlashcardExpress</h1>
 
 <p align="center">
-  <b>A modern, native Android application designed for mastering foreign languages with ease through the Leitner Spaced Repetition System (SRS).</b>
-</p>
-
-<p align="center">
-  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.0.21-7F52FF.svg?style=flat&logo=kotlin&logoColor=white" alt="Kotlin" /></a>
-  <a href="https://developer.android.com/jetpack/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4.svg?style=flat&logo=jetpackcompose&logoColor=white" alt="Compose" /></a>
-  <a href="https://dagger.dev/hilt/"><img src="https://img.shields.io/badge/DI-Hilt%202.57-00599C.svg?style=flat" alt="Hilt" /></a>
-  <a href="https://developer.android.com/training/data-storage/room"><img src="https://img.shields.io/badge/Database-Room%202.6-F44336.svg?style=flat" alt="Room" /></a>
-  <a href="https://developer.android.com/guide/topics/manifest/uses-sdk-element"><img src="https://img.shields.io/badge/Min%20SDK-33-00C853.svg?style=flat" alt="Min SDK" /></a>
-  <a href="https://developer.android.com/guide/topics/manifest/uses-sdk-element"><img src="https://img.shields.io/badge/Target%20SDK-36-0091EA.svg?style=flat" alt="Target SDK" /></a>
-  <a href="#-architecture--code-quality"><img src="https://img.shields.io/badge/Architecture-Clean%20%2B%20MVI-FF6D00.svg?style=flat" alt="Architecture" /></a>
+  <b>Master foreign vocabulary effortlessly with intelligent spaced repetition, pronunciation practice, and smart confusion prevention.</b>
 </p>
 
 ---
 
-## 📖 Overview
+## 📖 About the App
 
-**FlashExpress** is an Android language learning assistant built from the ground up with **modern Android development** best practices. It empowers learners to build their own custom vocabulary decks, practice with native voice pronunciation, and retain knowledge permanently using an intelligent **spaced repetition algorithm** based on the Leitner system.
+**FlashcardExpress** is your personal language-learning companion designed to help you build, retain, and master vocabulary permanently. Whether you are learning Spanish, German, French, or any other language, FlashcardExpress ensures that words stick in your long-term memory through active recall, scientifically backed spaced repetition intervals, and automatic native pronunciation.
 
 ---
 
 ## ✨ Key Features
 
-### 🗂️ Category & Flashcard Management
-- **Organize by Language & Subject**: Group flashcards into dedicated categories with custom target languages.
-- **Full CRUD Support**: Effortlessly create, view, modify, and delete categories and flashcards.
-- **Safety First**: Cascading removals, unique naming checks, and inline length validations.
-- **Smart Sorting**: Flashcards are organized intuitively for fast review and management.
+### 🗂️ Category & Vocabulary Management
+- **Custom Learning Decks**: Organize words by language, topic, or difficulty level (e.g., "Spanish Basics", "Travel Phrases", "Business Terms").
+- **Effortless Editing**: Quickly create, edit, or remove flashcards and categories with instant validation to keep your decks clean.
+- **Tailored Target Languages**: Assign specific languages to your categories for accurate pronunciation and speech synthesis.
 
-### 🧠 Spaced Repetition Engine (Leitner System)
-- **Scientifically Proven Intervals**: Cards progress across progressive memory stages:
-  - 📍 **Today / New**: Immediate daily introduction
-  - ⏳ **1 Day**: First review
-  - ⏳ **3 Days**: Reinforcement
-  - ⏳ **10 Days**: Intermediate consolidation
-  - ⏳ **30 Days**: Long-term retention
-  - 🏆 **Mastered**: Permanently acquired vocabulary
-- **Daily Repetition Hub**: Automatic calculation of flashcards that are due for review today.
-- **Interactive Study Sessions**: Flip cards to reveal answers, assess recall, and dynamically adjust intervals.
+### 🧠 Smart Spaced Repetition (SRS)
+- **Leitner Review System**: Flashcards automatically advance through memory stages based on your answers:
+  - 📍 **Level 0 (New / Due)**: Today's introduction or words needing immediate review.
+  - ⏳ **Level 1**: Reviewed after **1 day**.
+  - ⏳ **Level 2**: Reviewed after **3 days**.
+  - ⏳ **Level 3**: Consolidated after **10 days**.
+  - ⏳ **Level 4**: Reinforced after **30 days**.
+  - 🏆 **Mastered**: Permanently acquired words archived into your lifetime mastery count!
+- **Daily Repetition Hub**: See at a glance how many cards are ready for review today across each of your categories.
+- **Adjustable Session Sizes**: Choose how many cards you want to study in a session depending on your available time.
 
-### 🔊 Integrated Text-to-Speech (TTS)
-- **Pronunciation on Demand**: Listen to authentic pronunciation with the tap of a button.
-- **Automatic Locale Resolution**: Resolves TTS engine voice models matching the category’s configured language.
-- **Optimal Learning Rate**: Tuned speech rate ensuring clear enunciation for language learners.
+### 🔗 Linked Similar Words (Confusion Prevention)
+- **Never Confuse Similar Words**: Some words look or sound almost identical and easily blend together. Link them together so they **always appear in the same review session** to practice distinguishing them.
+- **Exceed Session Limits Safely**: When you study a word with linked companions, the app automatically brings in all of its linked words so you never practice one without the others.
+- **Synchronized Mistake Penalties**: If you make a mistake on any word in a linked group, the entire group is reset together and placed at the end of the session queue for full reinforcement.
+- **In-Session Management**: While practicing, tap the options menu (`⋮`) in the top-right corner to link or unlink words on the fly with real-time search filtering.
+- **Dynamic Visual Feedback**: Selected cards highlight with a distinct accent color and border so you immediately see which words are linked.
 
-### 📊 Deep Learning Statistics
-- **Mastery Dashboard**: Track total cards, mastered vocabulary, words in progress, and cards due today.
-- **Visual Progress Gauges**: At-a-glance percentage mastery indicators.
-- **Stage Distribution**: Complete breakdown of card counts across all Leitner intervals.
-- **Per-Category Analytics**: Measure fluency progress across individual decks.
+### 🔊 Native Voice Pronunciation
+- **Pronunciation on Demand**: Tap the speaker button on any flashcard to hear natural, native pronunciation.
+- **Language-Aware Speech**: The speech engine automatically adapts to the language configured for the category.
 
----
-
-## 🏛️ Architecture & Code Quality
-
-FlashExpress adheres strictly to **Clean Architecture** and the **MVI (Model-View-Intent)** pattern:
-
-```
-┌────────────────────────────────────────────────────────┐
-│                   Presentation Layer                   │
-│  Jetpack Compose • Material 3 • ViewModels • MVI Flow  │
-└───────────────────────────┬────────────────────────────┘
-                            │
-┌───────────────────────────▼────────────────────────────┐
-│                      Domain Layer                      │
-│     Use Cases • Pure Domain Models • Repositories      │
-└───────────────────────────┬────────────────────────────┘
-                            │
-┌───────────────────────────▼────────────────────────────┐
-│                       Data Layer                       │
-│     Room Database • Entities • Mappers • DAOs • TTS    │
-└────────────────────────────────────────────────────────┘
-```
-
-### 🧩 MVI Screen Contract Pattern
-Every screen enforces predictable unidirectional state flow via a dedicated Screen Contract:
-- **`State`**: `@Immutable` representation of the UI.
-- **`Event`**: User interactions dispatched to the ViewModel.
-- **`Effect`**: One-off UI side-effects (e.g., custom Snackbars) handled via `SharedFlow`.
-- **`NavEffect`**: Navigation side-effects decoupled from UI logic and collected in Compose Navigation graphs.
-
-### 🗄️ SQL-First Data Management
-- Room Database with reactive Kotlin `Flow` streams for real-time UI synchronization.
-- Filtering and sorting implemented directly at the database layer (DAO level).
-- Strict layer isolation: Database `Entity` instances never leak into the UI, handled exclusively through bidirectional domain mappers.
+### 📊 Progress & Mastery Statistics
+- **Mastery Dashboard**: Track total cards created, mastered words count, vocabulary in progress, and daily review tasks.
+- **Stage Distribution Charts**: Visualize exactly where your vocabulary sits along the learning curve.
+- **Category Insights**: Drill down into specific categories to see completion rates and individual stage progress.
 
 ---
 
-## 📂 Project Structure
+## 📱 How to Use FlashcardExpress
 
-```bash
-app/src/main/java/com/example/flashcardexpress/
-├── FlashcardExpressApplication.kt   # Hilt Application entry point
-├── MainActivity.kt                  # Main Compose Activity
-├── common/                          # Reusable UI components, theme, global snackbars
-│   ├── theme/                       # Material 3 colors, shapes, typography
-│   └── ui/components/               # Generic buttons, lists, snackbar hosts
-├── core/                            # App-wide data & system components
-│   ├── data/
-│   │   ├── androidTools/            # TTSManager (Text-to-Speech)
-│   │   ├── local/                   # Room DB (FlashcardDb), DAOs, Entities, Mappers
-│   │   └── repository/              # Repository implementations
-│   ├── di/                          # Global Hilt injection modules
-│   └── domain/                      # Core models, repository contracts, errors
-├── feature/                         # Modular feature packages
-│   ├── questionManagement/          # Decks, flashcard creation & editing
-│   ├── repeat/                      # Study sessions & Leitner repetition logic
-│   └── statistics/                  # Dashboards, stage breakdowns & metrics
-└── navigation/                      # AppBottomBar, NavHost & type-safe destinations
-```
+### 1. Creating Your First Deck
+1. Navigate to the **Manage** tab in the bottom bar.
+2. Tap **Add Category** and enter a name (e.g., *Spanish Travel*) and select the target language.
+3. Open your new category and tap **Add Flashcard** to input the word and its translation.
 
----
+### 2. Conducting a Study Session
+1. Go to the **Repetitions** tab.
+2. Select a category with words ready for repetition.
+3. Choose the number of cards you want to practice and tap **Start Repetition**.
+4. Test your memory:
+   - Try to recall the meaning, then tap **Check** to flip the card.
+   - Tap the speaker icon to hear the word pronounced.
+   - Rate your answer as **Correct** or **Incorrect**.
 
-## 🛠️ Tech Stack & Dependencies
+### 3. Linking Confusing Words
+1. While reviewing a flashcard, tap the three-dots menu (`⋮`) in the top-right corner.
+2. Select **Manage linked words**.
+3. Use the search bar to find similar or confusing terms from that deck.
+4. Check the box next to any words you want to link with the current word.
+5. Tap the back arrow to return to your review—the newly linked words are immediately added to your session!
 
-| Area | Library / Technology | Description |
-| :--- | :--- | :--- |
-| **Language** | [Kotlin 2.0](https://kotlinlang.org/) | Modern, concise language with Coroutines & StateFlow |
-| **UI Framework** | [Jetpack Compose (BOM)](https://developer.android.com/jetpack/compose) | Declarative UI toolkit |
-| **Design System** | [Material 3](https://m3.material.io/) | Modern Material Design components and dynamic themes |
-| **Navigation** | [Navigation Compose](https://developer.android.com/guide/navigation) | Type-safe navigation with Kotlin Serialization |
-| **Dependency Injection** | [Dagger Hilt](https://dagger.dev/hilt/) | Standardized dependency injection for Android |
-| **Persistence** | [Room Database](https://developer.android.com/training/data-storage/room) | SQLite abstraction with KSP code generation and Flow support |
-| **Speech Engine** | [Android TextToSpeech](https://developer.android.com/reference/android/speech/tts/TextToSpeech) | Hardware-accelerated multi-language voice synthesis |
-| **Architecture** | Clean Architecture + MVI | Scalable, testable, decoupled codebase |
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- **JDK**: Java 17 LTS (e.g. OpenJDK 17)
-- **Android Studio**: Android Studio Ladybug | 2024.2.1+ or newer
-- **Android SDK**: Compile SDK `36`, Minimum SDK `33` (Android 13+)
-
-### Build & Run
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/flashcardExpress.git
-   cd flashcardExpress
-   ```
-
-2. **Run Unit Tests**:
-   ```bash
-   ./gradlew test
-   ```
-
-3. **Assemble Debug APK**:
-   ```bash
-   ./gradlew assembleDebug
-   ```
-
-4. **Install on connected device/emulator**:
-   ```bash
-   ./gradlew installDebug
-   ```
-
----
-
-## 🧪 Testing
-
-The codebase maintains unit and instrumented test coverage for critical components:
-- **Unit Tests (`app/src/test`)**: Testing ViewModels, Use Cases, Session Managers, and Mappers.
-- **Instrumented Tests (`app/src/androidTest`)**: Testing Room DAOs, Compose UI interactions, and database migrations.
-
-Run all tests via command line:
-```bash
-./gradlew testDebugUnitTest
-```
+### 4. Tracking Your Learning Growth
+1. Open the **Statistics** section.
+2. Review your total learned words, active review backlog, and progression toward complete mastery.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE) (or applicable project license).
+FlashcardExpress is distributed under the terms of the project's license.

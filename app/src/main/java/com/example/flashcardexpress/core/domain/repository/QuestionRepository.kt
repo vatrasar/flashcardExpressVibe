@@ -50,4 +50,44 @@ interface QuestionRepository {
      * - [GetGlobalStatisticsUseCase]
      */
     fun getAllQuestions(): Flow<List<Question>>
+
+    /**
+     * Retrieves directly linked question IDs for a specific question.
+     *
+     * Invoked by:
+     * - [GetCategoryQuestionsWithLinkStatusUseCase]
+     */
+    suspend fun getLinkedQuestionIds(questionId: Int): List<Int>
+
+    /**
+     * Retrieves all transitively linked question IDs forming the full connected cluster for a question.
+     *
+     * Invoked by:
+     * - [GetQuestionsToLearnUseCase]
+     */
+    suspend fun getAllLinkedQuestionIds(questionId: Int): List<Int>
+
+    /**
+     * Creates a bidirectional link between two questions.
+     *
+     * Invoked by:
+     * - [ToggleQuestionLinkUseCase]
+     */
+    suspend fun linkQuestions(questionId: Int, targetQuestionId: Int)
+
+    /**
+     * Removes the bidirectional link between two questions.
+     *
+     * Invoked by:
+     * - [ToggleQuestionLinkUseCase]
+     */
+    suspend fun unlinkQuestions(questionId: Int, targetQuestionId: Int)
+
+    /**
+     * Retrieves multiple questions by their IDs.
+     *
+     * Invoked by:
+     * - [GetQuestionsToLearnUseCase]
+     */
+    suspend fun getQuestionsByIds(questionIds: List<Int>): List<Question>
 }

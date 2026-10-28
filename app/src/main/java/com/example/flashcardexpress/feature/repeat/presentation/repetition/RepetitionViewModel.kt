@@ -39,9 +39,11 @@ class RepetitionViewModel @Inject constructor(
         Flashcard("default question", "default translation"),0))
     val state = _state.asStateFlow()
 
+    private var currentCategoryId: Int = 0
 
     init {
         val args = savedStateHandle.toRoute<RepeatScreen.Repetition>()
+        currentCategoryId = args.categoryId
         viewModelScope.launch {
             val category = categoryRepository.getCategoryById(args.categoryId)
             category?.let { cat ->
@@ -86,6 +88,21 @@ class RepetitionViewModel @Inject constructor(
                     _state.value.flashcard.question
                 }
                 ttsManager.speak(text, _state.value.categoryLanguage)
+            }
+            RepetitionEvent.OnLinkQuestionsClick -> {
+                sendNavEffect(
+                    RepetitionNavEffect.NavigateToLinkQuestions(
+                        questionId = repetitionSessionManager.getCurrentQuestionId(),
+                        categoryId = currentCategoryId,
+                        sourceWord = repetitionSessionManager.getCurrentQuestionWord()
+                    )
+                )
+            }
+            RepetitionEvent.OnReturnFromLinkQuestions -> {
+                viewModelScope.launch {
+                    repetitionSessionManager.syncLinkedQuestionsForCurrentQuestion()
+                    updateBackupSessionState()
+                }
             }
 
         }

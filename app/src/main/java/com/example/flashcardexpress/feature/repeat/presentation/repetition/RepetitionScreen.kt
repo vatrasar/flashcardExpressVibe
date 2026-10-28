@@ -2,6 +2,7 @@ package com.example.flashcardexpress.feature.repeat.presentation.repetition
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,8 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +28,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -55,6 +61,7 @@ import kotlinx.coroutines.flow.flowOf
  * - Tracking progress through a segmented progress bar.
  * - Canceling the repetition session and returning to the previous screen.
  * - Returning to the question view from the answer view.
+ * - Opening options menu to manage linked questions for the active word.
  *
  * Key UI elements:
  * - [FlashcardColumn]: Displays the question or answer text, and a TTS button.
@@ -62,13 +69,16 @@ import kotlinx.coroutines.flow.flowOf
  * - [ButtonsSectionQuestionPage]: Navigation buttons shown on the question view.
  * - [ButtonsSectionAnswerPage]: Selection buttons shown on the answer view.
  * - [FlashcardSnackbar]: Displays feedback or session-related messages.
+ * - [OptionsMenuButton]: Dropdown menu triggered by three dots to access linked questions.
  *
  * Navigation events exposed:
  * - [RepetitionEvent.OnCancelRepetition]: Triggered when the close button is clicked to end the session.
  * - [RepetitionEvent.OnBackToQuestion]: Triggered when returning from answer view to question view.
  * - [RepetitionEvent.OnPlayTtsClick]: Triggered when the TTS button is clicked to pronounce the word/translation.
+ * - [RepetitionEvent.OnLinkQuestionsClick]: Triggered when the user selects link questions from the menu.
  *
  * Navigable from: [RepeatPanelScreen].
+ * Navigable to: [LinkQuestionsScreen].
  */
 @Composable
 fun RepetitionScreen(
@@ -231,15 +241,38 @@ private fun TopRow(
         }
 
         Text(text = stringResource(R.string.repetition_title), textAlign = TextAlign.Center)
-        IconButton(onClick = {}) {
+        OptionsMenuButton(onEventFromViewModel)
+    }
+}
+
+@Composable
+private fun OptionsMenuButton(onEventFromViewModel: (RepetitionEvent) -> Unit) {
+    var isMenuExpanded by remember { mutableStateOf(false) }
+
+    Box {
+        IconButton(
+            onClick = { isMenuExpanded = true },
+            modifier = Modifier.testTag("moreOptionsButton")
+        ) {
             Icon(
-                imageVector = Icons.Default.MoreVert, contentDescription = null,
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface
-                
             )
         }
-
-
+        DropdownMenu(
+            expanded = isMenuExpanded,
+            onDismissRequest = { isMenuExpanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.menu_link_questions)) },
+                onClick = {
+                    isMenuExpanded = false
+                    onEventFromViewModel(RepetitionEvent.OnLinkQuestionsClick)
+                },
+                modifier = Modifier.testTag("menuLinkQuestionsItem")
+            )
+        }
     }
 }
 

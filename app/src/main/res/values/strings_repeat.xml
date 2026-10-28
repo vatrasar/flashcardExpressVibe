@@ -15,4 +15,9 @@
     <string name="repetition_title">Repetition</string>
     <string name="number_of_questions_label">Number of questions: </string>
     <string name="repetition_finished">Repetition finished!</string>
+    <string name="menu_link_questions">Manage linked words</string>
+    <string name="link_questions_title">Link questions</string>
+    <string name="link_with_prefix">Link with:</string>
+    <string name="search_words_placeholder">Search word...</string>
+    <string name="no_questions_to_link">No other questions available to link.</string>
 </resources>

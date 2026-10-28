@@ -43,6 +43,12 @@ class GetCategoryStatisticsUseCaseTest {
         override suspend fun getQuestionById(questionId: Int) = questions.first { it.id == questionId }
         override suspend fun updateQuestion(question: Question) = Unit
         override fun getAllQuestions(): Flow<List<Question>> = flowOf(questions)
+        override suspend fun getLinkedQuestionIds(questionId: Int): List<Int> = emptyList()
+        override suspend fun getAllLinkedQuestionIds(questionId: Int): List<Int> = emptyList()
+        override suspend fun linkQuestions(questionId: Int, targetQuestionId: Int) = Unit
+        override suspend fun unlinkQuestions(questionId: Int, targetQuestionId: Int) = Unit
+        override suspend fun getQuestionsByIds(questionIds: List<Int>): List<Question> =
+            questions.filter { questionIds.contains(it.id) }
     }
 
     @Test

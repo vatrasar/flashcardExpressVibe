@@ -13,8 +13,11 @@ sealed class RepetitionEffect {
 sealed class RepetitionNavEffect {
     data object BackToRepeatPanel : RepetitionNavEffect()
     data object BackToRepeatPanelAfterFinishingRepetition : RepetitionNavEffect()
-
-
+    data class NavigateToLinkQuestions(
+        val questionId: Int,
+        val categoryId: Int,
+        val sourceWord: String
+    ) : RepetitionNavEffect()
 }
 
 sealed class RepetitionEvent {
@@ -24,9 +27,8 @@ sealed class RepetitionEvent {
     data object OnBackToQuestion:RepetitionEvent()
     data object OnShowAnswer:RepetitionEvent()
     data object OnPlayTtsClick:RepetitionEvent()
-
-
-
+    data object OnLinkQuestionsClick:RepetitionEvent()
+    data object OnReturnFromLinkQuestions:RepetitionEvent()
 }
 
 
