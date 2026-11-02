@@ -67,6 +67,49 @@ class LinkQuestionsUseCasesTest {
     }
 
     @Test
+    fun getCategoryQuestionsWithLinkStatus_whenTransitivelyLinked_marksBothDirectAndIndirectAsLinked() = runBlocking {
+        val qA = Question("A", "a", 1, 10, 1, LocalDate.now(), LocalDateTime.now())
+        val qB = Question("B", "b", 2, 10, 1, LocalDate.now(), LocalDateTime.now())
+        val qC = Question("C", "c", 3, 10, 1, LocalDate.now(), LocalDateTime.now())
+
+        val repo = FakeQuestionRepository(
+            questions = listOf(qA, qB, qC),
+            linkedIds = mutableSetOf(2, 3)
+        )
+        val useCase = GetCategoryQuestionsWithLinkStatusUseCase(repo)
+
+        val result = useCase(categoryId = 10, sourceQuestionId = 1)
+
+        assertEquals(2, result.size)
+        assertTrue(result.first { it.question.id == 2 }.isLinked)
+        assertTrue(result.first { it.question.id == 3 }.isLinked)
+    }
+
+    @Test
+    fun getCategoryQuestionsWithLinkStatus_sortsLinkedQuestionsFirstThenAlphabetically() = runBlocking {
+        val qSource = Question("source", "s", 1, 10, 1, LocalDate.now(), LocalDateTime.now())
+        val qZLinked = Question("zebra", "z", 2, 10, 1, LocalDate.now(), LocalDateTime.now())
+        val qALinked = Question("apple", "a", 3, 10, 1, LocalDate.now(), LocalDateTime.now())
+        val qZUnlinked = Question("zoo", "z", 4, 10, 1, LocalDate.now(), LocalDateTime.now())
+        val qAUnlinked = Question("ant", "a", 5, 10, 1, LocalDate.now(), LocalDateTime.now())
+
+        val repo = FakeQuestionRepository(
+            questions = listOf(qSource, qZUnlinked, qZLinked, qAUnlinked, qALinked),
+            linkedIds = mutableSetOf(2, 3)
+        )
+        val useCase = GetCategoryQuestionsWithLinkStatusUseCase(repo)
+
+        val result = useCase(categoryId = 10, sourceQuestionId = 1)
+
+        val wordsInOrder = result.map { it.question.word }
+        assertEquals(listOf("apple", "zebra", "ant", "zoo"), wordsInOrder)
+        assertTrue(result[0].isLinked)
+        assertTrue(result[1].isLinked)
+        assertFalse(result[2].isLinked)
+        assertFalse(result[3].isLinked)
+    }
+
+    @Test
     fun toggleQuestionLink_whenShouldLinkTrue_linksQuestions() = runBlocking {
         val repo = FakeQuestionRepository()
         val useCase = ToggleQuestionLinkUseCase(repo)

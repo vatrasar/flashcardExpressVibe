@@ -64,27 +64,26 @@ class LinkQuestionsViewModel @Inject constructor(
 
     private fun toggleLink(targetQuestionId: Int, isCurrentlyLinked: Boolean) {
         val newStatus = !isCurrentlyLinked
-        val updatedAll = _state.value.allQuestions.map {
-            updateQuestionStatus(it, targetQuestionId, newStatus)
-        }
-        _state.value = _state.value.copy(
-            allQuestions = updatedAll,
-            filteredQuestions = applyFilter(updatedAll, _state.value.searchQuery)
-        )
         viewModelScope.launch {
             toggleQuestionLink(routeArgs.questionId, targetQuestionId, newStatus)
+            val updatedStatusQuestions = getCategoryQuestionsWithLinkStatus(routeArgs.categoryId, routeArgs.questionId)
+            val updatedList = updateLinkStatusesPreservingOrder(_state.value.allQuestions, updatedStatusQuestions)
+            _state.value = _state.value.copy(
+                allQuestions = updatedList,
+                filteredQuestions = applyFilter(updatedList, _state.value.searchQuery)
+            )
         }
     }
 
-    private fun updateQuestionStatus(
-        item: QuestionWithLinkStatus,
-        targetId: Int,
-        newStatus: Boolean
-    ): QuestionWithLinkStatus {
-        if (item.question.id == targetId) {
-            return item.copy(isLinked = newStatus)
+    private fun updateLinkStatusesPreservingOrder(
+        currentList: List<QuestionWithLinkStatus>,
+        newList: List<QuestionWithLinkStatus>
+    ): List<QuestionWithLinkStatus> {
+        val statusMap = newList.associate { it.question.id to it.isLinked }
+        return currentList.map { item ->
+            val updatedStatus = statusMap[item.question.id] ?: item.isLinked
+            item.copy(isLinked = updatedStatus)
         }
-        return item
     }
 
     private fun applyFilter(

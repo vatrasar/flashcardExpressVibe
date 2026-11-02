@@ -76,7 +76,7 @@ interface QuestionRepository {
     suspend fun linkQuestions(questionId: Int, targetQuestionId: Int)
 
     /**
-     * Removes the bidirectional link between two questions.
+     * Disconnects a target question from the cluster of a source question by removing links between the target and any question in the source cluster.
      *
      * Invoked by:
      * - [ToggleQuestionLinkUseCase]

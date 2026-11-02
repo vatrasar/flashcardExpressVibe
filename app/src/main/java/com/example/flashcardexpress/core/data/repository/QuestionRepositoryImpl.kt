@@ -76,12 +76,69 @@ class QuestionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun unlinkQuestions(questionId: Int, targetQuestionId: Int) {
-        questionLinkDao.deleteBidirectionalLink(questionId, targetQuestionId)
+        val reachableFromSource = findReachableNodesExcludingTarget(questionId, targetQuestionId)
+        disconnectTargetFromReachableNodes(targetQuestionId, reachableFromSource)
     }
 
     override suspend fun getQuestionsByIds(questionIds: List<Int>): List<Question> {
         if (questionIds.isEmpty()) return emptyList()
         return questionDao.getQuestionsByIds(questionIds).map { it.toDomain() }
+    }
+
+    private suspend fun findReachableNodesExcludingTarget(
+        startNodeId: Int,
+        excludedNodeId: Int
+    ): Set<Int> {
+        val visited = mutableSetOf(startNodeId)
+        val queue = ArrayDeque<Int>()
+        queue.add(startNodeId)
+        while (queue.isNotEmpty()) {
+            exploreReachableNeighbors(queue.removeFirst(), excludedNodeId, visited, queue)
+        }
+        return visited
+    }
+
+    private suspend fun exploreReachableNeighbors(
+        currentNodeId: Int,
+        excludedNodeId: Int,
+        visited: MutableSet<Int>,
+        queue: ArrayDeque<Int>
+    ) {
+        val neighbors = questionLinkDao.getLinkedQuestionIds(currentNodeId)
+        for (neighbor in neighbors) {
+            enqueueValidNeighbor(neighbor, excludedNodeId, visited, queue)
+        }
+    }
+
+    private fun enqueueValidNeighbor(
+        neighborId: Int,
+        excludedNodeId: Int,
+        visited: MutableSet<Int>,
+        queue: ArrayDeque<Int>
+    ) {
+        if (neighborId != excludedNodeId && visited.add(neighborId)) {
+            queue.add(neighborId)
+        }
+    }
+
+    private suspend fun disconnectTargetFromReachableNodes(
+        targetNodeId: Int,
+        reachableNodes: Set<Int>
+    ) {
+        val targetNeighbors = questionLinkDao.getLinkedQuestionIds(targetNodeId)
+        for (neighbor in targetNeighbors) {
+            removeLinkIfReachable(targetNodeId, neighbor, reachableNodes)
+        }
+    }
+
+    private suspend fun removeLinkIfReachable(
+        targetNodeId: Int,
+        neighborId: Int,
+        reachableNodes: Set<Int>
+    ) {
+        if (reachableNodes.contains(neighborId)) {
+            questionLinkDao.deleteBidirectionalLink(targetNodeId, neighborId)
+        }
     }
 
     private suspend fun exploreNextClusterNode(
